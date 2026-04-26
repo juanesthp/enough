@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galería · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galería de Enough: una selección fotográfica de espacios, atmósferas y materia desde una mirada curatorial.">
+  <link rel="canonical" href="https://juanesthp.github.io/enough/galeria.html">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #f2efe9;
+      font-family: Raleway, sans-serif;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(242,239,233,.95);
+      backdrop-filter: blur(8px);
+    }
+    nav a {
+      text-decoration: none;
+      color: #1a1a18;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: none;
+      transition: opacity .2s;
+    }
+    nav a:hover { opacity: .6; }
+    .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      border-bottom: none;
+      margin-right: 40px;
+    }
+
+    .galeria-header {
+      margin-top: 8rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: #1a1a18;
+    }
+
+    .grid {
+      columns: 2;
+      column-gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .foto {
+      break-inside: avoid;
+      margin-bottom: 2rem;
+    }
+    .foto { cursor: pointer; }
+    .foto-wrap { overflow: hidden; }
+    .foto img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      transition: transform .6s ease;
+    }
+    .foto:hover img { transform: scale(1.04); }
+    .foto-desc {
+      padding: 1rem 0;
+      border-bottom: 1px solid #e2ddd6;
+    }
+    .foto-desc h3 {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a1a18;
+      margin-bottom: 6px;
+    }
+    .foto-desc p {
+      font-size: 13px;
+      color: #6b6b68;
+      line-height: 1.8;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lb-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10,10,9,.95);
+      display: flex;
+      align-items: stretch;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .lb-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lb-media {
+      flex: 2;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lb-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .3s ease;
+    }
+    .lb-prev,
+    .lb-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(242,239,233,.4);
+      font-size: 28px;
+      font-family: Raleway, sans-serif;
+      font-weight: 200;
+      padding: 1rem;
+      transition: color .2s;
+      z-index: 2;
+    }
+    .lb-prev { left: 1rem; }
+    .lb-next { right: 1rem; }
+    .lb-prev:hover,
+    .lb-next:hover { color: #f2efe9; }
+    .lb-info {
+      flex: 1;
+      min-width: 300px;
+      max-width: 380px;
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid rgba(255,255,255,.06);
+      overflow-y: auto;
+    }
+    .lb-label {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-bottom: 2rem;
+      display: block;
+    }
+    .lb-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #f2efe9;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+    }
+    .lb-desc {
+      font-size: 14px;
+      color: rgba(242,239,233,.55);
+      line-height: 2;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: .5rem;
+    }
+    .lb-desc::-webkit-scrollbar { width: 2px; }
+    .lb-desc::-webkit-scrollbar-track { background: transparent; }
+    .lb-desc::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); }
+    .lb-counter {
+      margin-top: 2rem;
+      font-size: 11px;
+      letter-spacing: .15em;
+      color: rgba(242,239,233,.2);
+      flex-shrink: 0;
+    }
+    .lb-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(242,239,233,.4);
+      font-size: 28px;
+      transition: color .2s;
+      font-weight: 200;
+      line-height: 1;
+      font-family: Raleway, sans-serif;
+      z-index: 1001;
+    }
+    .lb-close:hover { color: #f2efe9; }
+    .lb-nav-hint {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(242,239,233,.15);
+    }
+
+    footer {
+      background: #111110;
+      color: rgba(247,245,240,.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      font-size: 12px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 4rem;
+      letter-spacing: 2px;
+    }
+    footer .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.35);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      nav { padding: 1rem 1.5rem; gap: 1rem; }
+      nav a { font-size: 10px; }
+      .logo { margin-right: 0; }
+      .grid { columns: 1; }
+      .lb-overlay { flex-direction: column; }
+      .lb-media { flex: none; height: 50vh; }
+      .lb-info { flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem; border-left: none; border-top: 1px solid rgba(255,255,255,.06); }
+      .lb-title { font-size: 1.4rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Enough</a>
+    <a href="index.html#filosofia">Filosofía</a>
+    <a href="galeria.html">Galería</a>
+    <a href="blog.html">Blog</a>
+    <a href="sobre.html">Sobre mí</a>
+    <a href="index.html#contacto">Contacto</a>
+  </nav>
+
+  <div class="galeria-header">
+    <span class="section-label">Fotografía</span>
+    <h1>Galería</h1>
+  </div>
+
+  <div class="grid" id="galeria-grid"></div>
+
+  <!-- LIGHTBOX -->
+  <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes de la galería">
+    <button class="lb-close" id="lb-close" aria-label="Cerrar galería">&#215;</button>
+
+    <div class="lb-media">
+      <img id="lb-img" src="" alt="">
+      <button class="lb-prev" id="lb-prev" aria-label="Imagen anterior">&#8592;</button>
+      <button class="lb-next" id="lb-next" aria-label="Siguiente imagen">&#8594;</button>
+    </div>
+
+    <div class="lb-info">
+      <span class="lb-label">Enough · Fotografía</span>
+      <p class="lb-title" id="lb-title"></p>
+      <div class="lb-desc" id="lb-desc"></div>
+      <p class="lb-counter" id="lb-counter"></p>
+    </div>
+  </div>
+
+  <footer>
+    <span class="logo">Enough</span>
+    <span>© 2026 Enough. Diseño con intención.</span>
+    <span>Bucaramanga, Colombia</span>
+  </footer>
+
+  <script>
+    const galeriaGrid = document.getElementById('galeria-grid');
+
+    // ── EDITA AQUÍ LOS TÍTULOS Y DESCRIPCIONES DE CADA FOTO ──
+    const items = [
+      { index: 0,  src: './proyecto1.jpg',  alt: 'Proyecto 1',  title: 'Título 1',  desc: 'Descripción de la foto 1.' },
+      { index: 1,  src: './proyecto2.jpg',  alt: 'Proyecto 2',  title: 'Título 2',  desc: 'Descripción de la foto 2.' },
+      { index: 2,  src: './proyecto3.jpg',  alt: 'Proyecto 3',  title: 'Título 3',  desc: 'Descripción de la foto 3.' },
+      { index: 3,  src: './proyecto4.jpg',  alt: 'Proyecto 4',  title: 'Título 4',  desc: 'Descripción de la foto 4.' },
+      { index: 4,  src: './proyecto5.jpg',  alt: 'Proyecto 5',  title: 'Título 5',  desc: 'Descripción de la foto 5.' },
+      { index: 5,  src: './proyecto6.jpg',  alt: 'Proyecto 6',  title: 'Título 6',  desc: 'Descripción de la foto 6.' },
+      { index: 6,  src: './proyecto7.jpg',  alt: 'Proyecto 7',  title: 'Título 7',  desc: 'Descripción de la foto 7.' },
+      { index: 7,  src: './proyecto8.jpg',  alt: 'Proyecto 8',  title: 'Título 8',  desc: 'Descripción de la foto 8.' },
+      { index: 8,  src: './proyecto9.jpg',  alt: 'Proyecto 9',  title: 'Título 9',  desc: 'Descripción de la foto 9.' },
+      { index: 9,  src: './proyecto10.jpg', alt: 'Proyecto 10', title: 'Título 10', desc: 'Descripción de la foto 10.' },
+      { index: 10, src: './proyecto11.jpg', alt: 'Proyecto 11', title: 'Título 11', desc: 'Descripción de la foto 11.' },
+      { index: 11, src: './proyecto12.jpg', alt: 'Proyecto 12', title: 'Título 12', desc: 'Descripción de la foto 12.' },
+      { index: 12, src: './proyecto13.jpg', alt: 'Proyecto 13', title: 'Título 13', desc: 'Descripción de la foto 13.' },
+      { index: 13, src: './proyecto14.jpg', alt: 'Proyecto 14', title: 'Título 14', desc: 'Descripción de la foto 14.' },
+      { index: 14, src: './proyecto15.jpg', alt: 'Proyecto 15', title: 'Título 15', desc: 'Descripción de la foto 15.' },
+      { index: 15, src: './proyecto16.jpg', alt: 'Proyecto 16', title: 'Título 16', desc: 'Descripción de la foto 16.' },
+      { index: 16, src: './proyecto17.jpg', alt: 'Proyecto 17', title: 'Título 17', desc: 'Descripción de la foto 17.' },
+      { index: 17, src: './proyecto18.jpg', alt: 'Proyecto 18', title: 'Título 18', desc: 'Descripción de la foto 18.' },
+      { index: 18, src: './proyecto19.jpg', alt: 'Proyecto 19', title: 'Título 19', desc: 'Descripción de la foto 19.' },
+      { index: 19, src: './proyecto20.jpg', alt: 'Proyecto 20', title: 'Título 20', desc: 'Descripción de la foto 20.' },
+      { index: 20, src: './proyecto21.jpg', alt: 'Proyecto 21', title: 'Título 21', desc: 'Descripción de la foto 21.' },
+      { index: 21, src: './proyecto22.jpg', alt: 'Proyecto 22', title: 'Título 22', desc: 'Descripción de la foto 22.' },
+      { index: 22, src: './proyecto23.jpg', alt: 'Proyecto 23', title: 'Título 23', desc: 'Descripción de la foto 23.' },
+      { index: 23, src: './proyecto24.jpg', alt: 'Proyecto 24', title: 'Título 24', desc: 'Descripción de la foto 24.' },
+      { index: 24, src: './proyecto25.jpg', alt: 'Proyecto 25', title: 'Título 25', desc: 'Descripción de la foto 25.' },
+      { index: 25, src: './proyecto26.jpg', alt: 'Proyecto 26', title: 'Título 26', desc: 'Descripción de la foto 26.' },
+      { index: 26, src: './proyecto27.jpg', alt: 'Proyecto 27', title: 'Título 27', desc: 'Descripción de la foto 27.' },
+      { index: 27, src: './proyecto28.jpg', alt: 'Proyecto 28', title: 'Título 28', desc: 'Descripción de la foto 28.' },
+      { index: 28, src: './proyecto29.jpg', alt: 'Proyecto 29', title: 'Título 29', desc: 'Descripción de la foto 29.' },
+      { index: 29, src: './proyecto30.jpg', alt: 'Proyecto 30', title: 'Título 30', desc: 'Descripción de la foto 30.' },
+    ];
+
+    galeriaGrid.innerHTML = items.map(item => `
+      <div class="foto" data-index="${item.index}">
+        <div class="foto-wrap"><img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async"></div>
+        <div class="foto-desc">
+          <h3>${item.title}</h3>
+          <p>${item.desc}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const fotos = Array.from(document.querySelectorAll('.foto'));
+    const overlay = document.getElementById('lightbox');
+    const lbImg   = document.getElementById('lb-img');
+    const lbTitle = document.getElementById('lb-title');
+    const lbDesc  = document.getElementById('lb-desc');
+    const lbCount = document.getElementById('lb-counter');
+
+    let current = 0;
+
+    function getData(index) {
+      const el = fotos[index];
+      return {
+        src:   el.querySelector('img').src,
+        alt:   el.querySelector('img').alt,
+        title: el.querySelector('h3').textContent,
+        desc:  el.querySelector('p').textContent,
+      };
+    }
+
+    function open(index) {
+      current = index;
+      update();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function update() {
+      const d = getData(current);
+      lbImg.style.opacity = '0';
+      setTimeout(() => {
+        lbImg.src           = d.src;
+        lbImg.alt           = d.alt;
+        lbTitle.textContent = d.title;
+        lbDesc.textContent  = d.desc;
+        lbCount.textContent = (current + 1) + ' / ' + fotos.length;
+        lbImg.style.opacity = '1';
+        lbDesc.scrollTop    = 0;
+      }, 150);
+    }
+
+    function prev() { current = (current - 1 + fotos.length) % fotos.length; update(); }
+    function next() { current = (current + 1) % fotos.length; update(); }
+
+    fotos.forEach((el, i) => el.addEventListener('click', () => open(i)));
+    document.getElementById('lb-close').addEventListener('click', close);
+    document.getElementById('lb-prev').addEventListener('click', prev);
+    document.getElementById('lb-next').addEventListener('click', next);
+
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+    document.addEventListener('keydown', e => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'ArrowRight') next();
+    });
+  </script>
+
+</body>
+</html>

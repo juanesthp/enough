@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Diseño e intención. Espacios que dicen quién eres antes de que hables.">
+  <link rel="canonical" href="https://juanesthp.github.io/enough/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Enough — Diseño con intención">
+  <meta property="og:description" content="Espacios que transforman. Que mejoran la vida de quienes los habitan. Diseño e intención desde Bucaramanga.">
+  <meta property="og:image" content="https://juanesthp.github.io/enough/espacio.jpg">
+  <meta property="og:url" content="https://juanesthp.github.io/enough/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Enough — Diseño con intención">
+  <meta name="twitter:description" content="Espacios que transforman. Que mejoran la vida de quienes los habitan.">
+  <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #f2efe9;
+      font-family: Raleway, sans-serif;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: transparent;
+      transition: background .4s;
+    }
+    nav.scrolled {
+      background: rgba(242,239,233,.95);
+      backdrop-filter: blur(4px);
+    }
+    nav a {
+      display: inline-block;
+      padding: .45rem .55rem;
+      text-decoration: none;
+      color: #f2efe9;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color .25s;
+      border-bottom: none;
+    }
+    nav.scrolled a { color: #1a1a18; }
+    nav a:hover { opacity: .6; }
+    .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      border-bottom: none;
+      margin-right: 40px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+    nav .logo { font-weight: 300; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: -40px;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 60%, transparent 100%);
+    }
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: blur(8px);
+      transform: scale(1.05);
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .hero-content {
+      position: absolute;
+      bottom: 4rem;
+      left: 4rem;
+      z-index: 2;
+    }
+    .hero-label {
+      font-size: 13px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #f2efe9;
+      text-align: left;
+      margin-bottom: 1rem;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      letter-spacing: 12px;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+    .hero-sub {
+      color: #f2efe9;
+      font-size: 16px;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    /* ── BOTONES ── */
+    .btn-primary {
+      display: inline-block;
+      padding: .85rem 2.2rem;
+      border: 1px solid #f2efe9;
+      color: #f2efe9;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      transition: background .25s, color .25s;
+    }
+    .btn-primary:hover {
+      background: #f2efe9;
+      color: #1a1a18;
+    }
+    .btn-dark {
+      display: inline-block;
+      padding: .85rem 2.2rem;
+      border: 1px solid #1a1a18;
+      color: #1a1a18;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      transition: background .25s, color .25s;
+    }
+    .btn-dark:hover {
+      background: #1a1a18;
+      color: #f2efe9;
+    }
+
+    /* ── SECCIONES ── */
+    section {
+      margin-top: 60px;
+      border-top: 1px solid #ddd;
+      padding-top: 40px;
+    }
+    h2 {
+      text-align: center;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #1a1a18;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #6b6b68;
+      font-size: 15px;
+      text-align: center;
+      line-height: 1.9;
+    }
+    a {
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: center;
+    }
+
+    /* ── FILOSOFÍA ── */
+    .filosofia-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+    .filosofia-left {
+      position: sticky;
+      top: 6rem;
+    }
+    .filosofia-numero {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem;
+      font-weight: 300;
+      color: #e2ddd6;
+      line-height: 1;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .filosofia-anchor {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      line-height: 2;
+    }
+    .filosofia-right p {
+      font-size: 15px;
+      color: #4a4a47;
+      line-height: 2.1;
+      text-align: left;
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── ENFOQUE ── */
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 2rem;
+      background: #e2ddd6;
+    }
+    .servicio {
+      background: #f2efe9;
+      padding: 2rem;
+      border-left: 2px solid transparent;
+      transition: border-color .25s;
+    }
+    .servicio:hover { border-left-color: #b8a88a; }
+    .servicio h3 {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      text-align: left;
+      color: #1a1a18;
+    }
+    .servicio p {
+      font-size: 13px;
+      color: #6b6b68;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    /* ── CONTACTO ── */
+    .contacto-dark {
+      background: #1a1a18;
+      color: #f2efe9;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 60px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      padding: 5rem 4rem;
+      border-top: none;
+    }
+    .contacto-dark h2 {
+      color: #f2efe9;
+      text-align: left;
+    }
+    .contacto-dark .section-label { text-align: left; }
+    .contacto-intro {
+      color: rgba(242,239,233,.6);
+      text-align: left;
+      margin-top: 1rem;
+      font-size: 14px;
+      line-height: 2;
+    }
+    .contacto-info { margin-top: 2rem; }
+    .contacto-info a {
+      color: rgba(242,239,233,.7);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      padding-bottom: 1rem;
+      display: block;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+    .contacto-info a:hover { color: #f2efe9; }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(242,239,233,.4);
+    }
+    .contacto-dark input,
+    .contacto-dark textarea {
+      background: rgba(255,255,255,.05);
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+      color: #f2efe9;
+      font-family: Raleway, sans-serif;
+      font-size: 14px;
+      padding: .5rem 0;
+      width: 100%;
+      outline: none;
+    }
+    .contacto-dark input::placeholder,
+    .contacto-dark textarea::placeholder { color: rgba(242,239,233,.25); }
+    .contacto-dark button {
+      background: #b8a88a;
+      border: none;
+      color: #1a1a18;
+      padding: 1rem 2rem;
+      font-family: Raleway, sans-serif;
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .25s;
+    }
+    .contacto-dark button:hover { background: #c8b898; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111110;
+      color: rgba(247,245,240,.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      font-size: 12px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 0;
+      letter-spacing: 2px;
+    }
+    footer .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.35);
+    }
+
+    /* ── ANIMACIONES ── */
+    .aparece {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .aparece.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero-content * { opacity: 0; }
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-label        { animation: subir .8s ease forwards; animation-delay: .3s; }
+    .hero h1           { animation: subir 1s  ease forwards; animation-delay: .6s; }
+    .hero-sub          { animation: subir .8s ease forwards; animation-delay: 1s; }
+    .hero .btn-primary { animation: subir .8s ease forwards; animation-delay: 1.3s; }
+
+    /* ── CURSOR ── */
+    * { cursor: none; }
+    .cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform .15s ease;
+      top: 0; left: 0;
+      mix-blend-mode: difference;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      body { padding: 20px; overflow-x: hidden; }
+      nav { padding: 1rem 1.5rem; gap: 1rem; }
+      nav a { font-size: 10px; letter-spacing: 0.08em; }
+      .logo { margin-right: 0; }
+      .hero { width: 100vw; margin-left: -20px; height: 60vh; }
+      .hero-content { left: 1.5rem; bottom: 1.5rem; }
+      .hero h1 { font-size: 2.5rem; letter-spacing: 6px; }
+      .filosofia-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .filosofia-left { position: static; }
+      .filosofia-numero { font-size: 4rem; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .contacto-dark {
+        grid-template-columns: 1fr;
+        width: 100vw;
+        margin-left: -20px;
+        padding: 3rem 2rem;
+      }
+      footer {
+        width: 100vw;
+        margin-left: -20px;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 2rem;
+      }
+      .cursor { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html:focus-within { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
+    <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
+  </svg>
+
+  <nav id="nav">
+    <a href="#" class="logo">Enough</a>
+    <a href="#filosofia">Filosofía</a>
+    <a href="galeria.html">Galería</a>
+    <a href="blog.html">Blog</a>
+    <a href="sobre.html">Sobre mí</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
+    <div class="hero-content">
+      <span class="hero-label">Diseño · Espacio · Intención</span>
+      <h1>Enough</h1>
+      <p class="hero-sub">No diseño para impresionar. Diseño para que un espacio hable de ti.</p>
+      <a href="#filosofia" class="btn-primary">Explorar visión</a>
+    </div>
+  </div>
+
+  <!-- FILOSOFÍA -->
+  <section id="filosofia">
+    <span class="section-label">Filosofía</span>
+    <h2>No es perfección.<br>Es intención.</h2>
+
+    <div class="filosofia-grid">
+      <div class="filosofia-left">
+        <span class="filosofia-numero">01</span>
+        <span class="filosofia-anchor">
+          Diseño · Espacio<br>Intención
+        </span>
+      </div>
+
+      <div class="filosofia-right">
+        <p>
+          La gente confunde el costo con el carácter. Construye espacios que impresionan
+          en fotos pero que no se sienten en persona - fríos, perfectos, vacíos de algo
+          que no saben nombrar.
+        </p>
+        <p>
+          Zumthor llamó a eso atmósfera. La calidad de un espacio que te alcanza antes
+          de que lo proceses — no la estructura, sino la luz que entra, la temperatura
+          del aire, el sonido que absorbe el material. Esa presencia que algunos espacios
+          tienen y otros no, sin importar cuánto costaron.
+        </p>
+        <p>
+          Enough nace de tomar eso en serio.
+        </p>
+        <p>
+          Porque la arquitectura no existe para impresionar — existe para transformar.
+          Para mejorar la vida de quienes habitan ese espacio. Y cuando eso ocurre de
+          verdad, no necesita explicarse.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <span class="section-label">Archivo visual</span>
+    <h2>Espacios con alma</h2>
+    <p>Un archivo en desarrollo con imagenes propias sobre luz, materia y atmosfera.</p>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="galeria.html" class="btn-dark">Ver galería</a>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <span class="section-label">Diario</span>
+    <h2>Palabras con criterio</h2>
+    <p>Notas y reflexiones originales sobre espacio, identidad y la forma de habitar.</p>
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="blog.html" class="btn-dark">Ir al blog</a>
+    </div>
+  </section>
+
+  <!-- ENFOQUE -->
+  <section id="servicios">
+    <span class="section-label">Proceso</span>
+    <h2>Como se construye Enough</h2>
+    <div class="servicios-grid">
+      <div class="servicio">
+        <h3>Observación</h3>
+        <p>Mirar antes de intervenir. Leer la atmosfera, la luz y el ritmo del espacio.</p>
+      </div>
+      <div class="servicio">
+        <h3>Criterio</h3>
+        <p>Filtrar referencias y decisiones desde una mirada honesta, sin seguir tendencias vacias.</p>
+      </div>
+      <div class="servicio">
+        <h3>Lenguaje</h3>
+        <p>Convertir ideas en imagen, texto y composicion para que cada pieza tenga coherencia.</p>
+      </div>
+      <div class="servicio">
+        <h3>Archivo</h3>
+        <p>Construir un cuerpo de trabajo propio que evoluciona con el tiempo, no con la prisa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contacto-dark">
+    <div class="contacto-left">
+      <span class="section-label">Estado actual</span>
+      <h2>Enough está en<br>construcción.</h2>
+      <p class="contacto-intro">Actualmente desarrollando archivo fotografico y textos originales. Si quieres seguir el proceso, escribeme por Instagram.</p>
+      <div class="contacto-info">
+        <a href="https://www.instagram.com/juanes.thp/" target="_blank" rel="noopener noreferrer">Instagram · @juanes.thp</a>
+      </div>
+    </div>
+    <div class="contacto-right">
+      <p class="contacto-intro">
+        Esta etapa no busca vender servicios, sino plasmar una vision con trabajo propio
+        y construirla paso a paso.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="logo">Enough</span>
+    <span>© 2026 Enough. Diseño con intención.</span>
+    <span>Bucaramanga, Colombia</span>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    const elementos = document.querySelectorAll('section, .servicio');
+    elementos.forEach(el => el.classList.add('aparece'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    elementos.forEach(el => observer.observe(el));
+
+    /* ── CURSOR ── */
+    const cursor = document.getElementById('cursor');
+
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(1.4)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+      });
+    });
+
+    // Protección básica solo para la imagen principal del hero.
+    const heroImage = document.querySelector('.hero img');
+    if (heroImage) {
+      heroImage.addEventListener('contextmenu', e => e.preventDefault());
+      heroImage.addEventListener('dragstart', e => e.preventDefault());
+    }
+  </script>
+
+</body>
+</html>

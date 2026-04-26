@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blog de Enough: análisis, opinión y referentes sobre arquitectura y diseño contemporáneo.">
+  <link rel="canonical" href="https://juanesthp.github.io/enough/blog.html">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #f2efe9;
+      font-family: Raleway, sans-serif;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(242,239,233,.95);
+      backdrop-filter: blur(8px);
+    }
+    nav a {
+      text-decoration: none;
+      color: #1a1a18;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: none;
+      transition: opacity .2s;
+    }
+    nav a:hover { opacity: .6; }
+    .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      border-bottom: none;
+      margin-right: 40px;
+    }
+
+    /* ── HEADER ── */
+    .blog-header {
+      margin-top: 8rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid #1a1a18;
+      padding-bottom: 1rem;
+    }
+    .blog-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      color: #1a1a18;
+    }
+    .blog-header span {
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+    }
+    .blog-vacio {
+      margin-top: 3rem;
+      border-top: 1px solid #e2ddd6;
+      border-bottom: 1px solid #e2ddd6;
+      padding: 3.5rem 1rem;
+      text-align: center;
+    }
+    .blog-vacio h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #1a1a18;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .blog-vacio p {
+      font-size: 14px;
+      color: #6b6b68;
+      line-height: 1.9;
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* ── ARTÍCULO DESTACADO ── */
+    .articulo-destacado {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid #e2ddd6;
+    }
+    .articulo-destacado img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .articulo-destacado-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .articulo-tag {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .articulo-destacado h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #1a1a18;
+      text-align: left;
+      text-transform: none;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+    .articulo-destacado p {
+      font-size: 13px;
+      color: #6b6b68;
+      line-height: 1.9;
+      text-align: left;
+      margin-bottom: 1.5rem;
+    }
+    .articulo-fecha {
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: #b8a88a;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .btn-leer {
+      display: inline-block;
+      padding: .7rem 1.8rem;
+      border: 1px solid #b8a88a;
+      color: #b8a88a;
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      transition: background .25s, color .25s;
+      align-self: flex-start;
+    }
+    .btn-leer:hover {
+      background: #1a1a18;
+      color: #f2efe9;
+    }
+
+    .articulo .btn-leer {
+  border-color: #b8a88a;
+  color: #b8a88a;
+}
+.articulo .btn-leer:hover {
+  background: #b8a88a;
+  color: #f2efe9;
+}
+
+    /* ── MOSAICO ── */
+    .articulos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: auto;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    /* El 1er y 4to artículo ocupan 2 columnas */
+    .articulo:nth-child(1),
+    .articulo:nth-child(4) {
+      grid-column: span 2;
+    }
+
+    .articulo {
+      background: #f2efe9;
+      border-bottom: 1px solid #e2ddd6;
+      padding-bottom: 1.5rem;
+      margin-bottom: .5rem;
+    }
+
+    .articulo-img-wrap {
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .articulo-img-wrap img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform .6s ease;
+    }
+
+    /* Las que ocupan 2 columnas tienen imagen más alta */
+    .articulo:nth-child(1) .articulo-img-wrap img,
+    .articulo:nth-child(4) .articulo-img-wrap img {
+      height: 320px;
+    }
+
+    .articulo:hover .articulo-img-wrap img {
+      transform: scale(1.03);
+    }
+
+    .articulo h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: #1a1a18;
+      margin-bottom: .5rem;
+      line-height: 1.3;
+    }
+    .articulo p {
+      font-size: 13px;
+      color: #6b6b68;
+      line-height: 1.8;
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+    .articulo a {
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      text-decoration: none;
+      border-bottom: none;
+      transition: color .2s;
+    }
+    .articulo a:hover { color: #1a1a18; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111110;
+      color: rgba(247,245,240,.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      font-size: 12px;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 4rem;
+      letter-spacing: 2px;
+    }
+    footer .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.35);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      nav { padding: 1rem 1.5rem; gap: 1rem; }
+      nav a { font-size: 10px; }
+      .logo { margin-right: 0; }
+      .blog-header h1 { font-size: 2rem; }
+      .articulo-destacado { grid-template-columns: 1fr; gap: 1.5rem; }
+      .articulos-grid { grid-template-columns: 1fr; }
+      .articulo:nth-child(1),
+      .articulo:nth-child(4) { grid-column: span 1; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Enough</a>
+    <a href="index.html#filosofia">Filosofía</a>
+    <a href="galeria.html">Galería</a>
+    <a href="blog.html">Blog</a>
+    <a href="sobre.html">Sobre mí</a>
+    <a href="index.html#contacto">Contacto</a>
+  </nav>
+
+  <div class="blog-header">
+    <h1>Blog</h1>
+    <span>Ensayos · Mirada · Criterio</span>
+  </div>
+
+  <section class="blog-vacio" aria-live="polite">
+    <h2>Blog en construccion</h2>
+    <p>
+      
+      
+    </p>
+  </section>
+
+  <footer>
+    <span class="logo">Enough</span>
+    <span>© 2026 Enough. Diseño con intención.</span>
+    <span>Bucaramanga, Colombia</span>
+  </footer>
+
+</body>
+</html>
