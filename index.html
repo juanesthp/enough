@@ -52,8 +52,6 @@
       backdrop-filter: blur(4px);
     }
     nav a {
-      display: inline-block;
-      padding: .45rem .55rem;
       text-decoration: none;
       color: #f2efe9;
       font-size: 12px;
@@ -422,6 +420,16 @@
         text-align: center;
         padding: 2rem;
       }
+      .chat-launcher {
+        right: 18px;
+        bottom: 18px;
+      }
+      .chat-panel {
+        right: 16px;
+        bottom: 92px;
+        width: calc(100vw - 32px);
+        height: min(560px, calc(100vh - 116px));
+      }
       .cursor { display: none; }
     }
 
@@ -459,6 +467,186 @@
   opacity: .4;
   transition: opacity .15s ease;
 }
+    .chat-launcher {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 220;
+      padding: .6rem 1.4rem;
+      border: 1px solid rgba(26,26,24,.18);
+      border-radius: 0;
+      background: rgba(242,239,233,.55);
+      backdrop-filter: blur(8px);
+      color: #1a1a18;
+      font-family: Raleway, sans-serif;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .25s, border-color .25s;
+    }
+    .chat-launcher:hover {
+      background: rgba(242,239,233,.85);
+      border-color: rgba(26,26,24,.35);
+    }
+    .chat-panel {
+      position: fixed;
+      right: 28px;
+      bottom: 108px;
+      z-index: 220;
+      width: min(380px, calc(100vw - 32px));
+      height: min(620px, calc(100vh - 140px));
+      display: none;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      border: 1px solid rgba(26,26,24,.08);
+      background: rgba(244,240,234,.97);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 60px rgba(26,26,24,.2);
+      overflow: hidden;
+    }
+    .chat-panel[data-open="true"] { display: grid; }
+    .chat-header {
+      padding: 1.2rem 1.25rem 1rem;
+      background: linear-gradient(180deg, rgba(184,168,138,.22), rgba(244,240,234,0));
+      border-bottom: 1px solid rgba(26,26,24,.08);
+    }
+    .chat-header-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: .6rem;
+    }
+    .chat-eyebrow {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #8a7960;
+      margin-bottom: .35rem;
+    }
+    .chat-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      color: #1a1a18;
+    }
+    .chat-close {
+      border: none;
+      background: transparent;
+      color: #1a1a18;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .chat-status {
+      color: #6b6b68;
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .chat-messages {
+      padding: 1rem 1rem 1.25rem;
+      overflow-y: auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+    }
+    .chat-message {
+      max-width: 88%;
+      padding: .9rem 1rem;
+      line-height: 1.65;
+      font-size: 14px;
+      color: #1a1a18;
+      border-radius: 18px;
+      white-space: pre-wrap;
+    }
+    .chat-message.bot {
+      align-self: flex-start;
+      background: rgba(184,168,138,.17);
+      border-top-left-radius: 4px;
+    }
+    .chat-message.user {
+      align-self: flex-end;
+      background: #1a1a18;
+      color: #f2efe9;
+      border-top-right-radius: 4px;
+    }
+    .chat-message.is-error {
+      background: rgba(133,52,45,.12);
+      color: #6d2821;
+    }
+    .chat-compose {
+      padding: 1rem;
+      border-top: 1px solid rgba(26,26,24,.08);
+      background: rgba(255,255,255,.5);
+    }
+    .chat-compose-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .75rem;
+      align-items: end;
+    }
+    .chat-compose textarea {
+      min-height: 54px;
+      max-height: 140px;
+      resize: vertical;
+      border: 1px solid rgba(26,26,24,.12);
+      padding: .85rem .95rem;
+      background: rgba(255,255,255,.8);
+      color: #1a1a18;
+      font-family: Raleway, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      outline: none;
+    }
+    .chat-compose button {
+      min-width: 104px;
+      height: 54px;
+      border: none;
+      background: #1a1a18;
+      color: #f2efe9;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .chat-compose button:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+    .chat-hint {
+      margin-top: .7rem;
+      color: #8b8b86;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .chat-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      padding: 0 1rem .9rem;
+      border-top: 1px solid rgba(26,26,24,.08);
+      background: rgba(255,255,255,.34);
+    }
+    .chat-suggestion {
+      border: 1px solid rgba(26,26,24,.12);
+      background: rgba(255,255,255,.74);
+      color: #1a1a18;
+      padding: .65rem .8rem;
+      font-family: Raleway, sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+    .chat-suggestion:hover {
+      border-color: rgba(184,168,138,.9);
+      background: rgba(184,168,138,.14);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -615,6 +803,39 @@
     <span>Bucaramanga, Colombia</span>
   </footer>
 
+  <button class="chat-launcher" id="chat-launcher" type="button" aria-controls="chat-panel" aria-expanded="false" aria-label="Abrir asistente de Enough">
+    Preguntar
+  </button>
+
+  <aside class="chat-panel" id="chat-panel" data-open="false" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-header-top">
+        <div>
+          <span class="chat-eyebrow">Asistente Enough</span>
+          <strong class="chat-title">Conversemos</strong>
+        </div>
+        <button class="chat-close" id="chat-close" type="button" aria-label="Cerrar chat">×</button>
+      </div>
+      <p class="chat-status" id="chat-status">Puedo responder dudas sobre Enough, el enfoque del proyecto y el proceso creativo.</p>
+    </div>
+    <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="chat-suggestion" type="button" data-question="Que es Enough?">Que es Enough?</button>
+      <button class="chat-suggestion" type="button" data-question="Cual es la filosofia del proyecto?">Cual es la filosofia del proyecto?</button>
+      <button class="chat-suggestion" type="button" data-question="Donde puedo ver la galeria?">Donde puedo ver la galeria?</button>
+      <button class="chat-suggestion" type="button" data-question="Enough ofrece servicios?">Enough ofrece servicios?</button>
+      <button class="chat-suggestion" type="button" data-question="Como puedo contactar a Juanes?">Como puedo contactar a Juanes?</button>
+    </div>
+    <div class="chat-compose">
+      <form class="chat-compose-form" id="chat-form">
+        <textarea id="chat-input" name="message" placeholder="Escribe tu mensaje..." maxlength="1200"></textarea>
+        <button id="chat-submit" type="submit">Enviar</button>
+      </form>
+      <p class="chat-hint">Asistente de Enough · Responde sobre el proyecto, la galería y el proceso.</p>
+    </div>
+  </aside>
+
+  <script src="./chat-library.js"></script>
   <script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
@@ -690,6 +911,195 @@ function updateCD() {
 
 const cdInterval = setInterval(updateCD, 1000);
 updateCD();
+
+    const chatPanel = document.getElementById('chat-panel');
+    const chatLauncher = document.getElementById('chat-launcher');
+    const chatClose = document.getElementById('chat-close');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatSubmit = document.getElementById('chat-submit');
+    const chatStatus = document.getElementById('chat-status');
+    const chatHistory = [
+      {
+        role: 'system',
+        content: 'Eres el asistente web de Enough. Responde en español, con tono sobrio, cálido y claro. Ayudas a visitantes a entender el proyecto, la filosofía, la galería, el blog, el proceso y la forma de contacto. Si te preguntan algo que no aparece en el sitio, dilo con honestidad y orienta al usuario a Instagram o al formulario de contacto.'
+      }
+    ];
+
+    function toggleChat(forceOpen) {
+      const nextState = typeof forceOpen === 'boolean' ? forceOpen : chatPanel.dataset.open !== 'true';
+      chatPanel.dataset.open = String(nextState);
+      chatPanel.setAttribute('aria-hidden', String(!nextState));
+      chatLauncher.setAttribute('aria-expanded', String(nextState));
+      if (nextState) {
+        chatInput.focus();
+      }
+    }
+
+    function appendMessage(role, text, isError = false) {
+      const bubble = document.createElement('div');
+      bubble.className = `chat-message ${role}${isError ? ' is-error' : ''}`;
+      bubble.textContent = text;
+      chatMessages.appendChild(bubble);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function setChatBusy(isBusy) {
+      chatSubmit.disabled = isBusy;
+      chatInput.disabled = isBusy;
+      chatStatus.textContent = isBusy
+        ? 'Pensando una respuesta con el contexto del sitio...'
+        : 'Puedo responder dudas sobre Enough, el enfoque del proyecto y el proceso creativo.';
+    }
+
+    async function sendChatMessage(message) {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: chatHistory.filter(item => item.role !== 'system'),
+          message
+        })
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || 'No fue posible responder en este momento.');
+      }
+
+      return payload.reply;
+    }
+
+    chatLauncher.addEventListener('click', () => toggleChat());
+    chatClose.addEventListener('click', () => toggleChat(false));
+
+    chatForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      toggleChat(true);
+      appendMessage('user', message);
+      chatInput.value = '';
+      setChatBusy(true);
+
+      try {
+        const reply = await sendChatMessage(message);
+        chatHistory.push({ role: 'user', content: message });
+        chatHistory.push({ role: 'assistant', content: reply });
+        appendMessage('bot', reply);
+      } catch (error) {
+        appendMessage('bot', error.message, true);
+      } finally {
+        setChatBusy(false);
+        chatInput.focus();
+      }
+    });
+
+    appendMessage(
+      'bot',
+      'Hola. Soy el asistente de Enough. Si quieres, puedo contarte de la filosofía del proyecto, la galería o cómo contactar a Juanes.'
+    );
+  </script>
+
+  <script>
+    (() => {
+      const library = window.EnoughChatLibrary;
+      if (!library) return;
+
+      const chatMessages = document.getElementById('chat-messages');
+      const originalForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      const chatSubmit = document.getElementById('chat-submit');
+      const chatStatus = document.getElementById('chat-status');
+      const chatPanel = document.getElementById('chat-panel');
+      const chatLauncher = document.getElementById('chat-launcher');
+      const suggestions = document.getElementById('chat-suggestions');
+      const localHistory = [];
+
+      if (!chatMessages || !originalForm || !chatInput || !chatSubmit || !chatStatus) {
+        return;
+      }
+
+      const cleanForm = originalForm.cloneNode(true);
+      originalForm.parentNode.replaceChild(cleanForm, originalForm);
+
+      const liveInput = document.getElementById('chat-input');
+      const liveSubmit = document.getElementById('chat-submit');
+      const suggestionButtons = suggestions ? Array.from(suggestions.querySelectorAll('.chat-suggestion')) : [];
+
+      function appendMessage(role, text, isError = false) {
+        const bubble = document.createElement('div');
+        bubble.className = `chat-message ${role}${isError ? ' is-error' : ''}`;
+        bubble.textContent = text;
+        chatMessages.appendChild(bubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function setBusy(isBusy) {
+        liveSubmit.disabled = isBusy;
+        liveInput.disabled = isBusy;
+        chatStatus.textContent = isBusy
+          ? 'Buscando la mejor respuesta dentro de la biblioteca del sitio...'
+          : 'Respondo con una biblioteca local de mensajes, sin usar API.';
+      }
+
+      function openChat() {
+        if (!chatPanel || !chatLauncher) return;
+        chatPanel.dataset.open = 'true';
+        chatPanel.setAttribute('aria-hidden', 'false');
+        chatLauncher.setAttribute('aria-expanded', 'true');
+      }
+
+      function collapseSuggestions() {
+        if (!suggestions) return;
+        suggestions.style.display = 'none';
+      }
+
+      async function handleQuestion(message) {
+        if (!message) return;
+
+        openChat();
+        collapseSuggestions();
+        appendMessage('user', message);
+        localHistory.push({ role: 'user', content: message });
+        liveInput.value = '';
+        setBusy(true);
+
+        try {
+          const result = library.reply(message, localHistory);
+          await new Promise((resolve) => setTimeout(resolve, 220));
+          localHistory.push({ role: 'assistant', content: result.reply, intent: result.intent });
+          appendMessage('bot', result.reply);
+        } catch (error) {
+          appendMessage('bot', 'No pude encontrar una respuesta en la biblioteca local.', true);
+        } finally {
+          setBusy(false);
+          liveInput.focus();
+        }
+      }
+
+      chatMessages.innerHTML = '';
+      appendMessage(
+        'bot',
+        'Hola. Respondo con una biblioteca local de Enough. Puedes preguntarme por la filosofia, la galeria, el blog, el proceso o el contacto.'
+      );
+
+      cleanForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const message = liveInput.value.trim();
+        if (!message) return;
+        await handleQuestion(message);
+      });
+
+      suggestionButtons.forEach((button) => {
+        button.addEventListener('click', async () => {
+          const message = button.dataset.question || button.textContent.trim();
+          await handleQuestion(message);
+        });
+      });
+    })();
   </script>
 
 </body>
