@@ -442,31 +442,34 @@
         scroll-behavior: auto !important;
       }
     }
+
     /* ── CUENTA REGRESIVA ── */
-.time-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.cd-digit {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 300;
-  color: #1a1a18;
-  letter-spacing: 4px;
-  line-height: 1;
-}
-.cd-label {
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: #b8a88a;
-  margin-top: .5rem;
-}
-.cd-tick {
-  opacity: .4;
-  transition: opacity .15s ease;
-}
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cd-digit {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      color: #1a1a18;
+      letter-spacing: 4px;
+      line-height: 1;
+    }
+    .cd-label {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #b8a88a;
+      margin-top: .5rem;
+    }
+    .cd-tick {
+      opacity: .4;
+      transition: opacity .15s ease;
+    }
+
+    /* ── CHAT ── */
     .chat-launcher {
       position: fixed;
       right: 28px;
@@ -492,7 +495,7 @@
     .chat-panel {
       position: fixed;
       right: 28px;
-      bottom: 108px;
+      bottom: 72px;
       z-index: 220;
       width: min(380px, calc(100vw - 32px));
       height: min(620px, calc(100vh - 140px));
@@ -575,6 +578,31 @@
       background: rgba(133,52,45,.12);
       color: #6d2821;
     }
+    .chat-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      padding: .8rem 1rem;
+      border-top: 1px solid rgba(26,26,24,.08);
+      background: rgba(255,255,255,.34);
+    }
+    .chat-suggestion {
+      border: 1px solid rgba(26,26,24,.12);
+      background: rgba(255,255,255,.74);
+      color: #1a1a18;
+      padding: .65rem .8rem;
+      font-family: Raleway, sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color .2s ease, transform .2s ease, background .2s ease;
+    }
+    .chat-suggestion:hover {
+      border-color: rgba(184,168,138,.9);
+      background: rgba(184,168,138,.14);
+      transform: translateY(-1px);
+    }
     .chat-compose {
       padding: 1rem;
       border-top: 1px solid rgba(26,26,24,.08);
@@ -622,31 +650,6 @@
       text-transform: uppercase;
       text-align: left;
     }
-    .chat-suggestions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .55rem;
-      padding: 0 1rem .9rem;
-      border-top: 1px solid rgba(26,26,24,.08);
-      background: rgba(255,255,255,.34);
-    }
-    .chat-suggestion {
-      border: 1px solid rgba(26,26,24,.12);
-      background: rgba(255,255,255,.74);
-      color: #1a1a18;
-      padding: .65rem .8rem;
-      font-family: Raleway, sans-serif;
-      font-size: 12px;
-      line-height: 1.4;
-      text-align: left;
-      cursor: pointer;
-      transition: border-color .2s ease, transform .2s ease, background .2s ease;
-    }
-    .chat-suggestion:hover {
-      border-color: rgba(184,168,138,.9);
-      background: rgba(184,168,138,.14);
-      transform: translateY(-1px);
-    }
   </style>
 </head>
 <body>
@@ -676,27 +679,28 @@
       <a href="#filosofia" class="btn-primary">Explorar visión</a>
     </div>
   </div>
+
   <!-- CUENTA REGRESIVA -->
-<section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
-  <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 3rem;">
-    <div class="time-block">
-      <span id="cd-days" class="cd-digit">00</span>
-      <span class="cd-label">Días</span>
+  <section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
+    <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 3rem;">
+      <div class="time-block">
+        <span id="cd-days" class="cd-digit">00</span>
+        <span class="cd-label">Días</span>
+      </div>
+      <div class="time-block">
+        <span id="cd-hours" class="cd-digit">00</span>
+        <span class="cd-label">Horas</span>
+      </div>
+      <div class="time-block">
+        <span id="cd-minutes" class="cd-digit">00</span>
+        <span class="cd-label">Minutos</span>
+      </div>
+      <div class="time-block">
+        <span id="cd-seconds" class="cd-digit">00</span>
+        <span class="cd-label">Segundos</span>
+      </div>
     </div>
-    <div class="time-block">
-      <span id="cd-hours" class="cd-digit">00</span>
-      <span class="cd-label">Horas</span>
-    </div>
-    <div class="time-block">
-      <span id="cd-minutes" class="cd-digit">00</span>
-      <span class="cd-label">Minutos</span>
-    </div>
-    <div class="time-block">
-      <span id="cd-seconds" class="cd-digit">00</span>
-      <span class="cd-label">Segundos</span>
-    </div>
-  </div>
-</section>
+  </section>
 
   <!-- FILOSOFÍA -->
   <section id="filosofia">
@@ -864,170 +868,65 @@
 
     /* ── CURSOR ── */
     const cursor = document.getElementById('cursor');
-
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top  = e.clientY + 'px';
     });
-
     document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(1.4)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-      });
+      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
+      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
     });
 
-    // Protección básica solo para la imagen principal del hero.
     const heroImage = document.querySelector('.hero img');
     if (heroImage) {
       heroImage.addEventListener('contextmenu', e => e.preventDefault());
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
+
     /* ── CUENTA REGRESIVA ── */
-const targetDate = new Date('2026-07-05T00:00:00');
-
-function animateCD(id, value) {
-  const el = document.getElementById(id);
-  const newVal = value.toString().padStart(2, '0');
-  if (el.innerText !== newVal) {
-    el.classList.add('cd-tick');
-    setTimeout(() => {
-      el.innerText = newVal;
-      el.classList.remove('cd-tick');
-    }, 150);
-  }
-}
-
-function updateCD() {
-  const diff = targetDate - new Date();
-  if (diff <= 0) { clearInterval(cdInterval); return; }
-  animateCD('cd-days',    Math.floor(diff / 86400000));
-  animateCD('cd-hours',   Math.floor(diff / 3600000) % 24);
-  animateCD('cd-minutes', Math.floor(diff / 60000) % 60);
-  animateCD('cd-seconds', Math.floor(diff / 1000) % 60);
-}
-
-const cdInterval = setInterval(updateCD, 1000);
-updateCD();
-
-    const chatPanel = document.getElementById('chat-panel');
-    const chatLauncher = document.getElementById('chat-launcher');
-    const chatClose = document.getElementById('chat-close');
-    const chatMessages = document.getElementById('chat-messages');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatSubmit = document.getElementById('chat-submit');
-    const chatStatus = document.getElementById('chat-status');
-    const chatHistory = [
-      {
-        role: 'system',
-        content: 'Eres el asistente web de Enough. Responde en español, con tono sobrio, cálido y claro. Ayudas a visitantes a entender el proyecto, la filosofía, la galería, el blog, el proceso y la forma de contacto. Si te preguntan algo que no aparece en el sitio, dilo con honestidad y orienta al usuario a Instagram o al formulario de contacto.'
-      }
-    ];
-
-    function toggleChat(forceOpen) {
-      const nextState = typeof forceOpen === 'boolean' ? forceOpen : chatPanel.dataset.open !== 'true';
-      chatPanel.dataset.open = String(nextState);
-      chatPanel.setAttribute('aria-hidden', String(!nextState));
-      chatLauncher.setAttribute('aria-expanded', String(nextState));
-      if (nextState) {
-        chatInput.focus();
+    const targetDate = new Date('2026-07-05T00:00:00');
+    function animateCD(id, value) {
+      const el = document.getElementById(id);
+      const newVal = value.toString().padStart(2, '0');
+      if (el.innerText !== newVal) {
+        el.classList.add('cd-tick');
+        setTimeout(() => { el.innerText = newVal; el.classList.remove('cd-tick'); }, 150);
       }
     }
-
-    function appendMessage(role, text, isError = false) {
-      const bubble = document.createElement('div');
-      bubble.className = `chat-message ${role}${isError ? ' is-error' : ''}`;
-      bubble.textContent = text;
-      chatMessages.appendChild(bubble);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+    function updateCD() {
+      const diff = targetDate - new Date();
+      if (diff <= 0) { clearInterval(cdInterval); return; }
+      animateCD('cd-days',    Math.floor(diff / 86400000));
+      animateCD('cd-hours',   Math.floor(diff / 3600000) % 24);
+      animateCD('cd-minutes', Math.floor(diff / 60000) % 60);
+      animateCD('cd-seconds', Math.floor(diff / 1000) % 60);
     }
+    const cdInterval = setInterval(updateCD, 1000);
+    updateCD();
 
-    function setChatBusy(isBusy) {
-      chatSubmit.disabled = isBusy;
-      chatInput.disabled = isBusy;
-      chatStatus.textContent = isBusy
-        ? 'Pensando una respuesta con el contexto del sitio...'
-        : 'Puedo responder dudas sobre Enough, el enfoque del proyecto y el proceso creativo.';
-    }
-
-    async function sendChatMessage(message) {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: chatHistory.filter(item => item.role !== 'system'),
-          message
-        })
-      });
-
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(payload.error || 'No fue posible responder en este momento.');
-      }
-
-      return payload.reply;
-    }
-
-    chatLauncher.addEventListener('click', () => toggleChat());
-    chatClose.addEventListener('click', () => toggleChat(false));
-
-    chatForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const message = chatInput.value.trim();
-      if (!message) return;
-
-      toggleChat(true);
-      appendMessage('user', message);
-      chatInput.value = '';
-      setChatBusy(true);
-
-      try {
-        const reply = await sendChatMessage(message);
-        chatHistory.push({ role: 'user', content: message });
-        chatHistory.push({ role: 'assistant', content: reply });
-        appendMessage('bot', reply);
-      } catch (error) {
-        appendMessage('bot', error.message, true);
-      } finally {
-        setChatBusy(false);
-        chatInput.focus();
-      }
-    });
-
-    appendMessage(
-      'bot',
-      'Hola. Soy el asistente de Enough. Si quieres, puedo contarte de la filosofía del proyecto, la galería o cómo contactar a Juanes.'
-    );
-  </script>
-
-  <script>
+    /* ── CHAT — biblioteca local ── */
     (() => {
       const library = window.EnoughChatLibrary;
       if (!library) return;
 
-      const chatMessages = document.getElementById('chat-messages');
-      const originalForm = document.getElementById('chat-form');
-      const chatInput = document.getElementById('chat-input');
-      const chatSubmit = document.getElementById('chat-submit');
-      const chatStatus = document.getElementById('chat-status');
-      const chatPanel = document.getElementById('chat-panel');
+      const chatPanel    = document.getElementById('chat-panel');
       const chatLauncher = document.getElementById('chat-launcher');
-      const suggestions = document.getElementById('chat-suggestions');
+      const chatClose    = document.getElementById('chat-close');
+      const chatMessages = document.getElementById('chat-messages');
+      const chatForm     = document.getElementById('chat-form');
+      const chatInput    = document.getElementById('chat-input');
+      const chatSubmit   = document.getElementById('chat-submit');
+      const chatStatus   = document.getElementById('chat-status');
+      const suggestions  = document.getElementById('chat-suggestions');
       const localHistory = [];
 
-      if (!chatMessages || !originalForm || !chatInput || !chatSubmit || !chatStatus) {
-        return;
+      function toggleChat(forceOpen) {
+        const nextState = typeof forceOpen === 'boolean' ? forceOpen : chatPanel.dataset.open !== 'true';
+        chatPanel.dataset.open = String(nextState);
+        chatPanel.setAttribute('aria-hidden', String(!nextState));
+        chatLauncher.setAttribute('aria-expanded', String(nextState));
+        if (nextState) chatInput.focus();
       }
-
-      const cleanForm = originalForm.cloneNode(true);
-      originalForm.parentNode.replaceChild(cleanForm, originalForm);
-
-      const liveInput = document.getElementById('chat-input');
-      const liveSubmit = document.getElementById('chat-submit');
-      const suggestionButtons = suggestions ? Array.from(suggestions.querySelectorAll('.chat-suggestion')) : [];
 
       function appendMessage(role, text, isError = false) {
         const bubble = document.createElement('div');
@@ -1038,67 +937,51 @@ updateCD();
       }
 
       function setBusy(isBusy) {
-        liveSubmit.disabled = isBusy;
-        liveInput.disabled = isBusy;
+        chatSubmit.disabled = isBusy;
+        chatInput.disabled  = isBusy;
         chatStatus.textContent = isBusy
-          ? 'Buscando la mejor respuesta dentro de la biblioteca del sitio...'
-          : 'Respondo con una biblioteca local de mensajes, sin usar API.';
-      }
-
-      function openChat() {
-        if (!chatPanel || !chatLauncher) return;
-        chatPanel.dataset.open = 'true';
-        chatPanel.setAttribute('aria-hidden', 'false');
-        chatLauncher.setAttribute('aria-expanded', 'true');
-      }
-
-      function collapseSuggestions() {
-        if (!suggestions) return;
-        suggestions.style.display = 'none';
+          ? 'Buscando respuesta...'
+          : 'Puedo responder dudas sobre Enough, el enfoque del proyecto y el proceso creativo.';
       }
 
       async function handleQuestion(message) {
         if (!message) return;
-
-        openChat();
-        collapseSuggestions();
+        toggleChat(true);
         appendMessage('user', message);
         localHistory.push({ role: 'user', content: message });
-        liveInput.value = '';
+        chatInput.value = '';
         setBusy(true);
-
         try {
           const result = library.reply(message, localHistory);
-          await new Promise((resolve) => setTimeout(resolve, 220));
+          await new Promise(r => setTimeout(r, 220));
           localHistory.push({ role: 'assistant', content: result.reply, intent: result.intent });
           appendMessage('bot', result.reply);
-        } catch (error) {
-          appendMessage('bot', 'No pude encontrar una respuesta en la biblioteca local.', true);
+        } catch {
+          appendMessage('bot', 'No pude encontrar una respuesta en este momento.', true);
         } finally {
           setBusy(false);
-          liveInput.focus();
+          chatInput.focus();
         }
       }
 
-      chatMessages.innerHTML = '';
-      appendMessage(
-        'bot',
-        'Hola. Respondo con una biblioteca local de Enough. Puedes preguntarme por la filosofia, la galeria, el blog, el proceso o el contacto.'
-      );
+      chatLauncher.addEventListener('click', () => toggleChat());
+      chatClose.addEventListener('click',   () => toggleChat(false));
 
-      cleanForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const message = liveInput.value.trim();
-        if (!message) return;
-        await handleQuestion(message);
+      chatForm.addEventListener('submit', async e => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (message) await handleQuestion(message);
       });
 
-      suggestionButtons.forEach((button) => {
-        button.addEventListener('click', async () => {
-          const message = button.dataset.question || button.textContent.trim();
+      /* Sugerencias siempre visibles — sin collapseSuggestions */
+      suggestions.querySelectorAll('.chat-suggestion').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const message = btn.dataset.question || btn.textContent.trim();
           await handleQuestion(message);
         });
       });
+
+      appendMessage('bot', 'Hola. Soy el asistente de Enough. Puedes usar las preguntas de abajo o escribir la tuya.');
     })();
   </script>
 
