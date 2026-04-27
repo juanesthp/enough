@@ -434,6 +434,31 @@
         scroll-behavior: auto !important;
       }
     }
+    /* ── CUENTA REGRESIVA ── */
+.time-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cd-digit {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  color: #1a1a18;
+  letter-spacing: 4px;
+  line-height: 1;
+}
+.cd-label {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: #b8a88a;
+  margin-top: .5rem;
+}
+.cd-tick {
+  opacity: .4;
+  transition: opacity .15s ease;
+}
   </style>
 </head>
 <body>
@@ -463,6 +488,27 @@
       <a href="#filosofia" class="btn-primary">Explorar visión</a>
     </div>
   </div>
+  <!-- CUENTA REGRESIVA -->
+<section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
+  <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 3rem;">
+    <div class="time-block">
+      <span id="cd-days" class="cd-digit">00</span>
+      <span class="cd-label">Días</span>
+    </div>
+    <div class="time-block">
+      <span id="cd-hours" class="cd-digit">00</span>
+      <span class="cd-label">Horas</span>
+    </div>
+    <div class="time-block">
+      <span id="cd-minutes" class="cd-digit">00</span>
+      <span class="cd-label">Minutos</span>
+    </div>
+    <div class="time-block">
+      <span id="cd-seconds" class="cd-digit">00</span>
+      <span class="cd-label">Segundos</span>
+    </div>
+  </div>
+</section>
 
   <!-- FILOSOFÍA -->
   <section id="filosofia">
@@ -618,6 +664,32 @@
       heroImage.addEventListener('contextmenu', e => e.preventDefault());
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
+    /* ── CUENTA REGRESIVA ── */
+const targetDate = new Date('2026-07-05T00:00:00');
+
+function animateCD(id, value) {
+  const el = document.getElementById(id);
+  const newVal = value.toString().padStart(2, '0');
+  if (el.innerText !== newVal) {
+    el.classList.add('cd-tick');
+    setTimeout(() => {
+      el.innerText = newVal;
+      el.classList.remove('cd-tick');
+    }, 150);
+  }
+}
+
+function updateCD() {
+  const diff = targetDate - new Date();
+  if (diff <= 0) { clearInterval(cdInterval); return; }
+  animateCD('cd-days',    Math.floor(diff / 86400000));
+  animateCD('cd-hours',   Math.floor(diff / 3600000) % 24);
+  animateCD('cd-minutes', Math.floor(diff / 60000) % 60);
+  animateCD('cd-seconds', Math.floor(diff / 1000) % 60);
+}
+
+const cdInterval = setInterval(updateCD, 1000);
+updateCD();
   </script>
 
 </body>
