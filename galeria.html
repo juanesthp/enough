@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Galería de Enough: una selección fotográfica de espacios, atmósferas y materia desde una mirada curatorial.">
   <link rel="canonical" href="https://juanesthp.github.io/enough/galeria.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,6 +43,7 @@
       transition: opacity .2s;
     }
     nav a:hover { opacity: .6; }
+    nav a[aria-current="page"] { border-bottom: 1px solid rgba(26,26,24,.4); padding-bottom: 2px; }
     .logo {
       font-size: 14px;
       letter-spacing: 6px;
@@ -255,12 +258,24 @@
       color: rgba(247,245,240,.35);
     }
 
+    /* ── CURSOR ── */
+    * { cursor: none; }
+    .cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform .15s ease;
+      top: 0; left: 0;
+      mix-blend-mode: difference;
+    }
+
     @media (max-width: 600px) {
       body { padding: 20px; }
       nav { padding: 1rem 1.5rem; gap: 1rem; }
       nav a { font-size: 10px; }
       .logo { margin-right: 0; }
       .grid { columns: 1; }
+      .cursor { display: none; }
       .lb-overlay { flex-direction: column; }
       .lb-media { flex: none; height: 50vh; }
       .lb-info { flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem; border-left: none; border-top: 1px solid rgba(255,255,255,.06); }
@@ -271,21 +286,29 @@
 </head>
 <body>
 
+  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
+    <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
+  </svg>
+
   <nav>
     <a href="index.html" class="logo">Enough</a>
     <a href="index.html#filosofia">Filosofía</a>
-    <a href="galeria.html">Galería</a>
+    <a href="galeria.html" aria-current="page">Galería</a>
     <a href="blog.html">Blog</a>
     <a href="sobre.html">Sobre mí</a>
+    <a href="index.html#servicios">Servicios</a>
     <a href="index.html#contacto">Contacto</a>
   </nav>
 
+  <main>
   <div class="galeria-header">
     <span class="section-label">Fotografía</span>
     <h1>Galería</h1>
   </div>
 
   <div class="grid" id="galeria-grid"></div>
+  </main>
 
   <!-- LIGHTBOX -->
   <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes de la galería">
@@ -299,7 +322,7 @@
 
     <div class="lb-info">
       <span class="lb-label">Enough · Fotografía</span>
-      <p class="lb-title" id="lb-title"></p>
+      <h2 class="lb-title" id="lb-title"></h2>
       <div class="lb-desc" id="lb-desc"></div>
       <p class="lb-counter" id="lb-counter"></p>
     </div>
@@ -314,38 +337,35 @@
   <script>
     const galeriaGrid = document.getElementById('galeria-grid');
 
-    // ── EDITA AQUÍ LOS TÍTULOS Y DESCRIPCIONES DE CADA FOTO ──
+    /*
+     * ── GALERÍA: EDITAR AQUÍ ──────────────────────────────────────────────
+     * Cada línea es una foto. Campos a completar:
+     *   src   → nombre del archivo de imagen (debe estar en esta misma carpeta)
+     *   alt   → descripción corta para accesibilidad
+     *   title → título que aparece en la cuadrícula y en el lightbox
+     *   desc  → texto que aparece debajo del título en el lightbox
+     *
+     * Para añadir una foto nueva: copia cualquier línea, cambia el index
+     * por el siguiente número y completa src/alt/title/desc.
+     * Para eliminar una foto: borra su línea.
+     * ─────────────────────────────────────────────────────────────────────
+     */
     const items = [
-      { index: 0,  src: './proyecto1.jpg',  alt: 'Proyecto 1',  title: 'Título 1',  desc: 'Descripción de la foto 1.' },
-      { index: 1,  src: './proyecto2.jpg',  alt: 'Proyecto 2',  title: 'Título 2',  desc: 'Descripción de la foto 2.' },
-      { index: 2,  src: './proyecto3.jpg',  alt: 'Proyecto 3',  title: 'Título 3',  desc: 'Descripción de la foto 3.' },
-      { index: 3,  src: './proyecto4.jpg',  alt: 'Proyecto 4',  title: 'Título 4',  desc: 'Descripción de la foto 4.' },
-      { index: 4,  src: './proyecto5.jpg',  alt: 'Proyecto 5',  title: 'Título 5',  desc: 'Descripción de la foto 5.' },
-      { index: 5,  src: './proyecto6.jpg',  alt: 'Proyecto 6',  title: 'Título 6',  desc: 'Descripción de la foto 6.' },
-      { index: 6,  src: './proyecto7.jpg',  alt: 'Proyecto 7',  title: 'Título 7',  desc: 'Descripción de la foto 7.' },
-      { index: 7,  src: './proyecto8.jpg',  alt: 'Proyecto 8',  title: 'Título 8',  desc: 'Descripción de la foto 8.' },
-      { index: 8,  src: './proyecto9.jpg',  alt: 'Proyecto 9',  title: 'Título 9',  desc: 'Descripción de la foto 9.' },
-      { index: 9,  src: './proyecto10.jpg', alt: 'Proyecto 10', title: 'Título 10', desc: 'Descripción de la foto 10.' },
-      { index: 10, src: './proyecto11.jpg', alt: 'Proyecto 11', title: 'Título 11', desc: 'Descripción de la foto 11.' },
-      { index: 11, src: './proyecto12.jpg', alt: 'Proyecto 12', title: 'Título 12', desc: 'Descripción de la foto 12.' },
-      { index: 12, src: './proyecto13.jpg', alt: 'Proyecto 13', title: 'Título 13', desc: 'Descripción de la foto 13.' },
-      { index: 13, src: './proyecto14.jpg', alt: 'Proyecto 14', title: 'Título 14', desc: 'Descripción de la foto 14.' },
-      { index: 14, src: './proyecto15.jpg', alt: 'Proyecto 15', title: 'Título 15', desc: 'Descripción de la foto 15.' },
-      { index: 15, src: './proyecto16.jpg', alt: 'Proyecto 16', title: 'Título 16', desc: 'Descripción de la foto 16.' },
-      { index: 16, src: './proyecto17.jpg', alt: 'Proyecto 17', title: 'Título 17', desc: 'Descripción de la foto 17.' },
-      { index: 17, src: './proyecto18.jpg', alt: 'Proyecto 18', title: 'Título 18', desc: 'Descripción de la foto 18.' },
-      { index: 18, src: './proyecto19.jpg', alt: 'Proyecto 19', title: 'Título 19', desc: 'Descripción de la foto 19.' },
-      { index: 19, src: './proyecto20.jpg', alt: 'Proyecto 20', title: 'Título 20', desc: 'Descripción de la foto 20.' },
-      { index: 20, src: './proyecto21.jpg', alt: 'Proyecto 21', title: 'Título 21', desc: 'Descripción de la foto 21.' },
-      { index: 21, src: './proyecto22.jpg', alt: 'Proyecto 22', title: 'Título 22', desc: 'Descripción de la foto 22.' },
-      { index: 22, src: './proyecto23.jpg', alt: 'Proyecto 23', title: 'Título 23', desc: 'Descripción de la foto 23.' },
-      { index: 23, src: './proyecto24.jpg', alt: 'Proyecto 24', title: 'Título 24', desc: 'Descripción de la foto 24.' },
-      { index: 24, src: './proyecto25.jpg', alt: 'Proyecto 25', title: 'Título 25', desc: 'Descripción de la foto 25.' },
-      { index: 25, src: './proyecto26.jpg', alt: 'Proyecto 26', title: 'Título 26', desc: 'Descripción de la foto 26.' },
-      { index: 26, src: './proyecto27.jpg', alt: 'Proyecto 27', title: 'Título 27', desc: 'Descripción de la foto 27.' },
-      { index: 27, src: './proyecto28.jpg', alt: 'Proyecto 28', title: 'Título 28', desc: 'Descripción de la foto 28.' },
-      { index: 28, src: './proyecto29.jpg', alt: 'Proyecto 29', title: 'Título 29', desc: 'Descripción de la foto 29.' },
-      { index: 29, src: './proyecto30.jpg', alt: 'Proyecto 30', title: 'Título 30', desc: 'Descripción de la foto 30.' },
+      { index: 0,  src: './proyecto3.jpg',  alt: '[Alt foto 1]',  title: '[Título 1]',  desc: '[Descripción de la foto 1.]' },
+      { index: 1,  src: './proyecto4.jpg',  alt: '[Alt foto 2]',  title: '[Título 2]',  desc: '[Descripción de la foto 2.]' },
+      { index: 2,  src: './proyecto5.jpg',  alt: '[Alt foto 3]',  title: '[Título 3]',  desc: '[Descripción de la foto 3.]' },
+      { index: 3,  src: './proyecto6.jpg',  alt: '[Alt foto 4]',  title: '[Título 4]',  desc: '[Descripción de la foto 4.]' },
+      { index: 4,  src: './proyecto7.jpg',  alt: '[Alt foto 5]',  title: '[Título 5]',  desc: '[Descripción de la foto 5.]' },
+      { index: 5,  src: './proyecto8.jpg',  alt: '[Alt foto 6]',  title: '[Título 6]',  desc: '[Descripción de la foto 6.]' },
+      { index: 6,  src: './proyecto9.jpg',  alt: '[Alt foto 7]',  title: '[Título 7]',  desc: '[Descripción de la foto 7.]' },
+      { index: 7,  src: './proyecto10.jpg', alt: '[Alt foto 8]',  title: '[Título 8]',  desc: '[Descripción de la foto 8.]' },
+      { index: 8,  src: './proyecto11.jpg', alt: '[Alt foto 9]',  title: '[Título 9]',  desc: '[Descripción de la foto 9.]' },
+      { index: 9,  src: './proyecto12.jpg', alt: '[Alt foto 10]', title: '[Título 10]', desc: '[Descripción de la foto 10.]' },
+      { index: 10, src: './proyecto14.jpg', alt: '[Alt foto 11]', title: '[Título 11]', desc: '[Descripción de la foto 11.]' },
+      { index: 11, src: './proyecto15.jpg', alt: '[Alt foto 12]', title: '[Título 12]', desc: '[Descripción de la foto 12.]' },
+      { index: 12, src: './proyecto16.jpg', alt: '[Alt foto 13]', title: '[Título 13]', desc: '[Descripción de la foto 13.]' },
+      { index: 13, src: './proyecto22.jpg', alt: '[Alt foto 14]', title: '[Título 14]', desc: '[Descripción de la foto 14.]' },
+      { index: 14, src: './proyecto23.jpg', alt: '[Alt foto 15]', title: '[Título 15]', desc: '[Descripción de la foto 15.]' },
     ];
 
     galeriaGrid.innerHTML = items.map(item => `
@@ -418,6 +438,17 @@
       if (e.key === 'Escape')     close();
       if (e.key === 'ArrowLeft')  prev();
       if (e.key === 'ArrowRight') next();
+    });
+
+    /* ── CURSOR ── */
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
+      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
     });
   </script>
 

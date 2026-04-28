@@ -21,6 +21,8 @@
   <meta name="twitter:description" content="Espacios que transforman. Que mejoran la vida de quienes los habitan.">
   <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 
   <style>
@@ -500,14 +502,14 @@
       width: min(380px, calc(100vw - 32px));
       height: min(620px, calc(100vh - 140px));
       display: none;
-      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      flex-direction: column;
       border: 1px solid rgba(26,26,24,.08);
       background: rgba(244,240,234,.97);
       backdrop-filter: blur(18px);
       box-shadow: 0 24px 60px rgba(26,26,24,.2);
       overflow: hidden;
     }
-    .chat-panel[data-open="true"] { display: grid; }
+    .chat-panel[data-open="true"] { display: flex; }
     .chat-header {
       padding: 1.2rem 1.25rem 1rem;
       background: linear-gradient(180deg, rgba(184,168,138,.22), rgba(244,240,234,0));
@@ -547,9 +549,10 @@
       text-align: left;
     }
     .chat-messages {
+      flex: 1;
+      min-height: 0;
       padding: 1rem 1rem 1.25rem;
       overflow-y: auto;
-      min-height: 0;
       display: flex;
       flex-direction: column;
       gap: .85rem;
@@ -669,6 +672,7 @@
     <a href="#contacto">Contacto</a>
   </nav>
 
+  <main>
   <!-- HERO -->
   <div class="hero">
     <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
@@ -743,7 +747,7 @@
   <section id="proyectos">
     <span class="section-label">Archivo visual</span>
     <h2>Espacios con alma</h2>
-    <p>Un archivo en desarrollo con imagenes propias sobre luz, materia y atmosfera.</p>
+    <p>Un archivo en desarrollo con imágenes propias sobre luz, materia y atmósfera.</p>
     <div style="text-align: center; margin-top: 2rem;">
       <a href="galeria.html" class="btn-dark">Ver galería</a>
     </div>
@@ -762,19 +766,19 @@
   <!-- ENFOQUE -->
   <section id="servicios">
     <span class="section-label">Proceso</span>
-    <h2>Como se construye Enough</h2>
+    <h2>Cómo se construye Enough</h2>
     <div class="servicios-grid">
       <div class="servicio">
         <h3>Observación</h3>
-        <p>Mirar antes de intervenir. Leer la atmosfera, la luz y el ritmo del espacio.</p>
+        <p>Mirar antes de intervenir. Leer la atmósfera, la luz y el ritmo del espacio.</p>
       </div>
       <div class="servicio">
         <h3>Criterio</h3>
-        <p>Filtrar referencias y decisiones desde una mirada honesta, sin seguir tendencias vacias.</p>
+        <p>Filtrar referencias y decisiones desde una mirada honesta, sin seguir tendencias vacías.</p>
       </div>
       <div class="servicio">
         <h3>Lenguaje</h3>
-        <p>Convertir ideas en imagen, texto y composicion para que cada pieza tenga coherencia.</p>
+        <p>Convertir ideas en imagen, texto y composición para que cada pieza tenga coherencia.</p>
       </div>
       <div class="servicio">
         <h3>Archivo</h3>
@@ -801,6 +805,8 @@
     </div>
   </section>
 
+  </main>
+
   <footer>
     <span class="logo">Enough</span>
     <span>© 2026 Enough. Diseño con intención.</span>
@@ -823,19 +829,19 @@
       <p class="chat-status" id="chat-status">Puedo responder dudas sobre Enough, el enfoque del proyecto y el proceso creativo.</p>
     </div>
     <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="chat-suggestion" type="button" data-question="¿Qué es Enough?">¿Qué es Enough?</button>
+      <button class="chat-suggestion" type="button" data-question="¿Cuál es la filosofía del proyecto?">¿Cuál es la filosofía?</button>
+      <button class="chat-suggestion" type="button" data-question="¿Dónde puedo ver la galería?">¿Dónde está la galería?</button>
+      <button class="chat-suggestion" type="button" data-question="¿Enough ofrece servicios?">¿Ofrece servicios?</button>
+      <button class="chat-suggestion" type="button" data-question="¿Cómo puedo contactar a Juanes?">¿Cómo contacto a Juanes?</button>
+    </div>
     <div class="chat-compose">
       <form class="chat-compose-form" id="chat-form">
         <textarea id="chat-input" name="message" placeholder="Escribe tu mensaje..." maxlength="1200"></textarea>
         <button id="chat-submit" type="submit">Enviar</button>
       </form>
       <p class="chat-hint">Asistente de Enough · Responde sobre el proyecto, la galería y el proceso.</p>
-    </div>
-    <div class="chat-suggestions" id="chat-suggestions">
-      <button class="chat-suggestion" type="button" data-question="Que es Enough?">Que es Enough?</button>
-      <button class="chat-suggestion" type="button" data-question="Cual es la filosofia del proyecto?">Cual es la filosofia del proyecto?</button>
-      <button class="chat-suggestion" type="button" data-question="Donde puedo ver la galeria?">Donde puedo ver la galeria?</button>
-      <button class="chat-suggestion" type="button" data-question="Enough ofrece servicios?">Enough ofrece servicios?</button>
-      <button class="chat-suggestion" type="button" data-question="Como puedo contactar a Juanes?">Como puedo contactar a Juanes?</button>
     </div>
   </aside>
 
