@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragmentos — Enough</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cream: #09090f;
+            --dark: #f4ede3;
+            --gold: #c7a772;
+            --dark-soft: rgba(244, 237, 227, 0.68);
+            --dark-faint: rgba(244, 237, 227, 0.2);
+            --hairline: rgba(244, 237, 227, 0.12);
+            --panel: rgba(19, 19, 28, 0.78);
+            --panel-strong: rgba(12, 12, 18, 0.92);
+            --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.28);
+            --shadow-deep: 0 40px 100px rgba(0, 0, 0, 0.48);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background-color: var(--cream);
+            color: var(--dark);
+            font-family: 'Raleway', sans-serif;
+            font-weight: 300;
+            cursor: none;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative;
+            background:
+                radial-gradient(circle at 20% 18%, rgba(199, 167, 114, 0.12), transparent 24%),
+                radial-gradient(circle at 82% 28%, rgba(88, 88, 124, 0.2), transparent 28%),
+                radial-gradient(circle at 50% 100%, rgba(199, 167, 114, 0.08), transparent 32%),
+                linear-gradient(180deg, #0b0b12 0%, #09090f 45%, #06060a 100%);
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(70px);
+            opacity: 0.65;
+        }
+
+        body::before {
+            top: 10vh;
+            left: -80px;
+            width: 240px;
+            height: 240px;
+            background: rgba(199, 167, 114, 0.08);
+        }
+
+        body::after {
+            right: -80px;
+            bottom: 10vh;
+            width: 280px;
+            height: 280px;
+            background: rgba(92, 92, 150, 0.14);
+        }
+
+        /* Custom cursor — matches the rest of Enough */
+        .cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform .15s ease;
+            top: 0;
+            left: 0;
+            mix-blend-mode: difference;
+        }
+
+        .cursor line {
+            stroke: var(--dark);
+            transition: stroke 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+            .cursor { display: none; }
+            html, body { cursor: auto; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(9, 9, 15, 0.96) 52%, rgba(9, 9, 15, 0));
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 400;
+            font-size: 1.5rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--gold);
+            transition: width 0.4s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            nav { padding: 1.5rem; }
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.65rem; letter-spacing: 0.15em; }
+            .index-header,
+            .detail-container { padding: 2rem 1.5rem; }
+            .fragmento-item { padding: 2.2rem 1.4rem; }
+        }
+
+        /* ——— INDEX VIEW ——— */
+        .index-view {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 12rem 2rem 8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1.6s ease forwards;
+        }
+
+        .index-view.hidden { display: none; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .index-header {
+            text-align: center;
+            margin-bottom: 8rem;
+            max-width: 580px;
+            padding: 3rem 2.75rem;
+            border: 1px solid var(--hairline);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(12px);
+        }
+
+        .index-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            letter-spacing: 0.02em;
+            margin-bottom: 2rem;
+            line-height: 1;
+            text-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
+        }
+
+        .index-epigraph {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--dark-soft);
+            letter-spacing: 0.03em;
+            line-height: 1.7;
+        }
+
+        .index-rule {
+            width: 1px;
+            height: 80px;
+            background-color: var(--hairline);
+            margin: 0 auto 6rem;
+            box-shadow: 0 0 22px rgba(199, 167, 114, 0.18);
+        }
+
+        .fragmentos-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 720px;
+            list-style: none;
+        }
+
+        .fragmento-item {
+            width: 100%;
+            padding: 3rem 2.5rem;
+            border: 1px solid var(--hairline);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
+        }
+
+        .fragmento-item + .fragmento-item {
+            margin-top: 1.2rem;
+        }
+
+        .fragmento-item:first-child { border-top: 1px solid var(--hairline); }
+
+        .fragmento-link {
+            text-decoration: none;
+            color: var(--dark);
+            display: block;
+            transition: opacity 0.5s ease;
+        }
+
+        .fragmento-item:hover {
+            transform: translateY(-4px);
+            border-color: rgba(199, 167, 114, 0.28);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .fragmento-numero {
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            color: var(--dark-soft);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .fragmento-ancla {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: 0.01em;
+            line-height: 1.1;
+            transition: color 0.5s ease, letter-spacing 0.5s ease;
+        }
+
+        .fragmento-link:hover .fragmento-ancla {
+            color: var(--gold);
+            letter-spacing: 0.04em;
+            text-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+        }
+
+        .empty-state {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--dark-soft);
+            font-size: 1.1rem;
+            width: 100%;
+            padding: 4rem 2rem;
+            text-align: center;
+            border: 1px solid var(--hairline);
+            background: var(--panel);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* ——— DETAIL VIEW ——— */
+        .detail-view {
+            display: none;
+            min-height: 100vh;
+            padding: 12rem 2rem 6rem;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .detail-view.active {
+            display: flex;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .detail-container {
+            max-width: 620px;
+            width: 100%;
+            text-align: center;
+            padding: 3.5rem 3rem;
+            border: 1px solid var(--hairline);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+            box-shadow: var(--shadow-deep);
+            backdrop-filter: blur(14px);
+        }
+
+        .detail-numero {
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            color: var(--dark-soft);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .detail-ancla {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1;
+            letter-spacing: 0.01em;
+            margin-bottom: 4rem;
+            text-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+        }
+
+        .detail-rule {
+            width: 60px;
+            height: 1px;
+            background-color: var(--gold);
+            margin: 0 auto 4rem;
+        }
+
+        .detail-texto {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+            line-height: 1.9;
+            letter-spacing: 0.015em;
+            text-align: left;
+            color: rgba(244, 237, 227, 0.92);
+        }
+
+        .detail-texto p {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-texto p:last-child { margin-bottom: 0; }
+
+        .detail-back {
+            display: inline-block;
+            margin-top: 6rem;
+            text-decoration: none;
+            color: var(--dark-soft);
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding-bottom: 4px;
+            border-bottom: 1px solid transparent;
+            transition: color 0.4s ease, border-color 0.4s ease, letter-spacing 0.4s ease;
+        }
+
+        .detail-back:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+            letter-spacing: 0.35em;
+        }
+
+        /* Footer mark */
+        .footer-mark {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--dark-faint);
+            letter-spacing: 0.3em;
+            padding: 4rem 0 2rem;
+            text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+        }
+    </style>
+</head>
+<body>
+
+    <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <line x1="13" y1="3" x2="13" y2="23" stroke="#f4ede3" stroke-width="1.6"/>
+        <line x1="3" y1="13" x2="23" y2="13" stroke="#f4ede3" stroke-width="1.6"/>
+    </svg>
+
+    <nav>
+        <a href="index.html" class="nav-logo">Enough</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="galeria.html">Galería</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="fragmentos.html" class="active">Fragmentos</a></li>
+        </ul>
+    </nav>
+
+    <!-- INDEX VIEW -->
+    <main class="index-view" id="indexView">
+        <header class="index-header">
+            <h1 class="index-title">Fragmentos</h1>
+            <p class="index-epigraph">
+                Un cuaderno. Notas sobre atmósferas, ausencias y umbrales.
+            </p>
+        </header>
+
+        <div class="index-rule"></div>
+
+        <ul class="fragmentos-list" id="fragmentosList">
+            <!-- Generated by JS -->
+        </ul>
+
+        <div class="footer-mark">Enough</div>
+    </main>
+
+    <!-- DETAIL VIEW -->
+    <main class="detail-view" id="detailView">
+        <article class="detail-container">
+            <div class="detail-numero" id="detailNumero"></div>
+            <h1 class="detail-ancla" id="detailAncla"></h1>
+            <div class="detail-rule"></div>
+            <div class="detail-texto" id="detailTexto"></div>
+            <a href="#" class="detail-back" id="detailBack">— Regresar</a>
+        </article>
+    </main>
+
+
+    <script>
+        /* ============================================================
+           FRAGMENTOS — Para añadir uno nuevo:
+           Copia un bloque { numero, ancla, texto } y edítalo.
+           El "numero" es en romanos (I, II, III, IV, V, VI, VII...).
+           El "texto" puede tener varios párrafos: separa cada uno con \n\n.
+           Los nuevos fragmentos aparecerán al inicio de la lista.
+           ============================================================ */
+
+        const fragmentos = [
+            {
+                numero: "I",
+                ancla: "Distancia",
+                texto: `Hay una arquitectura de las amistades que terminan. Primero el espacio común se llena de muebles que ya nadie mueve. Después las ventanas dejan de abrirse.
+
+Un día la puerta se cierra desde el otro lado, y entiendes —tarde— que llevabas meses viviendo en una casa que ya no existía.`
+            }
+            // Para añadir otro fragmento, descomenta y edita:
+            // ,{
+            //     numero: "II",
+            //     ancla: "Umbral",
+            //     texto: `Tu texto aquí. Puede tener varios párrafos.\n\nSepáralos con doble salto de línea.`
+            // }
+        ];
+
+        /* ============================================================
+           Renderizado del índice
+           ============================================================ */
+
+        const fragmentosList = document.getElementById('fragmentosList');
+        const indexView = document.getElementById('indexView');
+        const detailView = document.getElementById('detailView');
+        const detailNumero = document.getElementById('detailNumero');
+        const detailAncla = document.getElementById('detailAncla');
+        const detailTexto = document.getElementById('detailTexto');
+        const detailBack = document.getElementById('detailBack');
+
+        function renderIndex() {
+            if (fragmentos.length === 0) {
+                fragmentosList.innerHTML = '<li class="empty-state">Aún sin fragmentos.</li>';
+                return;
+            }
+
+            fragmentosList.innerHTML = fragmentos.map((f, i) => `
+                <li class="fragmento-item">
+                    <a href="#${slugify(f.ancla)}" class="fragmento-link" data-index="${i}">
+                        <span class="fragmento-numero">Fragmento ${f.numero}</span>
+                        <span class="fragmento-ancla">${f.ancla}</span>
+                    </a>
+                </li>
+            `).join('');
+
+            document.querySelectorAll('.fragmento-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const idx = parseInt(link.dataset.index);
+                    showDetail(idx);
+                    history.pushState({ view: 'detail', index: idx }, '', `#${slugify(fragmentos[idx].ancla)}`);
+                });
+            });
+        }
+
+        function slugify(text) {
+            return text.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
+
+        function showDetail(index) {
+            const f = fragmentos[index];
+            if (!f) return;
+            detailNumero.textContent = `Fragmento ${f.numero}`;
+            detailAncla.textContent = f.ancla;
+            detailTexto.innerHTML = f.texto
+                .split('\n\n')
+                .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
+                .join('');
+            indexView.classList.add('hidden');
+            detailView.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function showIndex() {
+            detailView.classList.remove('active');
+            indexView.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        detailBack.addEventListener('click', (e) => {
+            e.preventDefault();
+            showIndex();
+            history.pushState({ view: 'index' }, '', window.location.pathname);
+        });
+
+        // Manejar back/forward del navegador
+        window.addEventListener('popstate', (e) => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const idx = fragmentos.findIndex(f => slugify(f.ancla) === hash);
+                if (idx >= 0) { showDetail(idx); return; }
+            }
+            showIndex();
+        });
+
+        // Cargar fragmento si hay hash en la URL
+        function initFromHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const idx = fragmentos.findIndex(f => slugify(f.ancla) === hash);
+                if (idx >= 0) showDetail(idx);
+            }
+        }
+
+        renderIndex();
+        initFromHash();
+
+        /* ============================================================
+           Custom cursor
+           ============================================================ */
+
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top  = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
+            el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
+        });
+    </script>
+
+</body>
+</html>
