@@ -37,7 +37,7 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+  
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -76,7 +76,7 @@
     }
     nav .logo { font-weight: 300; }
 
-    /* ── HERO ── */
+  
     .hero {
       position: relative;
       width: 100vw;
@@ -133,7 +133,7 @@
       text-align: left;
     }
 
-    /* ── BOTONES ── */
+    
     .btn-primary {
       display: inline-block;
       padding: .85rem 2.2rem;
@@ -165,7 +165,7 @@
       color: #f2efe9;
     }
 
-    /* ── SECCIONES ── */
+
     section {
       margin-top: 60px;
       border-top: 1px solid #ddd;
@@ -200,7 +200,7 @@
       text-align: center;
     }
 
-    /* ── FILOSOFÍA ── */
+    
     .filosofia-grid {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -236,7 +236,7 @@
       margin-bottom: 1.8rem;
     }
 
-    /* ── ENFOQUE ── */
+    
     .servicios-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -267,7 +267,7 @@
       text-align: left;
     }
 
-    /* ── CONTACTO ── */
+  
     .contacto-dark {
       background: #1a1a18;
       color: #f2efe9;
@@ -342,7 +342,7 @@
     }
     .contacto-dark button:hover { background: #c8b898; }
 
-    /* ── FOOTER ── */
+    
     footer {
       background: #111110;
       color: rgba(247,245,240,.35);
@@ -364,7 +364,7 @@
       color: rgba(247,245,240,.35);
     }
 
-    /* ── ANIMACIONES ── */
+    
     .aparece {
       opacity: 0;
       transform: translateY(30px);
@@ -384,7 +384,7 @@
     .hero-sub          { animation: subir .8s ease forwards; animation-delay: 1s; }
     .hero .btn-primary { animation: subir .8s ease forwards; animation-delay: 1.3s; }
 
-    /* ── CURSOR ── */
+    
     * { cursor: none; }
     .cursor {
       position: fixed;
@@ -395,7 +395,7 @@
       mix-blend-mode: difference;
     }
 
-    /* ── RESPONSIVE ── */
+    
     @media (max-width: 600px) {
       body { padding: 20px; overflow-x: hidden; }
       nav { padding: 1rem 1.5rem; gap: 1rem; }
@@ -445,7 +445,7 @@
       }
     }
 
-    /* ── CUENTA REGRESIVA ── */
+    
     .time-block {
       display: flex;
       flex-direction: column;
@@ -471,7 +471,7 @@
       transition: opacity .15s ease;
     }
 
-    /* ── CHAT ── */
+    
     .chat-launcher {
       position: fixed;
       right: 28px;
@@ -674,7 +674,6 @@
   </nav>
 
   <main>
-  <!-- HERO -->
   <div class="hero">
     <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
     <div class="hero-content">
@@ -685,7 +684,7 @@
     </div>
   </div>
 
-  <!-- CUENTA REGRESIVA -->
+
   <section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
     <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 3rem;">
       <div class="time-block">
@@ -707,7 +706,7 @@
     </div>
   </section>
 
-  <!-- FILOSOFÍA -->
+
   <section id="filosofia">
     <span class="section-label">Filosofía</span>
     <h2>No es perfección.<br>Es intención.</h2>
@@ -744,7 +743,7 @@
     </div>
   </section>
 
-  <!-- PROYECTOS -->
+
   <section id="proyectos">
     <span class="section-label">Archivo visual</span>
     <h2>Espacios con alma</h2>
@@ -754,7 +753,7 @@
     </div>
   </section>
 
-  <!-- BLOG -->
+  
   <section id="blog">
     <span class="section-label">Diario</span>
     <h2>Palabras con criterio</h2>
@@ -764,7 +763,7 @@
     </div>
   </section>
 
-  <!-- ENFOQUE -->
+
   <section id="servicios">
     <span class="section-label">Proceso</span>
     <h2>Cómo se construye Enough</h2>
@@ -788,7 +787,7 @@
     </div>
   </section>
 
-  <!-- CONTACTO -->
+  
   <section id="contacto" class="contacto-dark">
     <div class="contacto-left">
       <span class="section-label">Estado actual</span>
@@ -873,7 +872,7 @@
     }, { threshold: 0.1 });
     elementos.forEach(el => observer.observe(el));
 
-    /* ── CURSOR ── */
+  
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
@@ -890,7 +889,7 @@
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
 
-    /* ── CUENTA REGRESIVA ── */
+    
     const targetDate = new Date('2026-10-05T00:00:00');
     function animateCD(id, value) {
       const el = document.getElementById(id);
@@ -911,7 +910,7 @@
     const cdInterval = setInterval(updateCD, 1000);
     updateCD();
 
-    /* ── CHAT — biblioteca local ── */
+    
     (() => {
       const library = window.EnoughChatLibrary;
       if (!library) return;
@@ -980,7 +979,7 @@
         if (message) await handleQuestion(message);
       });
 
-      /* Sugerencias siempre visibles — sin collapseSuggestions */
+      
       suggestions.querySelectorAll('.chat-suggestion').forEach(btn => {
         btn.addEventListener('click', async () => {
           const message = btn.dataset.question || btn.textContent.trim();

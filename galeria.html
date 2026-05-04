@@ -11,15 +11,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09090f;
+      --panel: rgba(255,255,255,.03);
+      --text: #f4ede3;
+      --muted: rgba(244,237,227,.62);
+      --faint: rgba(244,237,227,.3);
+      --line: rgba(244,237,227,.1);
+      --gold: #c7a772;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,.24);
+      --shadow-deep: 0 36px 80px rgba(0,0,0,.45);
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
     body {
-      background-color: #f2efe9;
+      background:
+        radial-gradient(circle at top left, rgba(199,167,114,.12), transparent 24%),
+        linear-gradient(180deg, #0d0d13 0%, #09090f 46%, #07070b 100%);
       font-family: Raleway, sans-serif;
       padding: 40px;
-      max-width: 800px;
+      max-width: 880px;
       margin: 0 auto;
       overflow-x: hidden;
+      color: var(--text);
+    }
+
+    * { cursor: none; }
+    .cursor {
+      position: fixed; pointer-events: none; z-index: 9999;
+      transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference;
     }
 
     nav {
@@ -30,20 +51,20 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.5rem 4rem;
-      background: rgba(242,239,233,.95);
-      backdrop-filter: blur(8px);
+      background: rgba(9,9,15,.94);
+      backdrop-filter: blur(14px);
     }
     nav a {
       text-decoration: none;
-      color: #1a1a18;
+      color: var(--text);
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       border-bottom: none;
       transition: opacity .2s;
     }
-    nav a:hover { opacity: .6; }
-    nav a[aria-current="page"] { border-bottom: 1px solid rgba(26,26,24,.4); padding-bottom: 2px; }
+    nav a:hover { opacity: .55; }
+    nav a[aria-current="page"] { border-bottom: 1px solid rgba(244,237,227,.35); padding-bottom: 2px; }
     .logo {
       font-size: 14px;
       letter-spacing: 6px;
@@ -62,7 +83,7 @@
       font-size: 11px;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: #b8a88a;
+      color: var(--gold);
       margin-bottom: 1rem;
       display: block;
     }
@@ -72,7 +93,7 @@
       font-weight: 300;
       letter-spacing: 8px;
       text-transform: uppercase;
-      color: #1a1a18;
+      color: var(--text);
     }
 
     .grid {
@@ -84,8 +105,15 @@
     .foto {
       break-inside: avoid;
       margin-bottom: 2rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      transition: transform .25s ease, border-color .25s ease;
     }
-    .foto { cursor: pointer; }
+    .foto:hover {
+      transform: translateY(-2px);
+      border-color: rgba(199,167,114,.26);
+    }
     .foto-wrap { overflow: hidden; }
     .foto img {
       width: 100%;
@@ -94,41 +122,37 @@
       display: block;
       transition: transform .6s ease;
     }
-    .foto:hover img { transform: scale(1.04); }
+    .foto:hover img { transform: scale(1.03); }
     .foto-desc {
-      padding: 1rem 0;
-      border-bottom: 1px solid #e2ddd6;
+      padding: 1rem 1rem 1.2rem;
+      border-top: 1px solid var(--line);
     }
     .foto-desc h3 {
       font-size: 13px;
       font-weight: 400;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: #1a1a18;
+      color: var(--text);
       margin-bottom: 6px;
     }
     .foto-desc p {
       font-size: 13px;
-      color: #6b6b68;
+      color: var(--muted);
       line-height: 1.8;
     }
 
-    /* ── LIGHTBOX ── */
     .lb-overlay {
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(10,10,9,.95);
+      background: rgba(6,6,10,.97);
       display: flex;
       align-items: stretch;
       opacity: 0;
       pointer-events: none;
       transition: opacity .35s ease;
     }
-    .lb-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
+    .lb-overlay.open { opacity: 1; pointer-events: all; }
     .lb-media {
       flex: 2;
       position: relative;
@@ -138,135 +162,66 @@
       justify-content: center;
     }
     .lb-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: opacity .3s ease;
+      width: 100%; height: 100%; object-fit: cover; display: block;
     }
-    .lb-prev,
-    .lb-next {
+    .lb-prev, .lb-next {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(242,239,233,.4);
-      font-size: 28px;
-      font-family: Raleway, sans-serif;
-      font-weight: 200;
-      padding: 1rem;
-      transition: color .2s;
-      z-index: 2;
+      top: 50%; transform: translateY(-50%);
+      background: none; border: none;
+      color: rgba(244,237,227,.3);
+      font-size: 28px; font-family: Raleway, sans-serif; font-weight: 200;
+      padding: 1rem; transition: color .2s; z-index: 2;
     }
     .lb-prev { left: 1rem; }
     .lb-next { right: 1rem; }
-    .lb-prev:hover,
-    .lb-next:hover { color: #f2efe9; }
+    .lb-prev:hover, .lb-next:hover { color: var(--text); }
     .lb-info {
-      flex: 1;
-      min-width: 300px;
-      max-width: 380px;
+      flex: 1; min-width: 300px; max-width: 380px;
       padding: 4rem 3rem;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid rgba(255,255,255,.06);
+      display: flex; flex-direction: column;
+      border-left: 1px solid rgba(244,237,227,.06);
       overflow-y: auto;
+      background: rgba(255,255,255,.02);
     }
     .lb-label {
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: #b8a88a;
-      margin-bottom: 2rem;
-      display: block;
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2rem; display: block;
     }
     .lb-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 300;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #f2efe9;
-      margin-bottom: 2rem;
-      line-height: 1.2;
+      font-size: 2rem; font-weight: 300;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--text); margin-bottom: 2rem; line-height: 1.2;
     }
     .lb-desc {
-      font-size: 14px;
-      color: rgba(242,239,233,.55);
-      line-height: 2;
-      flex: 1;
-      overflow-y: auto;
-      padding-right: .5rem;
+      font-size: 14px; color: var(--muted);
+      line-height: 2; flex: 1; overflow-y: auto; padding-right: .5rem;
     }
-    .lb-desc::-webkit-scrollbar { width: 2px; }
-    .lb-desc::-webkit-scrollbar-track { background: transparent; }
-    .lb-desc::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); }
     .lb-counter {
-      margin-top: 2rem;
-      font-size: 11px;
-      letter-spacing: .15em;
-      color: rgba(242,239,233,.2);
-      flex-shrink: 0;
+      margin-top: 2rem; font-size: 11px; letter-spacing: .15em;
+      color: rgba(244,237,227,.2); flex-shrink: 0;
     }
     .lb-close {
-      position: fixed;
-      top: 1.5rem;
-      right: 2rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(242,239,233,.4);
-      font-size: 28px;
-      transition: color .2s;
-      font-weight: 200;
-      line-height: 1;
-      font-family: Raleway, sans-serif;
-      z-index: 1001;
+      position: fixed; top: 1.5rem; right: 2rem;
+      background: none; border: none;
+      color: rgba(244,237,227,.4); font-size: 28px;
+      transition: color .2s; font-weight: 200;
+      line-height: 1; font-family: Raleway, sans-serif; z-index: 1001;
     }
-    .lb-close:hover { color: #f2efe9; }
-    .lb-nav-hint {
-      position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: rgba(242,239,233,.15);
-    }
+    .lb-close:hover { color: var(--text); }
 
     footer {
-      background: #111110;
-      color: rgba(247,245,240,.35);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem 4rem;
-      font-size: 12px;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      margin-top: 4rem;
-      letter-spacing: 2px;
+      border-top: 1px solid rgba(244,237,227,.06);
+      color: var(--faint);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2rem 4rem; font-size: 12px;
+      width: 100vw; margin-left: calc(-50vw + 50%);
+      margin-top: 4rem; letter-spacing: 2px;
+      background: #07070b;
     }
     footer .logo {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
-      text-transform: uppercase;
-      color: rgba(247,245,240,.35);
-    }
-
-    /* ── CURSOR ── */
-    * { cursor: none; }
-    .cursor {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform .15s ease;
-      top: 0; left: 0;
-      mix-blend-mode: difference;
+      font-size: 14px; letter-spacing: 6px; font-weight: 200;
+      text-transform: uppercase; color: var(--faint);
     }
 
     @media (max-width: 600px) {
@@ -276,9 +231,13 @@
       .logo { margin-right: 0; }
       .grid { columns: 1; }
       .cursor { display: none; }
+      * { cursor: auto; }
       .lb-overlay { flex-direction: column; }
       .lb-media { flex: none; height: 50vh; }
-      .lb-info { flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem; border-left: none; border-top: 1px solid rgba(255,255,255,.06); }
+      .lb-info {
+        flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem;
+        border-left: none; border-top: 1px solid rgba(244,237,227,.06);
+      }
       .lb-title { font-size: 1.4rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
     }
@@ -286,7 +245,7 @@
 </head>
 <body>
 
-  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
     <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
   </svg>
@@ -302,22 +261,21 @@
   </nav>
 
   <main>
-  <div class="galeria-header">
-    <span class="section-label">Fotografía</span>
-    <h1>Galería</h1>
-  </div>
+    <div class="galeria-header">
+      <span class="section-label">Fotografía</span>
+      <h1>Galería</h1>
+    </div>
 
-  <div class="grid" id="galeria-grid"></div>
+    <div class="grid" id="galeria-grid"></div>
   </main>
 
-  <!-- LIGHTBOX -->
   <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes de la galería">
-    <button class="lb-close" id="lb-close" aria-label="Cerrar galería">&#215;</button>
+    <button class="lb-close" id="lb-close" aria-label="Cerrar galería">×</button>
 
     <div class="lb-media">
       <img id="lb-img" src="" alt="">
-      <button class="lb-prev" id="lb-prev" aria-label="Imagen anterior">&#8592;</button>
-      <button class="lb-next" id="lb-next" aria-label="Siguiente imagen">&#8594;</button>
+      <button class="lb-prev" id="lb-prev" aria-label="Imagen anterior">←</button>
+      <button class="lb-next" id="lb-next" aria-label="Siguiente imagen">→</button>
     </div>
 
     <div class="lb-info">
@@ -337,110 +295,91 @@
   <script>
     const galeriaGrid = document.getElementById('galeria-grid');
 
-    /*
-     * ── GALERÍA: EDITAR AQUÍ ──────────────────────────────────────────────
-     * Cada línea es una foto. Campos a completar:
-     *   src   → nombre del archivo de imagen (debe estar en esta misma carpeta)
-     *   alt   → descripción corta para accesibilidad
-     *   title → título que aparece en la cuadrícula y en el lightbox
-     *   desc  → texto que aparece debajo del título en el lightbox
-     *
-     * Para añadir una foto nueva: copia cualquier línea, cambia el index
-     * por el siguiente número y completa src/alt/title/desc.
-     * Para eliminar una foto: borra su línea.
-     * ─────────────────────────────────────────────────────────────────────
-     */
     const items = [
-      { index: 0,  src: './proyecto1.jpg',  alt: '[Alt foto 1]',  title: '[Título 1]',  desc: '[Descripción de la foto 1.]' },
-      { index: 1,  src: './proyecto2.jpg',  alt: '[Alt foto 2]',  title: '[Título 2]',  desc: '[Descripción de la foto 2.]' },
-      { index: 2,  src: './proyecto3.jpg',  alt: '[Alt foto 3]',  title: '[Título 3]',  desc: '[Descripción de la foto 3.]' },
-      { index: 3,  src: './proyecto4.jpg',  alt: '[Alt foto 4]',  title: '[Título 4]',  desc: '[Descripción de la foto 4.]' },
-      { index: 4,  src: './proyecto5.jpg',  alt: '[Alt foto 5]',  title: '[Título 5]',  desc: '[Descripción de la foto 5.]' },
-      { index: 5,  src: './proyecto6.jpg',  alt: '[Alt foto 6]',  title: '[Título 6]',  desc: '[Descripción de la foto 6.]' },
-      { index: 6,  src: './proyecto7.jpg',  alt: '[Alt foto 7]',  title: '[Título 7]',  desc: '[Descripción de la foto 7.]' },
-      { index: 7,  src: './proyecto8.jpg', alt: '[Alt foto 8]',  title: '[Título 8]',  desc: '[Descripción de la foto 8.]' },
-      { index: 8,  src: './proyecto0.jpg', alt: '[Alt foto 9]',  title: '[Título 9]',  desc: '[Descripción de la foto 9.]' },
-      { index: 9,  src: './proyecto10.jpg', alt: '[Alt foto 10]', title: '[Título 10]', desc: '[Descripción de la foto 10.]' },
-      { index: 10, src: './proyecto11.jpg', alt: '[Alt foto 11]', title: '[Título 11]', desc: '[Descripción de la foto 11.]' },
-      { index: 11, src: './proyecto12.jpg', alt: '[Alt foto 12]', title: '[Título 12]', desc: '[Descripción de la foto 12.]' },
-      { index: 12, src: './proyecto13.jpg', alt: '[Alt foto 13]', title: '[Título 13]', desc: '[Descripción de la foto 13.]' },
-      { index: 13, src: './proyecto14.jpg', alt: '[Alt foto 14]', title: '[Título 14]', desc: '[Descripción de la foto 14.]' },
-      { index: 14, src: './proyecto15.jpg', alt: '[Alt foto 15]', title: '[Título 15]', desc: '[Descripción de la foto 15.]' },
+      { src: './espacio.jpg', alt: 'Espacio interior de Enough', title: 'Atmósfera', desc: 'Una imagen fundacional para la mirada de Enough: luz baja, silencio y materia.' },
+      { src: './proyecto3.jpg', alt: 'Fragmento arquitectónico 1', title: 'Trama', desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
+      { src: './proyecto4.jpg', alt: 'Fragmento arquitectónico 2', title: 'Presencia', desc: 'Un estudio visual sobre escala, densidad y tiempo.' },
+      { src: './proyecto5.jpg', alt: 'Fragmento arquitectónico 3', title: 'Reposo', desc: 'La calma como cualidad espacial y no solo como estilo.' },
+      { src: './proyecto6.jpg', alt: 'Fragmento arquitectónico 4', title: 'Materia', desc: 'Observación de acabados, tactilidad y peso visual.' },
+      { src: './proyecto7.jpg', alt: 'Fragmento arquitectónico 5', title: 'Umbral', desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
+      { src: './proyecto8.jpg', alt: 'Fragmento arquitectónico 6', title: 'Vacío', desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
+      { src: './proyecto9.jpg', alt: 'Fragmento arquitectónico 7', title: 'Ritmo', desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
+      { src: './proyecto10.jpg', alt: 'Fragmento arquitectónico 8', title: 'Calma', desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
+      { src: './proyecto11.jpg', alt: 'Fragmento arquitectónico 9', title: 'Tensión', desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
+      { src: './proyecto12.jpg', alt: 'Fragmento arquitectónico 10', title: 'Silencio', desc: 'Espacios que no necesitan exceso para sentirse completos.' },
+      { src: './proyecto14.jpg', alt: 'Fragmento arquitectónico 11', title: 'Huella', desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
+      { src: './proyecto15.jpg', alt: 'Fragmento arquitectónico 12', title: 'Densidad', desc: 'Capas de materia y sombra que agregan espesor emocional.' },
+      { src: './proyecto16.jpg', alt: 'Fragmento arquitectónico 13', title: 'Temperatura', desc: 'El color del ambiente también construye una forma de habitar.' },
+      { src: './proyecto22.jpg', alt: 'Fragmento arquitectónico 14', title: 'Luz', desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
+      { src: './proyecto23.jpg', alt: 'Fragmento arquitectónico 15', title: 'Archivo', desc: 'Cada imagen funciona como una pieza de un archivo en formación.' }
     ];
 
-    galeriaGrid.innerHTML = items.map(item => `
-      <div class="foto" data-index="${item.index}">
+    galeriaGrid.innerHTML = items.map((item, index) => `
+      <button class="foto" type="button" data-index="${index}">
         <div class="foto-wrap"><img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async"></div>
         <div class="foto-desc">
           <h3>${item.title}</h3>
           <p>${item.desc}</p>
         </div>
-      </div>
+      </button>
     `).join('');
 
     const fotos = Array.from(document.querySelectorAll('.foto'));
-    const overlay = document.getElementById('lightbox');
-    const lbImg   = document.getElementById('lb-img');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
     const lbTitle = document.getElementById('lb-title');
-    const lbDesc  = document.getElementById('lb-desc');
-    const lbCount = document.getElementById('lb-counter');
+    const lbDesc = document.getElementById('lb-desc');
+    const lbCounter = document.getElementById('lb-counter');
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev = document.getElementById('lb-prev');
+    const lbNext = document.getElementById('lb-next');
+    let currentIndex = 0;
 
-    let current = 0;
-
-    function getData(index) {
-      const el = fotos[index];
-      return {
-        src:   el.querySelector('img').src,
-        alt:   el.querySelector('img').alt,
-        title: el.querySelector('h3').textContent,
-        desc:  el.querySelector('p').textContent,
-      };
+    function renderLightbox(index) {
+      const item = items[index];
+      if (!item) return;
+      currentIndex = index;
+      lbImg.src = item.src;
+      lbImg.alt = item.alt;
+      lbTitle.textContent = item.title;
+      lbDesc.textContent = item.desc;
+      lbCounter.textContent = `${index + 1} / ${items.length}`;
     }
 
-    function open(index) {
-      current = index;
-      update();
-      overlay.classList.add('open');
+    function openLightbox(index) {
+      renderLightbox(index);
+      lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
-    function close() {
-      overlay.classList.remove('open');
+    function closeLightbox() {
+      lightbox.classList.remove('open');
       document.body.style.overflow = '';
     }
 
-    function update() {
-      const d = getData(current);
-      lbImg.style.opacity = '0';
-      setTimeout(() => {
-        lbImg.src           = d.src;
-        lbImg.alt           = d.alt;
-        lbTitle.textContent = d.title;
-        lbDesc.textContent  = d.desc;
-        lbCount.textContent = (current + 1) + ' / ' + fotos.length;
-        lbImg.style.opacity = '1';
-        lbDesc.scrollTop    = 0;
-      }, 150);
+    function stepLightbox(direction) {
+      currentIndex = (currentIndex + direction + items.length) % items.length;
+      renderLightbox(currentIndex);
     }
 
-    function prev() { current = (current - 1 + fotos.length) % fotos.length; update(); }
-    function next() { current = (current + 1) % fotos.length; update(); }
-
-    fotos.forEach((el, i) => el.addEventListener('click', () => open(i)));
-    document.getElementById('lb-close').addEventListener('click', close);
-    document.getElementById('lb-prev').addEventListener('click', prev);
-    document.getElementById('lb-next').addEventListener('click', next);
-
-    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-
-    document.addEventListener('keydown', e => {
-      if (!overlay.classList.contains('open')) return;
-      if (e.key === 'Escape')     close();
-      if (e.key === 'ArrowLeft')  prev();
-      if (e.key === 'ArrowRight') next();
+    fotos.forEach(foto => {
+      foto.addEventListener('click', () => openLightbox(Number(foto.dataset.index)));
     });
 
-    /* ── CURSOR ── */
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', () => stepLightbox(-1));
+    lbNext.addEventListener('click', () => stepLightbox(1));
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') stepLightbox(-1);
+      if (e.key === 'ArrowRight') stepLightbox(1);
+    });
+
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';

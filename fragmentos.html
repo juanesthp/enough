@@ -112,11 +112,11 @@
         }
 
         .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 400;
-            font-size: 1.5rem;
-            letter-spacing: 0.05em;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 200;
+            font-size: 14px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
             text-decoration: none;
             color: var(--dark);
         }
@@ -280,6 +280,7 @@
             letter-spacing: 0.01em;
             line-height: 1.1;
             transition: color 0.5s ease, letter-spacing 0.5s ease;
+            text-transform: uppercase;
         }
 
         .fragmento-link:hover .fragmento-ancla {
@@ -348,6 +349,7 @@
             letter-spacing: 0.01em;
             margin-bottom: 4rem;
             text-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+            text-transform: uppercase;
         }
 
         .detail-rule {
@@ -396,11 +398,12 @@
         /* Footer mark */
         .footer-mark {
             text-align: center;
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 0.85rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: 200;
             color: var(--dark-faint);
-            letter-spacing: 0.3em;
+            letter-spacing: 6px;
+            text-transform: uppercase;
             padding: 4rem 0 2rem;
             text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
         }
@@ -455,33 +458,29 @@
 
 
     <script>
-        /* ============================================================
-           FRAGMENTOS — Para añadir uno nuevo:
-           Copia un bloque { numero, ancla, texto } y edítalo.
-           El "numero" es en romanos (I, II, III, IV, V, VI, VII...).
-           El "texto" puede tener varios párrafos: separa cada uno con \n\n.
-           Los nuevos fragmentos aparecerán al inicio de la lista.
-           ============================================================ */
-
+        
         const fragmentos = [
             {
                 numero: "I",
-                ancla: "Distancia",
-                texto: `Hay una arquitectura de las amistades que terminan. Primero el espacio común se llena de muebles que ya nadie mueve. Después las ventanas dejan de abrirse.
-
-Un día la puerta se cierra desde el otro lado, y entiendes —tarde— que llevabas meses viviendo en una casa que ya no existía.`
-            }
-            // Para añadir otro fragmento, descomenta y edita:
-            // ,{
-            //     numero: "II",
-            //     ancla: "Umbral",
-            //     texto: `Tu texto aquí. Puede tener varios párrafos.\n\nSepáralos con doble salto de línea.`
-            // }
+                ancla: "Ausencia",
+                texto: `Hay espacios que no se habitan con el cuerpo, sino con la falta de él. Un lugar diseñado para alguien que ya no está es, en realidad, un monumento al aire que quedó atrapado entre cuatro paredes.`
+            },
+            {
+                numero: "II",
+                ancla: "Sombra",
+                texto: `La luz nos muestra lo que somos, pero es la sombra la que nos da profundidad. Un cuarto sin rincones oscuros es un espacio sin secretos; una superficie plana donde el alma no tiene dónde esconderse.`
+            },
+          {
+                numero: "III",
+                ancla: "Umbral",
+                texto: `El umbral es un espacio de transición, un lugar que no es ni aquí ni allá. Es el aire que se respira justo antes de entrar a una habitación, la pausa entre el mundo exterior y el interior. Un buen umbral prepara el cuerpo para lo que viene, como un suspiro que anuncia un cambio de escena.`
+          },
+          {
+                numero: "IV",
+                ancla: "Atmósfera",
+                texto: `La atmósfera de un espacio es su esencia intangible. No se puede tocar, pero se siente en cada rincón. Es la suma de la luz, el sonido, el olor y la temperatura; el eco de las personas que lo habitan y las historias que han dejado en sus paredes.`
+          }
         ];
-
-        /* ============================================================
-           Renderizado del índice
-           ============================================================ */
 
         const fragmentosList = document.getElementById('fragmentosList');
         const indexView = document.getElementById('indexView');
@@ -571,9 +570,6 @@ Un día la puerta se cierra desde el otro lado, y entiendes —tarde— que llev
         renderIndex();
         initFromHash();
 
-        /* ============================================================
-           Custom cursor
-           ============================================================ */
 
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', e => {
