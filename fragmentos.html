@@ -18,16 +18,11 @@
             --dark-faint: rgba(244, 237, 227, 0.2);
             --hairline: rgba(244, 237, 227, 0.12);
             --panel: rgba(19, 19, 28, 0.78);
-            --panel-strong: rgba(12, 12, 18, 0.92);
             --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.28);
             --shadow-deep: 0 40px 100px rgba(0, 0, 0, 0.48);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             background-color: var(--cream);
@@ -40,7 +35,6 @@
         }
 
         body {
-            position: relative;
             background:
                 radial-gradient(circle at 20% 18%, rgba(199, 167, 114, 0.12), transparent 24%),
                 radial-gradient(circle at 82% 28%, rgba(88, 88, 124, 0.2), transparent 28%),
@@ -48,8 +42,7 @@
                 linear-gradient(180deg, #0b0b12 0%, #09090f 45%, #06060a 100%);
         }
 
-        body::before,
-        body::after {
+        body::before, body::after {
             content: '';
             position: fixed;
             pointer-events: none;
@@ -57,37 +50,16 @@
             filter: blur(70px);
             opacity: 0.65;
         }
+        body::before { top: 10vh; left: -80px; width: 240px; height: 240px; background: rgba(199, 167, 114, 0.08); }
+        body::after  { right: -80px; bottom: 10vh; width: 280px; height: 280px; background: rgba(92, 92, 150, 0.14); }
 
-        body::before {
-            top: 10vh;
-            left: -80px;
-            width: 240px;
-            height: 240px;
-            background: rgba(199, 167, 114, 0.08);
-        }
-
-        body::after {
-            right: -80px;
-            bottom: 10vh;
-            width: 280px;
-            height: 280px;
-            background: rgba(92, 92, 150, 0.14);
-        }
-
-        /* Custom cursor — matches the rest of Enough */
         .cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             transition: transform .15s ease;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             mix-blend-mode: difference;
-        }
-
-        .cursor line {
-            stroke: var(--dark);
-            transition: stroke 0.2s ease;
         }
 
         @media (max-width: 768px) {
@@ -95,74 +67,38 @@
             html, body { cursor: auto; }
         }
 
-        /* Navigation */
+        /* ── NAV — mismo patrón que todas las otras páginas ── */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem 3rem;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(9, 9, 15, 0.96) 52%, rgba(9, 9, 15, 0));
+            padding: 1.5rem 4rem;
+            background: rgba(9, 9, 15, 0.94);
             backdrop-filter: blur(14px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
         }
-
-        .nav-logo {
-            font-family: 'Raleway', sans-serif;
-            font-weight: 200;
-            font-size: 14px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
+        nav a {
             text-decoration: none;
             color: var(--dark);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-size: 0.75rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
+            font-size: 12px;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            position: relative;
-            padding-bottom: 4px;
+            border-bottom: none;
+            transition: opacity .2s;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--gold);
-            transition: width 0.4s ease;
-        }
-
-        .nav-links a:hover::after,
-        .nav-links a.active::after { width: 100%; }
-        .nav-links a.active { color: var(--gold); }
+        nav a:hover { opacity: .55; }
+        nav a[aria-current="page"] { border-bottom: 1px solid rgba(244, 237, 227, .35); padding-bottom: 2px; }
+        .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; border-bottom: none; margin-right: 40px; }
 
         @media (max-width: 768px) {
-            nav { padding: 1.5rem; }
-            .nav-links { gap: 1rem; }
-            .nav-links a { font-size: 0.65rem; letter-spacing: 0.15em; }
-            .index-header,
-            .detail-container { padding: 2rem 1.5rem; }
-            .fragmento-item { padding: 2.2rem 1.4rem; }
+            nav { padding: 1rem 1.5rem; gap: 1rem; }
+            nav a { font-size: 0.65rem; letter-spacing: 0.10em; }
+            .logo { margin-right: 0; }
         }
 
-        /* ——— INDEX VIEW ——— */
+        /* ── INDEX VIEW ── */
         .index-view {
             position: relative;
             z-index: 1;
@@ -174,12 +110,11 @@
             opacity: 0;
             animation: fadeIn 1.6s ease forwards;
         }
-
         .index-view.hidden { display: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .index-header {
@@ -188,11 +123,10 @@
             max-width: 580px;
             padding: 3rem 2.75rem;
             border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
             box-shadow: var(--shadow-soft);
             backdrop-filter: blur(12px);
         }
-
         .index-title {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
@@ -201,9 +135,8 @@
             letter-spacing: 0.02em;
             margin-bottom: 2rem;
             line-height: 1;
-            text-shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
+            text-shadow: 0 18px 36px rgba(0,0,0,.34);
         }
-
         .index-epigraph {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
@@ -213,7 +146,6 @@
             letter-spacing: 0.03em;
             line-height: 1.7;
         }
-
         .index-rule {
             width: 1px;
             height: 80px;
@@ -230,37 +162,23 @@
             max-width: 720px;
             list-style: none;
         }
-
         .fragmento-item {
             width: 100%;
             padding: 3rem 2.5rem;
             border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
+            background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
             text-align: center;
             position: relative;
             box-shadow: var(--shadow-soft);
-            transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
+            transition: transform .45s ease, box-shadow .45s ease, border-color .45s ease;
         }
-
-        .fragmento-item + .fragmento-item {
-            margin-top: 1.2rem;
-        }
-
-        .fragmento-item:first-child { border-top: 1px solid var(--hairline); }
-
-        .fragmento-link {
-            text-decoration: none;
-            color: var(--dark);
-            display: block;
-            transition: opacity 0.5s ease;
-        }
-
+        .fragmento-item + .fragmento-item { margin-top: 1.2rem; }
+        .fragmento-link { text-decoration: none; color: var(--dark); display: block; }
         .fragmento-item:hover {
             transform: translateY(-4px);
             border-color: rgba(199, 167, 114, 0.28);
             box-shadow: var(--shadow-deep);
         }
-
         .fragmento-numero {
             font-family: 'Raleway', sans-serif;
             font-size: 0.7rem;
@@ -271,7 +189,6 @@
             margin-bottom: 1.5rem;
             display: block;
         }
-
         .fragmento-ancla {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
@@ -279,16 +196,14 @@
             font-size: clamp(2rem, 4vw, 3rem);
             letter-spacing: 0.01em;
             line-height: 1.1;
-            transition: color 0.5s ease, letter-spacing 0.5s ease;
+            transition: color .5s ease, letter-spacing .5s ease;
             text-transform: uppercase;
         }
-
         .fragmento-link:hover .fragmento-ancla {
             color: var(--gold);
             letter-spacing: 0.04em;
-            text-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+            text-shadow: 0 10px 28px rgba(0,0,0,.32);
         }
-
         .empty-state {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
@@ -302,7 +217,7 @@
             box-shadow: var(--shadow-soft);
         }
 
-        /* ——— DETAIL VIEW ——— */
+        /* ── DETAIL VIEW ── */
         .detail-view {
             display: none;
             min-height: 100vh;
@@ -313,23 +228,20 @@
             position: relative;
             z-index: 1;
         }
-
         .detail-view.active {
             display: flex;
             animation: fadeIn 1s ease forwards;
         }
-
         .detail-container {
             max-width: 620px;
             width: 100%;
             text-align: center;
             padding: 3.5rem 3rem;
             border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
             box-shadow: var(--shadow-deep);
             backdrop-filter: blur(14px);
         }
-
         .detail-numero {
             font-family: 'Raleway', sans-serif;
             font-size: 0.7rem;
@@ -339,7 +251,6 @@
             text-transform: uppercase;
             margin-bottom: 2rem;
         }
-
         .detail-ancla {
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
@@ -348,17 +259,15 @@
             line-height: 1;
             letter-spacing: 0.01em;
             margin-bottom: 4rem;
-            text-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+            text-shadow: 0 18px 40px rgba(0,0,0,.34);
             text-transform: uppercase;
         }
-
         .detail-rule {
             width: 60px;
             height: 1px;
             background-color: var(--gold);
             margin: 0 auto 4rem;
         }
-
         .detail-texto {
             font-family: 'Cormorant Garamond', serif;
             font-weight: 300;
@@ -368,13 +277,8 @@
             text-align: left;
             color: rgba(244, 237, 227, 0.92);
         }
-
-        .detail-texto p {
-            margin-bottom: 1.5rem;
-        }
-
+        .detail-texto p { margin-bottom: 1.5rem; }
         .detail-texto p:last-child { margin-bottom: 0; }
-
         .detail-back {
             display: inline-block;
             margin-top: 6rem;
@@ -386,16 +290,10 @@
             text-transform: uppercase;
             padding-bottom: 4px;
             border-bottom: 1px solid transparent;
-            transition: color 0.4s ease, border-color 0.4s ease, letter-spacing 0.4s ease;
+            transition: color .4s ease, border-color .4s ease, letter-spacing .4s ease;
         }
+        .detail-back:hover { color: var(--gold); border-color: var(--gold); letter-spacing: 0.35em; }
 
-        .detail-back:hover {
-            color: var(--gold);
-            border-color: var(--gold);
-            letter-spacing: 0.35em;
-        }
-
-        /* Footer mark */
         .footer-mark {
             text-align: center;
             font-family: 'Raleway', sans-serif;
@@ -405,7 +303,6 @@
             letter-spacing: 6px;
             text-transform: uppercase;
             padding: 4rem 0 2rem;
-            text-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
         }
     </style>
 </head>
@@ -417,35 +314,26 @@
     </svg>
 
     <nav>
-        <a href="index.html" class="nav-logo">Enough</a>
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="galeria.html">Galería</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="sobre.html">Sobre</a></li>
-            <li><a href="fragmentos.html" class="active">Fragmentos</a></li>
-        </ul>
+        <a href="index.html" class="logo">Enough</a>
+        <a href="index.html#filosofia">Filosofía</a>
+        <a href="galeria.html">Galería</a>
+        <a href="blog.html">Blog</a>
+        <a href="fragmentos.html" aria-current="page">Fragmentos</a>
+        <a href="sobre.html">Sobre mí</a>
+        <a href="index.html#servicios">Servicios</a>
+        <a href="index.html#contacto">Contacto</a>
     </nav>
 
-    <!-- INDEX VIEW -->
     <main class="index-view" id="indexView">
         <header class="index-header">
             <h1 class="index-title">Fragmentos</h1>
-            <p class="index-epigraph">
-                Un cuaderno. Notas sobre atmósferas, ausencias y umbrales.
-            </p>
+            <p class="index-epigraph">Un cuaderno. Notas sobre atmósferas, ausencias y umbrales.</p>
         </header>
-
         <div class="index-rule"></div>
-
-        <ul class="fragmentos-list" id="fragmentosList">
-            <!-- Generated by JS -->
-        </ul>
-
+        <ul class="fragmentos-list" id="fragmentosList"></ul>
         <div class="footer-mark">Enough</div>
     </main>
 
-    <!-- DETAIL VIEW -->
     <main class="detail-view" id="detailView">
         <article class="detail-container">
             <div class="detail-numero" id="detailNumero"></div>
@@ -456,9 +344,7 @@
         </article>
     </main>
 
-
     <script>
-        
         const fragmentos = [
             {
                 numero: "I",
@@ -470,32 +356,38 @@
                 ancla: "Sombra",
                 texto: `La luz nos muestra lo que somos, pero es la sombra la que nos da profundidad. Un cuarto sin rincones oscuros es un espacio sin secretos; una superficie plana donde el alma no tiene dónde esconderse.`
             },
-          {
+            {
                 numero: "III",
                 ancla: "Umbral",
                 texto: `El umbral es un espacio de transición, un lugar que no es ni aquí ni allá. Es el aire que se respira justo antes de entrar a una habitación, la pausa entre el mundo exterior y el interior. Un buen umbral prepara el cuerpo para lo que viene, como un suspiro que anuncia un cambio de escena.`
-          },
-          {
+            },
+            {
                 numero: "IV",
                 ancla: "Atmósfera",
                 texto: `La atmósfera de un espacio es su esencia intangible. No se puede tocar, pero se siente en cada rincón. Es la suma de la luz, el sonido, el olor y la temperatura; el eco de las personas que lo habitan y las historias que han dejado en sus paredes.`
-          }
+            }
         ];
 
         const fragmentosList = document.getElementById('fragmentosList');
-        const indexView = document.getElementById('indexView');
-        const detailView = document.getElementById('detailView');
-        const detailNumero = document.getElementById('detailNumero');
-        const detailAncla = document.getElementById('detailAncla');
-        const detailTexto = document.getElementById('detailTexto');
-        const detailBack = document.getElementById('detailBack');
+        const indexView      = document.getElementById('indexView');
+        const detailView     = document.getElementById('detailView');
+        const detailNumero   = document.getElementById('detailNumero');
+        const detailAncla    = document.getElementById('detailAncla');
+        const detailTexto    = document.getElementById('detailTexto');
+        const detailBack     = document.getElementById('detailBack');
+
+        function slugify(text) {
+            return text.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+        }
 
         function renderIndex() {
             if (fragmentos.length === 0) {
                 fragmentosList.innerHTML = '<li class="empty-state">Aún sin fragmentos.</li>';
                 return;
             }
-
             fragmentosList.innerHTML = fragmentos.map((f, i) => `
                 <li class="fragmento-item">
                     <a href="#${slugify(f.ancla)}" class="fragmento-link" data-index="${i}">
@@ -515,19 +407,12 @@
             });
         }
 
-        function slugify(text) {
-            return text.toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
-        }
-
         function showDetail(index) {
             const f = fragmentos[index];
             if (!f) return;
             detailNumero.textContent = `Fragmento ${f.numero}`;
-            detailAncla.textContent = f.ancla;
-            detailTexto.innerHTML = f.texto
+            detailAncla.textContent  = f.ancla;
+            detailTexto.innerHTML    = f.texto
                 .split('\n\n')
                 .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
                 .join('');
@@ -548,8 +433,7 @@
             history.pushState({ view: 'index' }, '', window.location.pathname);
         });
 
-        // Manejar back/forward del navegador
-        window.addEventListener('popstate', (e) => {
+        window.addEventListener('popstate', () => {
             const hash = window.location.hash.replace('#', '');
             if (hash) {
                 const idx = fragmentos.findIndex(f => slugify(f.ancla) === hash);
@@ -558,7 +442,6 @@
             showIndex();
         });
 
-        // Cargar fragmento si hay hash en la URL
         function initFromHash() {
             const hash = window.location.hash.replace('#', '');
             if (hash) {
@@ -569,7 +452,6 @@
 
         renderIndex();
         initFromHash();
-
 
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', e => {

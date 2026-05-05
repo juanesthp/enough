@@ -38,10 +38,7 @@
     }
 
     * { cursor: none; }
-    .cursor {
-      position: fixed; pointer-events: none; z-index: 9999;
-      transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference;
-    }
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference; }
 
     nav {
       position: fixed;
@@ -65,43 +62,13 @@
     }
     nav a:hover { opacity: .55; }
     nav a[aria-current="page"] { border-bottom: 1px solid rgba(244,237,227,.35); padding-bottom: 2px; }
-    .logo {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
-      text-transform: uppercase;
-      border-bottom: none;
-      margin-right: 40px;
-    }
+    .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; border-bottom: none; margin-right: 40px; }
 
-    .galeria-header {
-      margin-top: 8rem;
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-    .section-label {
-      font-size: 11px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      font-weight: 300;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      color: var(--text);
-    }
+    .galeria-header { margin-top: 8rem; margin-bottom: 3rem; text-align: center; }
+    .section-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; letter-spacing: 8px; text-transform: uppercase; color: var(--text); }
 
-    .grid {
-      columns: 2;
-      column-gap: 2rem;
-      margin-top: 2rem;
-    }
-
+    .grid { columns: 2; column-gap: 2rem; margin-top: 2rem; }
     .foto {
       break-inside: avoid;
       margin-bottom: 2rem;
@@ -110,65 +77,27 @@
       box-shadow: var(--shadow-soft);
       transition: transform .25s ease, border-color .25s ease;
     }
-    .foto:hover {
-      transform: translateY(-2px);
-      border-color: rgba(199,167,114,.26);
-    }
+    .foto:hover { transform: translateY(-2px); border-color: rgba(199,167,114,.26); }
     .foto-wrap { overflow: hidden; }
-    .foto img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      transition: transform .6s ease;
-    }
+    .foto img { width: 100%; height: auto; object-fit: contain; display: block; transition: transform .6s ease; }
     .foto:hover img { transform: scale(1.03); }
-    .foto-desc {
-      padding: 1rem 1rem 1.2rem;
-      border-top: 1px solid var(--line);
-    }
-    .foto-desc h3 {
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .foto-desc p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
+    .foto-desc { padding: 1rem 1rem 1.2rem; border-top: 1px solid var(--line); }
+    .foto-desc h3 { font-size: 13px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--text); margin-bottom: 6px; }
+    .foto-desc p { font-size: 13px; color: var(--muted); line-height: 1.8; }
 
     .lb-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
+      position: fixed; inset: 0; z-index: 999;
       background: rgba(6,6,10,.97);
-      display: flex;
-      align-items: stretch;
-      opacity: 0;
-      pointer-events: none;
+      display: flex; align-items: stretch;
+      opacity: 0; pointer-events: none;
       transition: opacity .35s ease;
     }
     .lb-overlay.open { opacity: 1; pointer-events: all; }
-    .lb-media {
-      flex: 2;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .lb-media img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
+    .lb-media { flex: 2; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .lb-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .lb-prev, .lb-next {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      background: none; border: none;
-      color: rgba(244,237,227,.3);
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: rgba(244,237,227,.3);
       font-size: 28px; font-family: Raleway, sans-serif; font-weight: 200;
       padding: 1rem; transition: color .2s; z-index: 2;
     }
@@ -177,35 +106,18 @@
     .lb-prev:hover, .lb-next:hover { color: var(--text); }
     .lb-info {
       flex: 1; min-width: 300px; max-width: 380px;
-      padding: 4rem 3rem;
-      display: flex; flex-direction: column;
+      padding: 4rem 3rem; display: flex; flex-direction: column;
       border-left: 1px solid rgba(244,237,227,.06);
-      overflow-y: auto;
-      background: rgba(255,255,255,.02);
+      overflow-y: auto; background: rgba(255,255,255,.02);
     }
-    .lb-label {
-      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 2rem; display: block;
-    }
-    .lb-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem; font-weight: 300;
-      letter-spacing: 4px; text-transform: uppercase;
-      color: var(--text); margin-bottom: 2rem; line-height: 1.2;
-    }
-    .lb-desc {
-      font-size: 14px; color: var(--muted);
-      line-height: 2; flex: 1; overflow-y: auto; padding-right: .5rem;
-    }
-    .lb-counter {
-      margin-top: 2rem; font-size: 11px; letter-spacing: .15em;
-      color: rgba(244,237,227,.2); flex-shrink: 0;
-    }
+    .lb-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; display: block; }
+    .lb-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: var(--text); margin-bottom: 2rem; line-height: 1.2; }
+    .lb-desc { font-size: 14px; color: var(--muted); line-height: 2; flex: 1; overflow-y: auto; padding-right: .5rem; }
+    .lb-counter { margin-top: 2rem; font-size: 11px; letter-spacing: .15em; color: rgba(244,237,227,.2); flex-shrink: 0; }
     .lb-close {
       position: fixed; top: 1.5rem; right: 2rem;
-      background: none; border: none;
-      color: rgba(244,237,227,.4); font-size: 28px;
-      transition: color .2s; font-weight: 200;
+      background: none; border: none; color: rgba(244,237,227,.4);
+      font-size: 28px; transition: color .2s; font-weight: 200;
       line-height: 1; font-family: Raleway, sans-serif; z-index: 1001;
     }
     .lb-close:hover { color: var(--text); }
@@ -219,10 +131,7 @@
       margin-top: 4rem; letter-spacing: 2px;
       background: #07070b;
     }
-    footer .logo {
-      font-size: 14px; letter-spacing: 6px; font-weight: 200;
-      text-transform: uppercase; color: var(--faint);
-    }
+    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
 
     @media (max-width: 600px) {
       body { padding: 20px; }
@@ -234,10 +143,7 @@
       * { cursor: auto; }
       .lb-overlay { flex-direction: column; }
       .lb-media { flex: none; height: 50vh; }
-      .lb-info {
-        flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem;
-        border-left: none; border-top: 1px solid rgba(244,237,227,.06);
-      }
+      .lb-info { flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem; border-left: none; border-top: 1px solid rgba(244,237,227,.06); }
       .lb-title { font-size: 1.4rem; }
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
     }
@@ -255,6 +161,7 @@
     <a href="index.html#filosofia">Filosofía</a>
     <a href="galeria.html" aria-current="page">Galería</a>
     <a href="blog.html">Blog</a>
+    <a href="fragmentos.html">Fragmentos</a>
     <a href="sobre.html">Sobre mí</a>
     <a href="index.html#servicios">Servicios</a>
     <a href="index.html#contacto">Contacto</a>
@@ -265,19 +172,16 @@
       <span class="section-label">Fotografía</span>
       <h1>Galería</h1>
     </div>
-
     <div class="grid" id="galeria-grid"></div>
   </main>
 
   <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes de la galería">
     <button class="lb-close" id="lb-close" aria-label="Cerrar galería">×</button>
-
     <div class="lb-media">
       <img id="lb-img" src="" alt="">
       <button class="lb-prev" id="lb-prev" aria-label="Imagen anterior">←</button>
       <button class="lb-next" id="lb-next" aria-label="Siguiente imagen">→</button>
     </div>
-
     <div class="lb-info">
       <span class="lb-label">Enough · Fotografía</span>
       <h2 class="lb-title" id="lb-title"></h2>
@@ -296,42 +200,39 @@
     const galeriaGrid = document.getElementById('galeria-grid');
 
     const items = [
-      { src: './proyecto3.jpg', alt: 'Fragmento arquitectónico 1', title: 'Trama', desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
-      { src: './proyecto4.jpg', alt: 'Fragmento arquitectónico 2', title: 'Presencia', desc: 'Un estudio visual sobre escala, densidad y tiempo.' },
-      { src: './proyecto5.jpg', alt: 'Fragmento arquitectónico 3', title: 'Reposo', desc: 'La calma como cualidad espacial y no solo como estilo.' },
-      { src: './proyecto6.jpg', alt: 'Fragmento arquitectónico 4', title: 'Materia', desc: 'Observación de acabados, tactilidad y peso visual.' },
-      { src: './proyecto7.jpg', alt: 'Fragmento arquitectónico 5', title: 'Umbral', desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
-      { src: './proyecto8.jpg', alt: 'Fragmento arquitectónico 6', title: 'Vacío', desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
-      { src: './proyecto9.jpg', alt: 'Fragmento arquitectónico 7', title: 'Ritmo', desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
-      { src: './proyecto10.jpg', alt: 'Fragmento arquitectónico 8', title: 'Calma', desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
-      { src: './proyecto11.jpg', alt: 'Fragmento arquitectónico 9', title: 'Tensión', desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
-      { src: './proyecto12.jpg', alt: 'Fragmento arquitectónico 10', title: 'Silencio', desc: 'Espacios que no necesitan exceso para sentirse completos.' },
-      { src: './proyecto14.jpg', alt: 'Fragmento arquitectónico 11', title: 'Huella', desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
-      { src: './proyecto15.jpg', alt: 'Fragmento arquitectónico 12', title: 'Densidad', desc: 'Capas de materia y sombra que agregan espesor emocional.' },
+      { src: './proyecto3.jpg',  alt: 'Fragmento arquitectónico 1',  title: 'Trama',       desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
+      { src: './proyecto4.jpg',  alt: 'Fragmento arquitectónico 2',  title: 'Presencia',   desc: 'Un estudio visual sobre escala, densidad y tiempo.' },
+      { src: './proyecto5.jpg',  alt: 'Fragmento arquitectónico 3',  title: 'Reposo',      desc: 'La calma como cualidad espacial y no solo como estilo.' },
+      { src: './proyecto6.jpg',  alt: 'Fragmento arquitectónico 4',  title: 'Materia',     desc: 'Observación de acabados, tactilidad y peso visual.' },
+      { src: './proyecto7.jpg',  alt: 'Fragmento arquitectónico 5',  title: 'Umbral',      desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
+      { src: './proyecto8.jpg',  alt: 'Fragmento arquitectónico 6',  title: 'Vacío',       desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
+      { src: './proyecto9.jpg',  alt: 'Fragmento arquitectónico 7',  title: 'Ritmo',       desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
+      { src: './proyecto10.jpg', alt: 'Fragmento arquitectónico 8',  title: 'Calma',       desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
+      { src: './proyecto11.jpg', alt: 'Fragmento arquitectónico 9',  title: 'Tensión',     desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
+      { src: './proyecto12.jpg', alt: 'Fragmento arquitectónico 10', title: 'Silencio',    desc: 'Espacios que no necesitan exceso para sentirse completos.' },
+      { src: './proyecto14.jpg', alt: 'Fragmento arquitectónico 11', title: 'Huella',      desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
+      { src: './proyecto15.jpg', alt: 'Fragmento arquitectónico 12', title: 'Densidad',    desc: 'Capas de materia y sombra que agregan espesor emocional.' },
       { src: './proyecto16.jpg', alt: 'Fragmento arquitectónico 13', title: 'Temperatura', desc: 'El color del ambiente también construye una forma de habitar.' },
-      { src: './proyecto22.jpg', alt: 'Fragmento arquitectónico 14', title: 'Luz', desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
-      { src: './proyecto23.jpg', alt: 'Fragmento arquitectónico 15', title: 'Archivo', desc: 'Cada imagen funciona como una pieza de un archivo en formación.' }
+      { src: './proyecto22.jpg', alt: 'Fragmento arquitectónico 14', title: 'Luz',         desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
+      { src: './proyecto23.jpg', alt: 'Fragmento arquitectónico 15', title: 'Archivo',     desc: 'Cada imagen funciona como una pieza de un archivo en formación.' }
     ];
 
     galeriaGrid.innerHTML = items.map((item, index) => `
       <button class="foto" type="button" data-index="${index}">
         <div class="foto-wrap"><img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async"></div>
-        <div class="foto-desc">
-          <h3>${item.title}</h3>
-          <p>${item.desc}</p>
-        </div>
+        <div class="foto-desc"><h3>${item.title}</h3><p>${item.desc}</p></div>
       </button>
     `).join('');
 
     const fotos = Array.from(document.querySelectorAll('.foto'));
     const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const lbTitle = document.getElementById('lb-title');
-    const lbDesc = document.getElementById('lb-desc');
-    const lbCounter = document.getElementById('lb-counter');
-    const lbClose = document.getElementById('lb-close');
-    const lbPrev = document.getElementById('lb-prev');
-    const lbNext = document.getElementById('lb-next');
+    const lbImg    = document.getElementById('lb-img');
+    const lbTitle  = document.getElementById('lb-title');
+    const lbDesc   = document.getElementById('lb-desc');
+    const lbCounter= document.getElementById('lb-counter');
+    const lbClose  = document.getElementById('lb-close');
+    const lbPrev   = document.getElementById('lb-prev');
+    const lbNext   = document.getElementById('lb-next');
     let currentIndex = 0;
 
     function renderLightbox(index) {
@@ -344,34 +245,25 @@
       lbDesc.textContent = item.desc;
       lbCounter.textContent = `${index + 1} / ${items.length}`;
     }
-
     function openLightbox(index) {
       renderLightbox(index);
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
-
     function closeLightbox() {
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
     }
-
     function stepLightbox(direction) {
       currentIndex = (currentIndex + direction + items.length) % items.length;
       renderLightbox(currentIndex);
     }
 
-    fotos.forEach(foto => {
-      foto.addEventListener('click', () => openLightbox(Number(foto.dataset.index)));
-    });
-
+    fotos.forEach(foto => { foto.addEventListener('click', () => openLightbox(Number(foto.dataset.index))); });
     lbClose.addEventListener('click', closeLightbox);
     lbPrev.addEventListener('click', () => stepLightbox(-1));
     lbNext.addEventListener('click', () => stepLightbox(1));
-    lightbox.addEventListener('click', e => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('open')) return;
       if (e.key === 'Escape') closeLightbox();
