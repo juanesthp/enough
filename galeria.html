@@ -24,7 +24,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--bg); }
+    html { background: var(--bg); scroll-padding-top: 8rem; }
     body {
       background:
         radial-gradient(circle at top left, rgba(199,167,114,.12), transparent 24%),
@@ -133,19 +133,55 @@
     }
     footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
 
-    @media (max-width: 600px) {
-      body { padding: 20px; }
-      nav { padding: 1rem 1.5rem; gap: 1rem; }
-      nav a { font-size: 10px; }
-      .logo { margin-right: 0; }
-      .grid { columns: 1; }
+    @media (max-width: 920px) {
+      body { padding: 28px; }
+      nav {
+        position: sticky;
+        top: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: .75rem 1.1rem;
+        padding: 1rem 1.5rem;
+      }
+      nav a { font-size: 10px; letter-spacing: 0.08em; }
+      .logo { width: 100%; margin-right: 0; text-align: center; }
+      .galeria-header { margin-top: 4rem; margin-bottom: 2rem; }
+      .grid { column-gap: 1.25rem; }
+      .lb-overlay { flex-direction: column; overflow-y: auto; }
+      .lb-media { flex: none; min-height: 54vh; }
+      .lb-info {
+        min-width: unset;
+        max-width: unset;
+        padding: 2rem;
+        border-left: none;
+        border-top: 1px solid rgba(244,237,227,.06);
+      }
+      .lb-close { top: 1rem; right: 1rem; }
+      footer {
+        width: auto;
+        margin-left: -28px;
+        margin-right: -28px;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 2rem;
+      }
       .cursor { display: none; }
       * { cursor: auto; }
-      .lb-overlay { flex-direction: column; }
-      .lb-media { flex: none; height: 50vh; }
-      .lb-info { flex: 1; min-width: unset; max-width: unset; padding: 2rem 1.5rem; border-left: none; border-top: 1px solid rgba(244,237,227,.06); }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 20px; }
+      nav { gap: .65rem .9rem; padding: .9rem 1rem; }
+      nav a { font-size: 9px; }
+      .grid { columns: 1; }
+      .lb-media { min-height: 46vh; }
+      .lb-info { padding: 1.75rem 1.25rem; }
       .lb-title { font-size: 1.4rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+      footer {
+        margin-left: -20px;
+        margin-right: -20px;
+      }
     }
   </style>
 </head>
