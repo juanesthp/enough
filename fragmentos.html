@@ -97,13 +97,23 @@
             nav {
                 position: sticky;
                 top: 0;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: .75rem 1.1rem;
-                padding: 1rem 1.5rem;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                gap: .9rem;
+                padding: .95rem 1.2rem;
+                background: linear-gradient(to bottom, rgba(9,9,15,.96) 0%, rgba(9,9,15,.82) 56%, rgba(9,9,15,0) 100%);
+                backdrop-filter: none;
+                overflow-x: auto;
+                overflow-y: hidden;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                box-shadow: none;
             }
+            nav::-webkit-scrollbar { display: none; }
             nav a { font-size: 0.65rem; letter-spacing: 0.10em; }
-            .logo { width: 100%; margin-right: 0; text-align: center; }
+            nav a { flex: 0 0 auto; }
+            .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
             .index-view,
             .detail-view { padding-top: 8rem; }
             .index-header {
@@ -116,7 +126,7 @@
         }
 
         @media (max-width: 640px) {
-            nav { gap: .65rem .9rem; padding: .9rem 1rem; }
+            nav { gap: .8rem; padding: .9rem 1rem; }
             nav a { font-size: 0.58rem; letter-spacing: 0.08em; }
             .index-view,
             .detail-view { padding: 7rem 1rem 4rem; }
