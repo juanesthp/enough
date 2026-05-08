@@ -100,7 +100,7 @@
                 flex-wrap: nowrap;
                 justify-content: flex-start;
                 gap: .9rem;
-                padding: .95rem 5.6rem .95rem 1.2rem;
+                padding: .95rem 1.2rem;
                 background: linear-gradient(to bottom, rgba(9,9,15,.96) 0%, rgba(9,9,15,.82) 56%, rgba(9,9,15,0) 100%);
                 backdrop-filter: none;
                 overflow-x: auto;
@@ -109,27 +109,6 @@
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
                 box-shadow: none;
-            }
-            nav::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                width: 5.4rem;
-                background: linear-gradient(to right, rgba(9,9,15,0), rgba(9,9,15,.94));
-                pointer-events: none;
-            }
-            nav::after {
-                content: '→';
-                position: absolute;
-                top: 50%;
-                right: .95rem;
-                transform: translateY(-50%);
-                font-size: 16px;
-                line-height: 1;
-                color: rgba(244,237,227,.58);
-                pointer-events: none;
             }
             nav::-webkit-scrollbar { display: none; }
             nav a { font-size: 0.65rem; letter-spacing: 0.10em; }
@@ -148,9 +127,6 @@
 
         @media (max-width: 640px) {
             nav { gap: .8rem; padding: .9rem 1rem; }
-            nav { padding-right: 5rem; }
-            nav::before { width: 4.8rem; }
-            nav::after { right: .75rem; font-size: 14px; }
             nav a { font-size: 0.58rem; letter-spacing: 0.08em; }
             .index-view,
             .detail-view { padding: 7rem 1rem 4rem; }
