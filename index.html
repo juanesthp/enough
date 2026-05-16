@@ -292,15 +292,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 92px;
-      padding: 1.1rem .9rem;
-      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+      min-width: 28px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
-    .cd-digit { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; color: var(--text); letter-spacing: 4px; line-height: 1; }
-    .cd-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: .5rem; }
-    .cd-tick { opacity: .4; transition: opacity .15s ease; }
+    .cd-digit { font-family: 'Cormorant Garamond', serif; font-size: clamp(.8rem, 1.2vw, 1rem); font-weight: 300; color: rgba(239,230,216,.42); letter-spacing: .5px; line-height: 1; }
+    .cd-label { display: none; }
+    .cd-tick { opacity: .55; transition: opacity .15s ease; }
 
     @media (max-width: 920px) {
       body { padding: 28px; overflow-x: hidden; }
@@ -431,17 +431,17 @@
 
   <main>
   <div class="hero">
-    <img src="./espacio2.jpg" alt="Enough" fetchpriority="high" draggable="false">
+    <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
     <div class="hero-content">
-      <span class="hero-label">Editorial · Archivo · Atmósfera</span>
+      <span class="hero-label">Editorial · Archivo · Inercia</span>
       <h1>Enough</h1>
-      <p class="hero-sub">Un archivo sobre atmósferas, materia y la forma de habitar el mundo.</p>
+      <p class="hero-sub">...</p>
       <a href="#filosofia" class="btn-primary">Explorar visión</a>
     </div>
   </div>
 
-  <section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
-    <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 1.25rem;">
+  <section id="countdown" style="border-top: none; margin-top: -1.4rem; padding-top: 0; padding-bottom: 0;">
+    <div id="countdown-wrapper" style="display: flex; flex-direction: row; align-items: center; width: fit-content; margin-left: 4rem; gap: .35rem;">
       <div class="time-block"><span id="cd-days" class="cd-digit">00</span><span class="cd-label">Días</span></div>
       <div class="time-block"><span id="cd-hours" class="cd-digit">00</span><span class="cd-label">Horas</span></div>
       <div class="time-block"><span id="cd-minutes" class="cd-digit">00</span><span class="cd-label">Minutos</span></div>
@@ -458,10 +458,15 @@
         <span class="filosofia-anchor">Editorial · Archivo<br>Atmósfera</span>
       </div>
       <div class="filosofia-right">
-        <p>La gente confunde el costo con el carácter. Construye espacios que impresionan en fotos pero que no se sienten en persona — fríos, perfectos, vacíos de algo que no saben nombrar.</p>
-        <p>Zumthor llamó a eso atmósfera. La calidad de un espacio que te alcanza antes de que lo proceses — no la estructura, sino la luz que entra, la temperatura del aire, el sonido que absorbe el material. Esa presencia que algunos espacios tienen y otros no, sin importar cuánto costaron.</p>
-        <p>Enough nace de tomar eso en serio.</p>
-        <p>Porque la arquitectura no existe para impresionar — existe para transformar. Para mejorar la vida de quienes habitan ese espacio. Y cuando eso ocurre de verdad, no necesita explicarse.</p>
+        <p>La arquitectura contemporánea desarrolló una obsesión por verse bien antes que por sentirse real. Espacios diseñados para sobrevivir como imagen: impecables, costosos, perfectamente controlados. Y aun así, cuando entras en ellos, algo falta. El cuerpo lo percibe antes de entenderlo. Hay una frialdad difícil de nombrar.</p>
+        <p>Enough nace en dirección contraria.</p>
+        <p>No desde la idea de perfección, sino desde una atención casi obsesiva a la experiencia del espacio cuando todo se vuelve quieto. Cuando el ruido baja, los sentidos cambian. La arquitectura deja de percibirse únicamente con la mirada y empieza a sentirse en el cuerpo.</p>
+        <p>La sombra pesa.<br>El aire cambia de temperatura.<br>El concreto deja de ser un acabado y se vuelve presencia.<br>El vacío entre los objetos deja de verse vacío.</p>
+        <p>Ahí aparece algo que gran parte de la arquitectura actual ignora: la relación íntima entre el espacio y el estado de quien lo habita.</p>
+        <p>Enough no busca belleza en el sentido ornamental. Busca correspondencia. Honestidad. Espacios donde la materia no distraiga del silencio, sino que lo sostenga.</p>
+        <p>Hay lugares que no necesitan imponerse para permanecer. Un muro atravesado por luz tenue al final de la tarde. La densidad de una habitación en penumbra. El desgaste de una superficie que guarda tiempo. La quietud de un rincón donde la mirada finalmente puede descansar.</p>
+        <p>Este archivo nace desde ahí: no como un portafolio, sino como un registro. Una documentación de cómo la materia, la sombra y los objetos inmóviles pueden transformar la forma en que habitamos el tiempo y el vacío.</p>
+        <p>En esencia, Enough existe para observar aquello que permanece en el espacio entre la pared y el cuerpo que la mira.</p>
       </div>
     </div>
   </section>
@@ -526,13 +531,11 @@
   </footer>
 
   <script>
-    // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
@@ -540,7 +543,6 @@
       });
     });
 
-    // Intersection observer
     const elementos = document.querySelectorAll('section, .servicio');
     elementos.forEach(el => el.classList.add('aparece'));
     const observer = new IntersectionObserver((entries) => {
@@ -551,7 +553,6 @@
     }, { threshold: 0.1 });
     elementos.forEach(el => observer.observe(el));
 
-    // Cursor
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
@@ -562,14 +563,12 @@
       el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
     });
 
-    // Protect hero image
     const heroImage = document.querySelector('.hero img');
     if (heroImage) {
       heroImage.addEventListener('contextmenu', e => e.preventDefault());
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
 
-    // Countdown
     const targetDate = new Date('2026-10-05T00:00:00');
     function animateCD(id, value) {
       const el = document.getElementById(id);
