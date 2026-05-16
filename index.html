@@ -24,16 +24,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg: #07080a;
+      --bg-soft: #0d0f12;
+      --panel: rgba(255,255,255,.03);
+      --panel-strong: rgba(255,255,255,.05);
+      --text: #efe6d8;
+      --muted: rgba(239,230,216,.68);
+      --faint: rgba(239,230,216,.36);
+      --line: rgba(239,230,216,.1);
+      --gold: #b69a6a;
+      --gold-soft: #8f7750;
+      --shadow: 0 28px 70px rgba(0,0,0,.34);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-padding-top: 8rem; }
 
     body {
-      background-color: #f2efe9;
+      background:
+        radial-gradient(circle at top left, rgba(182,154,106,.12), transparent 22%),
+        radial-gradient(circle at 82% 18%, rgba(70,58,42,.18), transparent 28%),
+        linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
       font-family: Raleway, sans-serif;
       padding: 40px;
       max-width: 800px;
       margin: 0 auto;
       overflow-x: hidden;
+      color: var(--text);
     }
 
     nav {
@@ -44,23 +61,23 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.5rem 4rem;
-      background: transparent;
+      background: rgba(7,8,10,.2);
       transition: background .4s;
     }
     nav.scrolled {
-      background: rgba(242,239,233,.95);
-      backdrop-filter: blur(4px);
+      background: rgba(7,8,10,.92);
+      backdrop-filter: blur(10px);
     }
     nav a {
       text-decoration: none;
-      color: #f2efe9;
+      color: var(--text);
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       transition: color .25s;
       border-bottom: none;
     }
-    nav.scrolled a { color: #1a1a18; }
+    nav.scrolled a { color: var(--text); }
     nav a:hover { opacity: .6; }
     .logo {
       font-size: 14px;
@@ -87,7 +104,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 200px;
-      background: linear-gradient(to bottom, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 60%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%, rgba(0,0,0,.34) 58%, transparent 100%);
     }
     .hero img {
       width: 100%;
@@ -109,13 +126,13 @@
       font-size: 13px;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: #b8a88a;
+      color: var(--gold);
       margin-bottom: 1rem;
       display: block;
     }
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
-      color: #f2efe9;
+      color: var(--text);
       text-align: left;
       margin-bottom: 1rem;
       font-size: clamp(3.5rem, 8vw, 7rem);
@@ -124,7 +141,7 @@
       text-transform: uppercase;
     }
     .hero-sub {
-      color: #f2efe9;
+      color: var(--muted);
       font-size: 16px;
       margin-bottom: 2rem;
       text-align: left;
@@ -133,31 +150,32 @@
     .btn-primary {
       display: inline-block;
       padding: .85rem 2.2rem;
-      border: 1px solid #f2efe9;
-      color: #f2efe9;
+      border: 1px solid rgba(239,230,216,.72);
+      color: var(--text);
       text-decoration: none;
       font-size: 12px;
       letter-spacing: .15em;
       text-transform: uppercase;
       transition: background .25s, color .25s;
     }
-    .btn-primary:hover { background: #f2efe9; color: #1a1a18; }
+    .btn-primary:hover { background: var(--text); color: var(--bg); }
     .btn-dark {
       display: inline-block;
       padding: .85rem 2.2rem;
-      border: 1px solid #1a1a18;
-      color: #1a1a18;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: var(--panel);
       text-decoration: none;
       font-size: 12px;
       letter-spacing: .15em;
       text-transform: uppercase;
       transition: background .25s, color .25s;
     }
-    .btn-dark:hover { background: #1a1a18; color: #f2efe9; }
+    .btn-dark:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     section {
       margin-top: 60px;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid var(--line);
       padding-top: 40px;
     }
     h2 {
@@ -165,16 +183,16 @@
       font-weight: 300;
       letter-spacing: 4px;
       text-transform: uppercase;
-      color: #1a1a18;
+      color: var(--text);
       margin-bottom: 1rem;
     }
-    p { color: #6b6b68; font-size: 15px; text-align: center; line-height: 1.9; }
-    a { color: #333; text-decoration: none; border-bottom: 1px solid #333; }
+    p { color: var(--muted); font-size: 15px; text-align: center; line-height: 1.9; }
+    a { color: var(--text); text-decoration: none; border-bottom: 1px solid rgba(239,230,216,.22); }
     .section-label {
       font-size: 11px;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: #b8a88a;
+      color: var(--gold);
       margin-bottom: 1rem;
       display: block;
       text-align: center;
@@ -192,29 +210,31 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 6rem;
       font-weight: 300;
-      color: #e2ddd6;
+      color: rgba(239,230,216,.18);
       line-height: 1;
       display: block;
       margin-bottom: 1rem;
     }
-    .filosofia-anchor { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #b8a88a; line-height: 2; }
-    .filosofia-right p { font-size: 15px; color: #4a4a47; line-height: 2.1; text-align: left; margin-bottom: 1.8rem; }
+    .filosofia-anchor { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); line-height: 2; }
+    .filosofia-right p { font-size: 15px; color: rgba(239,230,216,.82); line-height: 2.1; text-align: left; margin-bottom: 1.8rem; }
 
     .servicios-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2px;
       margin-top: 2rem;
-      background: #e2ddd6;
+      background: var(--line);
     }
-    .servicio { background: #f2efe9; padding: 2rem; border-left: 2px solid transparent; transition: border-color .25s; }
-    .servicio:hover { border-left-color: #b8a88a; }
-    .servicio h3 { font-size: 14px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; text-align: left; color: #1a1a18; }
-    .servicio p { font-size: 13px; color: #6b6b68; line-height: 1.8; text-align: left; }
+    .servicio { background: linear-gradient(180deg, var(--panel-strong), var(--panel)); padding: 2rem; border-left: 2px solid transparent; transition: border-color .25s, transform .25s; }
+    .servicio:hover { border-left-color: var(--gold); transform: translateY(-2px); }
+    .servicio h3 { font-size: 14px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; text-align: left; color: var(--text); }
+    .servicio p { font-size: 13px; color: var(--muted); line-height: 1.8; text-align: left; }
 
     .contacto-dark {
-      background: #1a1a18;
-      color: #f2efe9;
+      background:
+        linear-gradient(180deg, rgba(18,19,22,.96), rgba(8,9,11,.98)),
+        radial-gradient(circle at top right, rgba(182,154,106,.12), transparent 24%);
+      color: var(--text);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
@@ -224,23 +244,23 @@
       padding: 5rem 4rem;
       border-top: none;
     }
-    .contacto-dark h2 { color: #f2efe9; text-align: left; }
+    .contacto-dark h2 { color: var(--text); text-align: left; }
     .contacto-dark .section-label { text-align: left; }
-    .contacto-intro { color: rgba(242,239,233,.6); text-align: left; margin-top: 1rem; font-size: 14px; line-height: 2; }
+    .contacto-intro { color: rgba(239,230,216,.62); text-align: left; margin-top: 1rem; font-size: 14px; line-height: 2; }
     .contacto-info { margin-top: 2rem; }
     .contacto-info a {
-      color: rgba(242,239,233,.7);
-      border-bottom: 1px solid rgba(255,255,255,.1);
+      color: rgba(239,230,216,.78);
+      border-bottom: 1px solid rgba(239,230,216,.12);
       padding-bottom: 1rem;
       display: block;
       font-size: 14px;
       letter-spacing: 2px;
     }
-    .contacto-info a:hover { color: #f2efe9; }
+    .contacto-info a:hover { color: var(--text); }
 
     footer {
-      background: #111110;
-      color: rgba(247,245,240,.35);
+      background: #050608;
+      color: var(--faint);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -251,7 +271,7 @@
       margin-top: 0;
       letter-spacing: 2px;
     }
-    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: rgba(247,245,240,.35); }
+    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
 
     .aparece { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
     .aparece.visible { opacity: 1; transform: translateY(0); }
@@ -282,7 +302,7 @@
         justify-content: flex-start;
         gap: .9rem;
         padding: .95rem 1.2rem;
-        background: linear-gradient(to bottom, rgba(242,239,233,.96) 0%, rgba(242,239,233,.82) 56%, rgba(242,239,233,0) 100%);
+        background: linear-gradient(to bottom, rgba(7,8,10,.96) 0%, rgba(7,8,10,.82) 56%, rgba(7,8,10,0) 100%);
         backdrop-filter: none;
         overflow-x: auto;
         overflow-y: hidden;
@@ -292,7 +312,7 @@
         box-shadow: none;
       }
       nav::-webkit-scrollbar { display: none; }
-      nav a { color: #1a1a18; font-size: 10px; letter-spacing: 0.08em; }
+      nav a { color: var(--text); font-size: 10px; letter-spacing: 0.08em; }
       nav a { flex: 0 0 auto; position: relative; z-index: 1; }
       .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
       .hero {
@@ -402,7 +422,7 @@
 
   <main>
   <div class="hero">
-    <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
+    <img src="./espacio3.jpg" alt="Enough" fetchpriority="high" draggable="false">
     <div class="hero-content">
       <span class="hero-label">Editorial · Archivo · Atmósfera</span>
       <h1>Enough</h1>

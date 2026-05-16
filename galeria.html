@@ -12,13 +12,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #09090f;
+      --bg: #06070a;
       --panel: rgba(255,255,255,.03);
       --text: #f4ede3;
       --muted: rgba(244,237,227,.62);
       --faint: rgba(244,237,227,.3);
       --line: rgba(244,237,227,.1);
-      --gold: #c7a772;
+      --gold: #b69a6a;
       --shadow-soft: 0 18px 40px rgba(0,0,0,.24);
       --shadow-deep: 0 36px 80px rgba(0,0,0,.45);
     }
@@ -27,8 +27,8 @@
     html { background: var(--bg); scroll-padding-top: 8rem; }
     body {
       background:
-        radial-gradient(circle at top left, rgba(199,167,114,.12), transparent 24%),
-        linear-gradient(180deg, #0d0d13 0%, #09090f 46%, #07070b 100%);
+        radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 24%),
+        linear-gradient(180deg, #0f1114 0%, #08090c 46%, #050608 100%);
       font-family: Raleway, sans-serif;
       padding: 40px;
       max-width: 880px;
@@ -48,7 +48,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.5rem 4rem;
-      background: rgba(9,9,15,.94);
+      background: rgba(6,7,10,.94);
       backdrop-filter: blur(14px);
     }
     nav a {
@@ -87,7 +87,7 @@
 
     .lb-overlay {
       position: fixed; inset: 0; z-index: 999;
-      background: rgba(6,6,10,.97);
+      background: rgba(4,5,7,.97);
       display: flex; align-items: stretch;
       opacity: 0; pointer-events: none;
       transition: opacity .35s ease;
@@ -108,7 +108,7 @@
       flex: 1; min-width: 300px; max-width: 380px;
       padding: 4rem 3rem; display: flex; flex-direction: column;
       border-left: 1px solid rgba(244,237,227,.06);
-      overflow-y: auto; background: rgba(255,255,255,.02);
+      overflow-y: auto; background: rgba(255,255,255,.018);
     }
     .lb-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; display: block; }
     .lb-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: var(--text); margin-bottom: 2rem; line-height: 1.2; }
@@ -129,7 +129,7 @@
       padding: 2rem 4rem; font-size: 12px;
       width: 100vw; margin-left: calc(-50vw + 50%);
       margin-top: 4rem; letter-spacing: 2px;
-      background: #07070b;
+      background: #050608;
     }
     footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
 
