@@ -288,9 +288,18 @@
     * { cursor: none; }
     .cursor { position: fixed; pointer-events: none; z-index: 9999; transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference; }
 
-    .time-block { display: flex; flex-direction: column; align-items: center; }
-    .cd-digit { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; color: #1a1a18; letter-spacing: 4px; line-height: 1; }
-    .cd-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #b8a88a; margin-top: .5rem; }
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 92px;
+      padding: 1.1rem .9rem;
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .cd-digit { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; color: var(--text); letter-spacing: 4px; line-height: 1; }
+    .cd-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: .5rem; }
     .cd-tick { opacity: .4; transition: opacity .15s ease; }
 
     @media (max-width: 920px) {
@@ -432,7 +441,7 @@
   </div>
 
   <section id="countdown" style="border-top: none; margin-top: 0; padding-top: 3rem; padding-bottom: 1rem;">
-    <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 3rem;">
+    <div id="countdown-wrapper" style="display: flex; justify-content: center; gap: 1.25rem;">
       <div class="time-block"><span id="cd-days" class="cd-digit">00</span><span class="cd-label">Días</span></div>
       <div class="time-block"><span id="cd-hours" class="cd-digit">00</span><span class="cd-label">Horas</span></div>
       <div class="time-block"><span id="cd-minutes" class="cd-digit">00</span><span class="cd-label">Minutos</span></div>
