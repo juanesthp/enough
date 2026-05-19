@@ -185,6 +185,18 @@
       min-height: 1em;
     }
 
+    .form-msg {
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      min-height: 1.2em;
+      margin-top: -.6rem;
+    }
+    .form-msg.error { color: #b44a3f; }
+    .form-msg.ok { color: #4a6741; }
+
     .btn-send {
       background: none;
       border: 1px solid var(--dark);
@@ -234,16 +246,6 @@
       transition: border-color .2s, color .2s;
     }
     .btn-oauth:hover { border-color: var(--gold); color: var(--dark); }
-
-    .form-msg {
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-align: center;
-      min-height: 1.2em;
-      margin-top: -.6rem;
-    }
 
     footer {
       background: #111110;
@@ -463,19 +465,29 @@
       document.getElementById('shint').textContent = labels[s];
     }
 
+    function setMsg(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'form-msg' + (type ? ' ' + type : '');
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       e.stopPropagation();
-      const msg = document.getElementById('msg-login');
-      msg.textContent = '— Verificando credenciales...';
+      setMsg('msg-login', '— Verificando credenciales...', '');
       const { error } = await sb.auth.signInWithPassword({
         email: document.getElementById('l-email').value,
         password: document.getElementById('l-pass').value,
       });
       if (error) {
-        msg.textContent = '— ' + error.message;
+        const texto = error.message.includes('Invalid login credentials')
+          ? 'Correo o contraseña incorrectos'
+          : error.message.includes('Email not confirmed')
+          ? 'Confirma tu correo antes de entrar'
+          : error.message;
+        setMsg('msg-login', '— ' + texto, 'error');
       } else {
-        msg.textContent = '— Acceso concedido';
+        setMsg('msg-login', '— Acceso concedido', 'ok');
         setTimeout(() => window.location.href = 'dashboard.html', 800);
       }
     }
@@ -486,14 +498,13 @@
       const pass = document.getElementById('r-pass').value;
       const pass2 = document.getElementById('r-pass2').value;
       const email = document.getElementById('r-email').value;
-      const msg = document.getElementById('msg-registro');
 
       if (pass !== pass2) {
-        msg.textContent = '— Las contraseñas no coinciden';
+        setMsg('msg-registro', '— Las contraseñas no coinciden', 'error');
         return;
       }
 
-      msg.textContent = '— Creando tu cuenta...';
+      setMsg('msg-registro', '— Creando tu cuenta...', '');
       const { data, error } = await sb.auth.signUp({
         email,
         password: pass,
@@ -501,17 +512,17 @@
       });
 
       if (error) {
-        msg.textContent = '— ' + error.message;
+        setMsg('msg-registro', '— ' + error.message, 'error');
         return;
       }
 
       if (data?.session) {
-        msg.textContent = '— Cuenta creada. Entrando...';
+        setMsg('msg-registro', '— Cuenta creada. Entrando...', 'ok');
         setTimeout(() => window.location.href = 'dashboard.html', 800);
         return;
       }
 
-      msg.textContent = '— Cuenta creada. Revisa tu correo para verificar y luego inicia sesión';
+      setMsg('msg-registro', '— Cuenta creada. Revisa tu correo para verificar y luego inicia sesión', 'ok');
       document.getElementById('l-email').value = email;
       document.getElementById('l-pass').value = '';
       showTab('login');
