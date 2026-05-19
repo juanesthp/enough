@@ -519,6 +519,20 @@
     async function oauthMsg() {
       await sb.auth.signInWithOAuth({ provider: 'google' });
     }
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        const neWPassword = prompt('Ingresa tu nueva contraseña:');
+        if (neWPassword) {
+          const { error } = await sb.auth.updateUser({ password: neWPassword });
+          if (error) {
+            alert('Constraseña actualizada. Inicia sesión.');
+          }
+        }
+      }
+      if (event === 'SIGNED_IN') {
+        window.location.href = 'dashboard.html';
+      }
+    });
   </script>
 
 </body>
