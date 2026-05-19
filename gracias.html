@@ -283,24 +283,26 @@
       const { data: { session } } = await sb.auth.getSession();
       if (!session) { window.location.href = 'acceso.html'; return; }
 
-      // Wompi añade ?id=TRANSACTION_ID al redirect, pero también enviamos reference
+      // Nuestra edge function pone ?ref=REFERENCIA en el redirect-url.
+      // Wompi añade adicionalmente ?id=WOMPI_TX_ID al final.
       const params = new URLSearchParams(window.location.search);
-      const wompiTxId = params.get('id');   // ID de transacción Wompi
-      const ref = params.get('reference') ?? params.get('ref');
+      const ref = params.get('ref');   // nuestra referencia, siempre presente
 
-      if (!wompiTxId && !ref) { renderSinRef(); return; }
+      if (!ref) { renderSinRef(); return; }
 
-      // Sondeo: espera hasta 12s mientras el webhook procesa
+      // Sondeo: espera hasta 14s mientras el webhook de Wompi actualiza el estado
       let intentos = 0;
-      const MAX = 6;
+      const MAX = 7;
 
       async function consultar() {
         intentos++;
-        let query = sb.from('ordenes').select('*').eq('user_id', session.user.id);
-        if (wompiTxId) query = query.eq('wompi_transaction_id', wompiTxId);
-        else           query = query.eq('referencia', ref);
-
-        const { data } = await query.maybeSingle();
+        // Consultamos por referencia (se guarda al crear la orden, no depende del webhook)
+        const { data } = await sb
+          .from('ordenes')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .eq('referencia', ref)
+          .maybeSingle();
 
         if (data?.estado === 'APROBADA')  { renderAprobada(data); return; }
         if (data?.estado === 'RECHAZADA' || data?.estado === 'VOIDED' || data?.estado === 'ERROR') {
