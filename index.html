@@ -19,7 +19,6 @@
   <meta name="twitter:description" content="Un archivo sobre atmósferas, materia y la forma de habitar el mundo.">
   <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
 
-  <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
@@ -653,6 +652,15 @@
     <span>© 2026 Enough. Editorial.</span>
     <span>Bucaramanga, Colombia</span>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://xwoqinouwnpzqiyqbpup.supabase.co',
+      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+    );
+  </script>
 
   <script>
     const nav = document.getElementById('nav');
