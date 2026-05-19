@@ -488,7 +488,12 @@
         email:    document.getElementById('l-email').value,
         password: document.getElementById('l-pass').value,
       });
-      msg.textContent = error ? '— ' + error.message : '— Acceso concedido';
+      if (error) {
+        msg.textContent = '— ' + error.message;
+      } else {
+        msg.textContent = '— Acceso concedido';
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+      }
     }
 
     /* ── Registro ── */

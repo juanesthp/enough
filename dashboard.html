@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Proceso · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:     #07080a;
+      --text:   #efe6d8;
+      --muted:  rgba(239,230,216,.68);
+      --faint:  rgba(239,230,216,.28);
+      --line:   rgba(239,230,216,.08);
+      --gold:   #b69a6a;
+      --panel:  rgba(255,255,255,.03);
+      --panel2: rgba(255,255,255,.055);
+      --red:    rgba(180,60,60,.8);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-padding-top: 6rem; }
+
+    body {
+      background:
+        radial-gradient(circle at 14% 10%, rgba(182,154,106,.1), transparent 20%),
+        linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
+      font-family: Raleway, sans-serif;
+      font-weight: 300;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    * { cursor: none; }
+    .cursor {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      top: 0; left: 0;
+      mix-blend-mode: difference;
+      transition: transform .15s ease;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(7,8,10,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav a, .nav-btn {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: opacity .2s;
+      background: none;
+      border: none;
+      font-family: Raleway, sans-serif;
+      font-weight: 300;
+    }
+    nav a:hover, .nav-btn:hover { opacity: .5; }
+    .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      margin-right: 40px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-user {
+      font-size: 11px;
+      letter-spacing: .1em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* ── PANTALLA DE CARGA ── */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .5s ease;
+    }
+    #loading-screen.fade {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loading-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: 12px;
+      color: rgba(239,230,216,.2);
+      text-transform: uppercase;
+      animation: pulso 2s ease-in-out infinite;
+    }
+    @keyframes pulso {
+      0%, 100% { opacity: .2; }
+      50%       { opacity: .6; }
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 8rem 40px 6rem;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+      margin-bottom: 5rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .header-meta { position: sticky; top: 6rem; }
+    .header-numero {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(239,230,216,.1);
+      line-height: 1;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .header-label {
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      line-height: 2.2;
+      display: block;
+    }
+    .header-sep { width: 1px; height: 2.5rem; background: var(--gold); margin: 1.5rem 0; opacity: .5; }
+    .header-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 2;
+      letter-spacing: .02em;
+    }
+    .header-right h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+    .header-right p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 2;
+      text-align: left;
+    }
+
+    /* ── PANEL ADMIN ── */
+    .admin-panel {
+      display: none;
+      background: var(--panel2);
+      border: 1px solid rgba(182,154,106,.18);
+      padding: 2.5rem;
+      margin-bottom: 4rem;
+    }
+    .admin-panel.visible { display: block; }
+    .admin-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .admin-title {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .admin-toggle {
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--faint);
+      background: none;
+      border: none;
+      font-family: Raleway, sans-serif;
+      transition: color .2s;
+    }
+    .admin-toggle:hover { color: var(--text); }
+
+    /* form dentro del panel */
+    .entry-form { display: flex; flex-direction: column; gap: 1.4rem; }
+    .form-field label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .5rem;
+    }
+    .form-field input,
+    .form-field textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      padding: .5rem 0;
+      font-family: Raleway, sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: .02em;
+      outline: none;
+      transition: border-color .2s;
+      resize: none;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: rgba(239,230,216,.2); }
+    .form-field input:focus,
+    .form-field textarea:focus { border-bottom-color: var(--gold); }
+    .form-field textarea { min-height: 140px; line-height: 1.9; }
+    .form-actions { display: flex; align-items: center; gap: 2rem; margin-top: .5rem; }
+    .btn-publish {
+      background: none;
+      border: 1px solid rgba(239,230,216,.5);
+      font-family: Raleway, sans-serif;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text);
+      padding: .8rem 2rem;
+      transition: background .25s, color .25s;
+    }
+    .btn-publish:hover { background: var(--text); color: var(--bg); }
+    .form-msg {
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      min-height: 1em;
+    }
+    .form-msg.error { color: var(--red); }
+
+    /* ── FEED ── */
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+    }
+    .feed-title {
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .feed-count {
+      font-size: 10px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .entrada {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--line);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .entrada.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .entrada-fecha {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      padding-top: .25rem;
+    }
+    .fecha-dia {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: rgba(239,230,216,.18);
+      line-height: 1;
+    }
+    .fecha-mes {
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .7;
+    }
+    .fecha-año {
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: var(--faint);
+    }
+    .entrada-cuerpo { }
+    .entrada-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: 2px;
+      margin-bottom: .8rem;
+      line-height: 1.3;
+    }
+    .entrada-texto {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 2.1;
+      white-space: pre-wrap;
+    }
+
+    /* Estado vacío */
+    .feed-empty {
+      padding: 4rem 0;
+      text-align: center;
+    }
+    .feed-empty p {
+      font-size: 13px;
+      color: var(--faint);
+      line-height: 2;
+      letter-spacing: .05em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #050608;
+      color: var(--faint);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      font-size: 12px;
+      letter-spacing: 2px;
+      border-top: 1px solid var(--line);
+      margin-top: 4rem;
+    }
+    footer .logo-f {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 920px) {
+      nav {
+        position: sticky;
+        top: 0;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: .9rem;
+        padding: .95rem 1.2rem;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+        backdrop-filter: none;
+        background: rgba(7,8,10,.96);
+      }
+      nav::-webkit-scrollbar { display: none; }
+      .nav-right { gap: 1.5rem; }
+      .page { padding: 2rem 28px 5rem; }
+      .page-header { grid-template-columns: 1fr; gap: 2rem; }
+      .header-meta { position: static; }
+      .entrada { grid-template-columns: 70px 1fr; gap: 1.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+      .cursor { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .page { padding: 2rem 20px 4rem; }
+      nav a, .nav-btn { font-size: 9px; }
+      .entrada { grid-template-columns: 1fr; gap: 0.5rem; }
+      .entrada-fecha { flex-direction: row; align-items: baseline; gap: .8rem; margin-bottom: .6rem; }
+      .fecha-dia { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none">
+    <line x1="13" y1="3" x2="13" y2="23" stroke="#fff" stroke-width="1.6"/>
+    <line x1="3" y1="13" x2="23" y2="13" stroke="#fff" stroke-width="1.6"/>
+  </svg>
+
+  <!-- Loading -->
+  <div id="loading-screen">
+    <span class="loading-mark">Enough</span>
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="logo">Enough</a>
+    <div class="nav-right">
+      <span class="nav-user" id="nav-user">—</span>
+      <a href="galeria.html" class="nav-btn">Galería</a>
+      <a href="blog.html" class="nav-btn">Blog</a>
+      <button class="nav-btn" id="btn-logout">Salir</button>
+    </div>
+  </nav>
+
+  <main class="page">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div class="header-meta">
+        <span class="header-numero">P</span>
+        <span class="header-label">Enough<br>Proceso<br>Acceso privado</span>
+        <div class="header-sep"></div>
+        <p class="header-desc">Lo que funciona,<br>lo que no,<br>y lo que todavía no sé si sirve.</p>
+      </div>
+      <div class="header-right">
+        <h1>Proceso</h1>
+        <p>Un registro abierto del proceso de construcción de Enough. Sin edición. Sin orden fijo. Sin prisa.</p>
+      </div>
+    </div>
+
+    <!-- Panel admin (solo visible para el autor) -->
+    <div class="admin-panel" id="admin-panel">
+      <div class="admin-panel-header">
+        <span class="admin-title">Nueva entrada</span>
+        <button class="admin-toggle" id="toggle-form">Colapsar</button>
+      </div>
+      <div id="form-wrap">
+        <form class="entry-form" id="entry-form">
+          <div class="form-field">
+            <label for="e-titulo">Título (opcional)</label>
+            <input type="text" id="e-titulo" placeholder="Sin título">
+          </div>
+          <div class="form-field">
+            <label for="e-cuerpo">Entrada *</label>
+            <textarea id="e-cuerpo" placeholder="Lo que está pasando en el proceso..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn-publish" type="submit">Publicar entrada</button>
+            <span class="form-msg" id="form-msg"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="feed-header">
+      <span class="feed-title">Entradas</span>
+      <span class="feed-count" id="feed-count">—</span>
+    </div>
+
+    <div id="feed"></div>
+
+  </main>
+
+  <footer>
+    <span class="logo-f">Enough</span>
+    <span>© 2026 Enough.</span>
+    <span>Bucaramanga, Colombia</span>
+  </footer>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ─── CONFIG ─── */
+    const SUPABASE_URL  = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
+    const SUPABASE_KEY  = 'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd';
+
+    // Cambia este correo por el tuyo (el autor que puede escribir entradas)
+    const ADMIN_EMAIL   = 'jthorrens158@gmail.com';
+
+    /* ─── INIT ─── */
+    const { createClient } = supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    /* ─── CURSOR ─── */
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(1.4)');
+      el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+    });
+
+    /* ─── HELPERS DE FECHA ─── */
+    const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+    function formatFecha(isoString) {
+      const d = new Date(isoString);
+      return {
+        dia: d.getDate().toString().padStart(2, '0'),
+        mes: MESES[d.getMonth()],
+        año: d.getFullYear()
+      };
+    }
+
+    /* ─── RENDER FEED ─── */
+    function renderEntrada(entrada, index) {
+      const { dia, mes, año } = formatFecha(entrada.created_at);
+      const titulo = entrada.titulo
+        ? `<h3 class="entrada-titulo">${entrada.titulo}</h3>`
+        : '';
+
+      const el = document.createElement('div');
+      el.className = 'entrada';
+      el.style.transitionDelay = `${index * 80}ms`;
+      el.innerHTML = `
+        <div class="entrada-fecha">
+          <span class="fecha-dia">${dia}</span>
+          <span class="fecha-mes">${mes}</span>
+          <span class="fecha-año">${año}</span>
+        </div>
+        <div class="entrada-cuerpo">
+          ${titulo}
+          <p class="entrada-texto">${entrada.cuerpo}</p>
+        </div>
+      `;
+      return el;
+    }
+
+    function renderFeed(entradas) {
+      const feed    = document.getElementById('feed');
+      const counter = document.getElementById('feed-count');
+      feed.innerHTML = '';
+
+      if (!entradas || entradas.length === 0) {
+        feed.innerHTML = `
+          <div class="feed-empty">
+            <p>El proceso aún no tiene entradas.<br>Todo empieza en algún momento.</p>
+          </div>`;
+        counter.textContent = '0 entradas';
+        return;
+      }
+
+      counter.textContent = `${entradas.length} entrada${entradas.length !== 1 ? 's' : ''}`;
+      entradas.forEach((e, i) => {
+        const el = renderEntrada(e, i);
+        feed.appendChild(el);
+        // Animate in
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => el.classList.add('visible'));
+        });
+      });
+    }
+
+    /* ─── CARGAR ENTRADAS ─── */
+    async function cargarEntradas() {
+      const { data, error } = await sb
+        .from('entradas')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error cargando entradas:', error);
+        document.getElementById('feed').innerHTML = `
+          <div class="feed-empty"><p>Error cargando el proceso. Intenta de nuevo.</p></div>`;
+        return;
+      }
+
+      renderFeed(data);
+    }
+
+    /* ─── PUBLICAR ENTRADA ─── */
+    document.getElementById('entry-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg    = document.getElementById('form-msg');
+      const titulo = document.getElementById('e-titulo').value.trim();
+      const cuerpo = document.getElementById('e-cuerpo').value.trim();
+
+      if (!cuerpo) {
+        msg.textContent = '— El cuerpo no puede estar vacío';
+        msg.className = 'form-msg error';
+        return;
+      }
+
+      msg.textContent = '— Publicando…';
+      msg.className = 'form-msg';
+
+      const { error } = await sb.from('entradas').insert({
+        titulo: titulo || null,
+        cuerpo
+      });
+
+      if (error) {
+        msg.textContent = '— Error: ' + error.message;
+        msg.className = 'form-msg error';
+        return;
+      }
+
+      msg.textContent = '— Publicado';
+      document.getElementById('e-titulo').value = '';
+      document.getElementById('e-cuerpo').value = '';
+      setTimeout(() => { msg.textContent = ''; }, 3000);
+      await cargarEntradas();
+    });
+
+    /* ─── TOGGLE FORM ─── */
+    let formVisible = true;
+    document.getElementById('toggle-form').addEventListener('click', () => {
+      const wrap = document.getElementById('form-wrap');
+      const btn  = document.getElementById('toggle-form');
+      formVisible = !formVisible;
+      wrap.style.display = formVisible ? 'block' : 'none';
+      btn.textContent = formVisible ? 'Colapsar' : 'Expandir';
+    });
+
+    /* ─── AUTH + INIT ─── */
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+
+      if (!session) {
+        // No hay sesión → redirigir al login
+        window.location.href = 'acceso.html';
+        return;
+      }
+
+      const user  = session.user;
+      const email = user.email;
+      const nombre = user.user_metadata?.nombre || email.split('@')[0];
+
+      // Mostrar nombre en nav
+      document.getElementById('nav-user').textContent = nombre;
+
+      // Mostrar panel admin solo al autor
+      if (email === ADMIN_EMAIL) {
+        document.getElementById('admin-panel').classList.add('visible');
+      }
+
+      // Cargar entradas
+      await cargarEntradas();
+
+      // Ocultar loading
+      const ls = document.getElementById('loading-screen');
+      ls.classList.add('fade');
+      setTimeout(() => ls.remove(), 500);
+    }
+
+    /* ─── LOGOUT ─── */
+    document.getElementById('btn-logout').addEventListener('click', async () => {
+      await sb.auth.signOut();
+      window.location.href = 'index.html';
+    });
+
+    /* ─── REDIRECT POST-LOGIN desde acceso.html ─── */
+    // Cuando Supabase confirma el email y redirige, captura la sesión
+    sb.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && window.location.pathname.includes('acceso')) {
+        window.location.href = 'dashboard.html';
+      }
+    });
+
+    init();
+  </script>
+
+</body>
+</html>
