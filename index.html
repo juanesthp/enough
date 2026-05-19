@@ -153,10 +153,13 @@
       padding: .85rem 2.2rem;
       border: 1px solid rgba(239,230,216,.72);
       color: var(--text);
+      background: transparent;
       text-decoration: none;
       font-size: 12px;
       letter-spacing: .15em;
       text-transform: uppercase;
+      font-family: inherit;
+      cursor: pointer;
       transition: background .25s, color .25s;
     }
     .btn-primary:hover { background: var(--text); color: var(--bg); }
@@ -309,6 +312,14 @@
       color: var(--text);
       background: rgba(255,255,255,.03);
     }
+    .form-msg {
+      font-size: 11px;
+      letter-spacing: .08em;
+      min-height: 1.2em;
+      color: var(--muted);
+    }
+    .form-msg.error { color: #e05b5b; }
+    .form-msg.ok    { color: #6aad72; }
     .acceso-links {
       display: flex;
       justify-content: space-between;
@@ -550,22 +561,23 @@
       </div>
       <div class="acceso-card">
         <h3>Entrar</h3>
-        <form class="acceso-form">
+        <form class="acceso-form" id="form-acceso" onsubmit="handleLogin(event)">
           <label for="user-email">
             Correo
-            <input id="user-email" type="email" name="email" placeholder="tu@correo.com" autocomplete="email">
+            <input id="user-email" type="email" name="email" placeholder="tu@correo.com" autocomplete="email" required>
           </label>
           <label for="user-password">
             Contraseña
-            <input id="user-password" type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password">
+            <input id="user-password" type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
           </label>
+          <div id="msg-acceso" class="form-msg"></div>
           <div class="acceso-actions">
-            <a href="#acceso" class="btn-primary">Ingresar</a>
-            <a href="#acceso" class="btn-ghost">Solicitar acceso</a>
+            <button type="submit" class="btn-primary">Ingresar</button>
+            <a href="acceso.html" class="btn-ghost">Crear cuenta</a>
           </div>
           <div class="acceso-links">
-            <a href="#acceso">Recuperar contraseña</a>
-            <a href="#acceso">Crear usuario</a>
+            <a href="acceso.html">Recuperar contraseña</a>
+            <a href="acceso.html">Crear usuario</a>
           </div>
         </form>
       </div>
@@ -700,15 +712,42 @@
       heroImage.addEventListener('contextmenu', e => e.preventDefault());
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
-    sb.auth.onAuthStateChange(async (event, session) => {
-  if (event === 'PASSWORD_RECOVERY') {
-    const newPassword = prompt('Nueva contraseña:');
-    if (newPassword) {
-      const { error } = await sb.auth.updateUser({ password: newPassword });
-      if (!error) window.location.href = 'acceso.html';
+    async function handleLogin(e) {
+      e.preventDefault();
+      const msg = document.getElementById('msg-acceso');
+      msg.textContent = '— Verificando...';
+      msg.className = 'form-msg';
+      const { error } = await sb.auth.signInWithPassword({
+        email: document.getElementById('user-email').value,
+        password: document.getElementById('user-password').value,
+      });
+      if (error) {
+        const texto = error.message.includes('Invalid login credentials')
+          ? 'Correo o contraseña incorrectos'
+          : error.message.includes('Email not confirmed')
+          ? 'Confirma tu correo antes de entrar'
+          : error.message;
+        msg.textContent = '— ' + texto;
+        msg.className = 'form-msg error';
+      } else {
+        msg.textContent = '— Acceso concedido';
+        msg.className = 'form-msg ok';
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+      }
     }
-  }
-});
+
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN') {
+        window.location.href = 'dashboard.html';
+      }
+      if (event === 'PASSWORD_RECOVERY') {
+        const newPassword = prompt('Nueva contraseña:');
+        if (newPassword) {
+          const { error } = await sb.auth.updateUser({ password: newPassword });
+          if (!error) window.location.href = 'acceso.html';
+        }
+      }
+    });
   </script>
 
 </body>
