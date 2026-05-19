@@ -34,7 +34,6 @@
       min-height: 100vh;
     }
 
-    /* Nav */
     nav {
       position: fixed;
       top: 0;
@@ -69,7 +68,6 @@
       margin-right: 40px;
     }
 
-    /* Página */
     .acceso-wrap {
       margin-top: 8rem;
       display: grid;
@@ -325,7 +323,6 @@
   </style>
 </head>
 <body>
-
   <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none">
     <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
     <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
@@ -490,50 +487,58 @@
       const pass2 = document.getElementById('r-pass2').value;
       const email = document.getElementById('r-email').value;
       const msg = document.getElementById('msg-registro');
+
       if (pass !== pass2) {
         msg.textContent = '— Las contraseñas no coinciden';
         return;
       }
+
       msg.textContent = '— Creando tu cuenta...';
       const { data, error } = await sb.auth.signUp({
         email,
         password: pass,
         options: { data: { nombre: document.getElementById('r-nombre').value } }
       });
+
       if (error) {
         msg.textContent = '— ' + error.message;
         return;
       }
+
       if (data?.session) {
         msg.textContent = '— Cuenta creada. Entrando...';
         setTimeout(() => window.location.href = 'dashboard.html', 800);
         return;
       }
+
       msg.textContent = '— Cuenta creada. Revisa tu correo para verificar y luego inicia sesión';
       document.getElementById('l-email').value = email;
       document.getElementById('l-pass').value = '';
       showTab('login');
-      document.getElementById('form-login').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById('l-email').focus();
     }
 
     async function oauthMsg() {
       await sb.auth.signInWithOAuth({ provider: 'google' });
     }
-    sb.auth.onAuthStateChange((event, session) => {
+
+    sb.auth.onAuthStateChange(async (event) => {
       if (event === 'PASSWORD_RECOVERY') {
-        const neWPassword = prompt('Ingresa tu nueva contraseña:');
-        if (neWPassword) {
-          const { error } = await sb.auth.updateUser({ password: neWPassword });
+        const newPassword = prompt('Ingresa tu nueva contraseña:');
+        if (newPassword) {
+          const { error } = await sb.auth.updateUser({ password: newPassword });
           if (error) {
-            alert('Constraseña actualizada. Inicia sesión.');
+            alert(error.message);
+          } else {
+            alert('Contraseña actualizada. Inicia sesión.');
           }
         }
       }
+
       if (event === 'SIGNED_IN') {
         window.location.href = 'dashboard.html';
       }
     });
   </script>
-
 </body>
 </html>
