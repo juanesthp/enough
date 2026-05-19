@@ -189,13 +189,13 @@
       font-size: 11px;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--muted);
       text-align: center;
       min-height: 1.2em;
       margin-top: -.6rem;
     }
     .form-msg.error { color: #b44a3f; }
-    .form-msg.ok { color: #4a6741; }
+    .form-msg.ok    { color: #4a6741; }
 
     .btn-send {
       background: none;
@@ -522,11 +522,18 @@
         return;
       }
 
-      setMsg('msg-registro', '— Cuenta creada. Revisa tu correo para verificar y luego inicia sesión', 'ok');
+      // Email ya registrado: Supabase devuelve user=null, session=null sin error
+      if (!data?.user) {
+        setMsg('msg-registro', '— Este correo ya tiene una cuenta. Inicia sesión.', 'error');
+        document.getElementById('l-email').value = email;
+        setTimeout(() => { showTab('login'); document.getElementById('l-pass').focus(); }, 2500);
+        return;
+      }
+
+      // Cuenta nueva, confirmación de email requerida
+      setMsg('msg-registro', '— Cuenta creada. Revisa tu correo para confirmar y luego inicia sesión.', 'ok');
       document.getElementById('l-email').value = email;
-      document.getElementById('l-pass').value = '';
-      showTab('login');
-      document.getElementById('l-email').focus();
+      setTimeout(() => { showTab('login'); document.getElementById('l-pass').focus(); }, 3000);
     }
 
     async function oauthMsg() {
