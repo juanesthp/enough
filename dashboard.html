@@ -177,15 +177,13 @@
       text-align: left;
     }
 
-    /* ── PANEL ADMIN ── */
+    /* ── PANEL NUEVA ENTRADA ── */
     .admin-panel {
-      display: none;
       background: var(--panel2);
       border: 1px solid rgba(182,154,106,.18);
       padding: 2.5rem;
       margin-bottom: 4rem;
     }
-    .admin-panel.visible { display: block; }
     .admin-panel-header {
       display: flex;
       justify-content: space-between;
@@ -338,6 +336,33 @@
       line-height: 2.1;
       white-space: pre-wrap;
     }
+    .entrada-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .entrada-autor {
+      font-size: 9px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .btn-delete-entrada {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: none;
+      border: none;
+      font-family: Raleway, sans-serif;
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(180,60,60,.45);
+      padding: 0;
+      transition: color .2s;
+    }
+    .btn-delete-entrada:hover { color: var(--red); }
 
     /* Estado vacío */
     .feed-empty {
@@ -447,7 +472,7 @@
       </div>
     </div>
 
-    <!-- Panel admin (solo visible para el autor) -->
+    <!-- Panel nueva entrada (visible para todos los usuarios autenticados) -->
     <div class="admin-panel" id="admin-panel">
       <div class="admin-panel-header">
         <span class="admin-title">Nueva entrada</span>
@@ -491,15 +516,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     /* ─── CONFIG ─── */
-    const SUPABASE_URL  = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
-    const SUPABASE_KEY  = 'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd';
-
-    // Cambia este correo por el tuyo (el autor que puede escribir entradas)
-    const ADMIN_EMAIL   = 'jthorrens158@gmail.com';
+    const SUPABASE_URL = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd';
 
     /* ─── INIT ─── */
     const { createClient } = supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
 
     /* ─── CURSOR ─── */
     const cursor = document.getElementById('cursor');
@@ -524,12 +548,57 @@
       };
     }
 
+    /* ─── ELIMINAR ENTRADA ─── */
+    async function eliminarEntrada(id, el) {
+      if (!confirm('¿Eliminar esta entrada? Esta acción no se puede deshacer.')) return;
+
+      el.style.opacity = '0.4';
+      el.style.pointerEvents = 'none';
+
+      const { error } = await sb.from('entradas').delete().eq('id', id);
+
+      if (error) {
+        el.style.opacity = '';
+        el.style.pointerEvents = '';
+        alert('Error al eliminar: ' + error.message);
+        return;
+      }
+
+      el.style.transition = 'opacity .3s ease, transform .3s ease';
+      el.style.transform = 'translateX(-8px)';
+      setTimeout(() => {
+        el.remove();
+        // Actualizar contador
+        const items = document.querySelectorAll('.entrada');
+        const n = items.length;
+        document.getElementById('feed-count').textContent =
+          n === 0 ? '0 entradas' : `${n} entrada${n !== 1 ? 's' : ''}`;
+        if (n === 0) {
+          document.getElementById('feed').innerHTML = `
+            <div class="feed-empty">
+              <p>El proceso aún no tiene entradas.<br>Todo empieza en algún momento.</p>
+            </div>`;
+        }
+      }, 300);
+    }
+
     /* ─── RENDER FEED ─── */
     function renderEntrada(entrada, index) {
       const { dia, mes, año } = formatFecha(entrada.created_at);
       const titulo = entrada.titulo
         ? `<h3 class="entrada-titulo">${entrada.titulo}</h3>`
         : '';
+
+      const esMia = currentUser && entrada.user_id === currentUser.id;
+      const autorNombre = entrada.user_name || '—';
+
+      const btnEliminar = esMia ? `
+        <button class="btn-delete-entrada" data-id="${entrada.id}" title="Eliminar entrada">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4">
+            <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
+          </svg>
+          Eliminar
+        </button>` : '';
 
       const el = document.createElement('div');
       el.className = 'entrada';
@@ -543,8 +612,20 @@
         <div class="entrada-cuerpo">
           ${titulo}
           <p class="entrada-texto">${entrada.cuerpo}</p>
+          <div class="entrada-meta">
+            <span class="entrada-autor">${autorNombre}</span>
+            ${btnEliminar}
+          </div>
         </div>
       `;
+
+      if (esMia) {
+        const btn = el.querySelector('.btn-delete-entrada');
+        btn.addEventListener('click', () => eliminarEntrada(entrada.id, el));
+        btn.addEventListener('mouseenter', () => cursor.style.transform = 'scale(1.4)');
+        btn.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+      }
+
       return el;
     }
 
@@ -566,7 +647,6 @@
       entradas.forEach((e, i) => {
         const el = renderEntrada(e, i);
         feed.appendChild(el);
-        // Animate in
         requestAnimationFrame(() => {
           requestAnimationFrame(() => el.classList.add('visible'));
         });
@@ -606,9 +686,15 @@
       msg.textContent = '— Publicando…';
       msg.className = 'form-msg';
 
+      const nombre = currentUser?.user_metadata?.nombre
+        || currentUser?.email?.split('@')[0]
+        || 'Anónimo';
+
       const { error } = await sb.from('entradas').insert({
         titulo: titulo || null,
-        cuerpo
+        cuerpo,
+        user_id: currentUser.id,
+        user_name: nombre
       });
 
       if (error) {
@@ -639,27 +725,17 @@
       const { data: { session } } = await sb.auth.getSession();
 
       if (!session) {
-        // No hay sesión → redirigir al login
         window.location.href = 'acceso.html';
         return;
       }
 
-      const user  = session.user;
-      const email = user.email;
-      const nombre = user.user_metadata?.nombre || email.split('@')[0];
+      currentUser = session.user;
+      const nombre = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
 
-      // Mostrar nombre en nav
       document.getElementById('nav-user').textContent = nombre;
 
-      // Mostrar panel admin solo al autor
-      if (email === ADMIN_EMAIL) {
-        document.getElementById('admin-panel').classList.add('visible');
-      }
-
-      // Cargar entradas
       await cargarEntradas();
 
-      // Ocultar loading
       const ls = document.getElementById('loading-screen');
       ls.classList.add('fade');
       setTimeout(() => ls.remove(), 500);
@@ -671,8 +747,6 @@
       window.location.href = 'index.html';
     });
 
-    /* ─── REDIRECT POST-LOGIN desde acceso.html ─── */
-    // Cuando Supabase confirma el email y redirige, captura la sesión
     sb.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && window.location.pathname.includes('acceso')) {
         window.location.href = 'dashboard.html';
