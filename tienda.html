@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07080a;
+      --bg-soft: #0d0f12;
+      --panel: rgba(255,255,255,.03);
+      --panel-strong: rgba(255,255,255,.06);
+      --text: #efe6d8;
+      --muted: rgba(239,230,216,.68);
+      --faint: rgba(239,230,216,.36);
+      --line: rgba(239,230,216,.1);
+      --gold: #b69a6a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-padding-top: 8rem; }
+    body {
+      background: radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 22%),
+                  linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(7,8,10,.2);
+      transition: background .4s;
+    }
+    nav.scrolled { background: rgba(7,8,10,.92); backdrop-filter: blur(10px); }
+    nav a {
+      text-decoration: none; color: var(--text);
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      transition: opacity .2s; border-bottom: none;
+    }
+    nav a:hover { opacity: .6; }
+    .nav-logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; margin-right: 40px; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 8rem 4rem 6rem;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      margin-bottom: 4rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2rem;
+    }
+    .page-label {
+      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: .8rem;
+    }
+    .page-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 300; font-style: italic; line-height: 1.1;
+      color: var(--text);
+    }
+    .page-header p {
+      margin-top: 1rem; color: var(--muted);
+      font-size: 14px; font-weight: 300; max-width: 40ch;
+    }
+
+    /* ── GRID ── */
+    .productos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .producto-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column;
+      transition: background .25s, border-color .25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .producto-card:hover { background: var(--panel-strong); border-color: rgba(239,230,216,.22); }
+    .producto-card:hover .card-arrow { opacity: 1; transform: translate(0,0); }
+
+    .card-img {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--bg-soft);
+      overflow: hidden;
+    }
+    .card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: grayscale(30%);
+      transition: transform .5s, filter .5s;
+    }
+    .producto-card:hover .card-img img { transform: scale(1.03); filter: grayscale(0%); }
+
+    .card-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--faint); font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    }
+
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
+    .card-tag {
+      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .card-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 300; line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 13px; color: var(--muted); font-weight: 300;
+      line-height: 1.6; flex: 1;
+    }
+    .card-footer {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 1.2rem 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .card-precio {
+      font-size: 13px; color: var(--text);
+      font-feature-settings: "tnum";
+    }
+    .card-precio strong { font-size: 1.1rem; font-weight: 400; }
+    .card-arrow {
+      font-size: 18px; color: var(--gold);
+      opacity: 0; transform: translate(-4px, 4px);
+      transition: opacity .25s, transform .25s;
+    }
+
+    /* ── EMPTY / LOADING ── */
+    .estado {
+      padding: 6rem 0; text-align: center;
+      color: var(--faint); font-size: 13px; letter-spacing: .1em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 1100px; margin: 0 auto;
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--line);
+      color: var(--faint); font-size: 11px; letter-spacing: .08em;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .page { padding: 7rem 1.5rem 4rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div style="display:flex;align-items:center">
+      <a href="index.html" class="nav-logo">Enough</a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="tienda.html" style="color:var(--gold)">Tienda</a>
+      <a href="blog.html">Blog</a>
+      <a href="dashboard.html">Archivo</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <div class="page-header">
+      <p class="page-label">Tienda</p>
+      <h1>Objetos<br>con intención</h1>
+      <p>Publicaciones, archivos y piezas digitales del proyecto Enough.</p>
+    </div>
+
+    <div class="productos-grid" id="grid">
+      <div class="estado">Cargando productos...</div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="nav-logo">Enough</span>
+    <span>© 2026 Enough. Bucaramanga, Colombia.</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://xwoqinouwnpzqiyqbpup.supabase.co',
+      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+    );
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    function formatCOP(n) {
+      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
+    }
+
+    function renderCard(p) {
+      const img = p.imagen_url
+        ? `<img src="${p.imagen_url}" alt="${p.nombre}" loading="lazy">`
+        : `<div class="card-placeholder">Sin imagen</div>`;
+      return `
+        <a class="producto-card" href="producto.html?id=${p.id}">
+          <div class="card-img">${img}</div>
+          <div class="card-body">
+            <span class="card-tag">Digital</span>
+            <h2 class="card-nombre">${p.nombre}</h2>
+            <p class="card-desc">${p.descripcion ?? ''}</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-precio"><strong>${formatCOP(p.precio)}</strong> COP</div>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>`;
+    }
+
+    async function cargar() {
+      const grid = document.getElementById('grid');
+      const { data, error } = await sb.from('productos').select('*').eq('activo', true).order('created_at', { ascending: false });
+      if (error || !data?.length) {
+        grid.innerHTML = '<div class="estado">No hay productos disponibles por el momento.</div>';
+        return;
+      }
+      grid.innerHTML = data.map(renderCard).join('');
+    }
+
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) window.location.href = 'acceso.html';
+      else cargar();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmación · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07080a;
+      --bg-soft: #0d0f12;
+      --panel: rgba(255,255,255,.03);
+      --text: #efe6d8;
+      --muted: rgba(239,230,216,.68);
+      --faint: rgba(239,230,216,.36);
+      --line: rgba(239,230,216,.1);
+      --gold: #b69a6a;
+      --green: #6aad72;
+      --red: #e05b5b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 22%),
+                  linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(7,8,10,.2);
+      transition: background .4s;
+    }
+    nav.scrolled { background: rgba(7,8,10,.92); backdrop-filter: blur(10px); }
+    nav a {
+      text-decoration: none; color: var(--text);
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      transition: opacity .2s; border-bottom: none;
+    }
+    nav a:hover { opacity: .6; }
+    .nav-logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; margin-right: 40px; }
+    .nav-links { display: flex; gap: 2rem; }
+
+    /* ── PÁGINA CENTRADA ── */
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 8rem 2rem 4rem;
+    }
+
+    .card {
+      max-width: 520px; width: 100%;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 3.5rem;
+    }
+
+    /* ── ESTADOS ── */
+    .estado-icono {
+      font-size: 2rem; margin-bottom: 1.5rem;
+      display: block;
+    }
+    .estado-label {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      margin-bottom: .8rem;
+    }
+    .estado-label.ok    { color: var(--green); }
+    .estado-label.error { color: var(--red); }
+    .estado-label.wait  { color: var(--gold); }
+
+    .estado-titulo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 300; font-style: italic;
+      line-height: 1.15; margin-bottom: 1.2rem;
+    }
+
+    .estado-desc {
+      font-size: 13px; color: var(--muted); font-weight: 300;
+      line-height: 1.8; margin-bottom: 2rem;
+    }
+
+    /* Detalles de la orden */
+    .orden-detalle {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      display: flex; flex-direction: column; gap: .6rem;
+    }
+    .orden-row {
+      display: flex; justify-content: space-between;
+      font-size: 12px; letter-spacing: .05em;
+    }
+    .orden-row span:first-child { color: var(--faint); text-transform: uppercase; font-size: 10px; letter-spacing: .15em; }
+    .orden-row span:last-child  { color: var(--text); font-feature-settings: "tnum"; }
+    .orden-row.total span:last-child { color: var(--gold); font-size: 1rem; }
+
+    /* Acciones */
+    .acciones { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: .85rem 1.8rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
+      text-decoration: none; cursor: pointer; border: none;
+      display: inline-block; transition: background .25s, color .25s;
+    }
+    .btn-primary {
+      background: transparent;
+      border: 1px solid rgba(239,230,216,.72);
+      color: var(--text);
+    }
+    .btn-primary:hover { background: var(--text); color: var(--bg); }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .btn-ghost:hover { border-color: rgba(239,230,216,.4); color: var(--text); }
+
+    /* Spinner */
+    .spinner-wrap { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.5rem; }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 1px solid var(--faint); border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner-txt { font-size: 12px; color: var(--faint); letter-spacing: .1em; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--line);
+      color: var(--faint); font-size: 11px; letter-spacing: .08em;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .card { padding: 2rem 1.5rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div style="display:flex;align-items:center">
+      <a href="index.html" class="nav-logo">Enough</a>
+    </div>
+    <div class="nav-links">
+      <a href="tienda.html">Tienda</a>
+      <a href="dashboard.html">Archivo</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="card" id="card">
+      <!-- Contenido inyectado por JS -->
+      <div class="spinner-wrap">
+        <div class="spinner"></div>
+        <span class="spinner-txt">Verificando tu pago...</span>
+      </div>
+      <p class="estado-desc" style="color:var(--faint);font-size:12px">Esto puede tardar unos segundos.</p>
+    </div>
+  </main>
+
+  <footer>
+    <span class="nav-logo">Enough</span>
+    <span>© 2026 Enough. Bucaramanga, Colombia.</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://xwoqinouwnpzqiyqbpup.supabase.co',
+      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+    );
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    function formatCOP(n) {
+      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
+    }
+
+    function renderAprobada(orden) {
+      document.getElementById('card').innerHTML = `
+        <span class="estado-icono">✦</span>
+        <span class="estado-label ok">Pago confirmado</span>
+        <h1 class="estado-titulo">Tu compra<br>fue exitosa</h1>
+        <p class="estado-desc">
+          Gracias por tu compra. Recibirás un correo en <strong>${orden.email}</strong>
+          con el enlace de descarga en los próximos minutos.
+        </p>
+        <div class="orden-detalle">
+          <div class="orden-row">
+            <span>Referencia</span>
+            <span>${orden.referencia}</span>
+          </div>
+          <div class="orden-row total">
+            <span>Total pagado</span>
+            <span>${formatCOP(orden.total)} COP</span>
+          </div>
+          <div class="orden-row">
+            <span>Estado</span>
+            <span style="color:var(--green)">Aprobada</span>
+          </div>
+        </div>
+        <div class="acciones">
+          <a href="tienda.html" class="btn btn-primary">Ver más productos</a>
+          <a href="dashboard.html" class="btn btn-ghost">Ir al archivo</a>
+        </div>`;
+    }
+
+    function renderRechazada(orden) {
+      document.getElementById('card').innerHTML = `
+        <span class="estado-icono">✕</span>
+        <span class="estado-label error">Pago no procesado</span>
+        <h1 class="estado-titulo">Algo salió<br>mal</h1>
+        <p class="estado-desc">
+          Tu pago fue rechazado o cancelado. No se realizó ningún cargo.
+          Puedes intentarlo de nuevo o usar otro método de pago.
+        </p>
+        <div class="orden-detalle">
+          <div class="orden-row">
+            <span>Referencia</span>
+            <span>${orden.referencia}</span>
+          </div>
+          <div class="orden-row">
+            <span>Estado</span>
+            <span style="color:var(--red)">${orden.estado}</span>
+          </div>
+        </div>
+        <div class="acciones">
+          <a href="producto.html?id=${orden.producto_id}" class="btn btn-primary">Intentar de nuevo</a>
+          <a href="tienda.html" class="btn btn-ghost">Ver tienda</a>
+        </div>`;
+    }
+
+    function renderPendiente(ref) {
+      document.getElementById('card').innerHTML = `
+        <span class="estado-icono">◌</span>
+        <span class="estado-label wait">Pago en proceso</span>
+        <h1 class="estado-titulo">Verificando<br>tu pago</h1>
+        <p class="estado-desc">
+          Tu transacción está siendo procesada. Puede tardar unos minutos en confirmarse.
+          Recibirás un correo cuando esté lista.
+        </p>
+        ${ref ? `<div class="orden-detalle"><div class="orden-row"><span>Referencia</span><span>${ref}</span></div></div>` : ''}
+        <div class="acciones">
+          <a href="tienda.html" class="btn btn-primary">Ir a la tienda</a>
+          <a href="dashboard.html" class="btn btn-ghost">Ir al archivo</a>
+        </div>`;
+    }
+
+    function renderSinRef() {
+      document.getElementById('card').innerHTML = `
+        <span class="estado-label wait">Sin referencia</span>
+        <h1 class="estado-titulo">No encontramos<br>tu orden</h1>
+        <p class="estado-desc">
+          No pudimos identificar tu transacción. Si realizaste un pago,
+          revisa tu correo o contáctanos.
+        </p>
+        <div class="acciones">
+          <a href="tienda.html" class="btn btn-primary">Ver tienda</a>
+        </div>`;
+    }
+
+    async function verificar() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { window.location.href = 'acceso.html'; return; }
+
+      // Wompi añade ?id=TRANSACTION_ID al redirect, pero también enviamos reference
+      const params = new URLSearchParams(window.location.search);
+      const wompiTxId = params.get('id');   // ID de transacción Wompi
+      const ref = params.get('reference') ?? params.get('ref');
+
+      if (!wompiTxId && !ref) { renderSinRef(); return; }
+
+      // Sondeo: espera hasta 12s mientras el webhook procesa
+      let intentos = 0;
+      const MAX = 6;
+
+      async function consultar() {
+        intentos++;
+        let query = sb.from('ordenes').select('*').eq('user_id', session.user.id);
+        if (wompiTxId) query = query.eq('wompi_transaction_id', wompiTxId);
+        else           query = query.eq('referencia', ref);
+
+        const { data } = await query.maybeSingle();
+
+        if (data?.estado === 'APROBADA')  { renderAprobada(data); return; }
+        if (data?.estado === 'RECHAZADA' || data?.estado === 'VOIDED' || data?.estado === 'ERROR') {
+          renderRechazada(data); return;
+        }
+
+        // Aún PENDIENTE: si llegamos al límite mostramos pendiente
+        if (intentos >= MAX) { renderPendiente(data?.referencia ?? ref); return; }
+
+        setTimeout(consultar, 2000);
+      }
+
+      consultar();
+    }
+
+    verificar();
+  </script>
+</body>
+</html>

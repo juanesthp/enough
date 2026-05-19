@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Producto · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07080a;
+      --bg-soft: #0d0f12;
+      --panel: rgba(255,255,255,.03);
+      --panel-strong: rgba(255,255,255,.06);
+      --text: #efe6d8;
+      --muted: rgba(239,230,216,.68);
+      --faint: rgba(239,230,216,.36);
+      --line: rgba(239,230,216,.1);
+      --gold: #b69a6a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 22%),
+                  linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(7,8,10,.2);
+      transition: background .4s;
+    }
+    nav.scrolled { background: rgba(7,8,10,.92); backdrop-filter: blur(10px); }
+    nav a {
+      text-decoration: none; color: var(--text);
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      transition: opacity .2s; border-bottom: none;
+    }
+    nav a:hover { opacity: .6; }
+    .nav-logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; margin-right: 40px; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 9rem 4rem 6rem;
+    }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--faint); text-decoration: none;
+      margin-bottom: 3.5rem;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* ── PRODUCTO ── */
+    .producto-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* Imagen */
+    .producto-img {
+      aspect-ratio: 3/4;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      position: sticky;
+      top: 8rem;
+    }
+    .producto-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(20%);
+      display: block;
+    }
+    .img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--faint); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    }
+
+    /* Info */
+    .producto-info { display: flex; flex-direction: column; gap: 2rem; }
+
+    .producto-tag {
+      font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .producto-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; font-style: italic;
+      line-height: 1.1;
+    }
+    .producto-precio {
+      font-size: 1.5rem; font-weight: 300;
+      color: var(--text);
+      font-feature-settings: "tnum";
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .producto-precio span { font-size: 13px; color: var(--muted); margin-left: .4rem; }
+
+    .producto-desc {
+      font-size: 14px; color: var(--muted); font-weight: 300;
+      line-height: 1.8;
+    }
+    .producto-desc-larga {
+      font-size: 14px; color: var(--muted); font-weight: 300;
+      line-height: 1.8;
+      border-top: 1px solid var(--line);
+      padding-top: 1.5rem;
+    }
+
+    /* CTA */
+    .cta-zona { display: flex; flex-direction: column; gap: 1rem; }
+
+    .btn-comprar {
+      display: flex; align-items: center; justify-content: center; gap: .8rem;
+      padding: 1.1rem 2.4rem;
+      background: transparent;
+      border: 1px solid rgba(239,230,216,.72);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+      cursor: pointer;
+      transition: background .25s, color .25s, border-color .25s;
+    }
+    .btn-comprar:hover:not(:disabled) { background: var(--text); color: var(--bg); }
+    .btn-comprar:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-comprar .spinner {
+      width: 14px; height: 14px;
+      border: 1px solid currentColor; border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: none;
+    }
+    .btn-comprar.loading .spinner { display: block; }
+    .btn-comprar.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .cta-msg {
+      font-size: 12px; min-height: 1.2em; letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .cta-msg.error { color: #e05b5b; }
+    .cta-msg.ok    { color: #6aad72; }
+
+    .cta-nota {
+      font-size: 11px; color: var(--faint); letter-spacing: .06em;
+    }
+
+    /* ── LOADING / ERROR ── */
+    .estado {
+      padding: 10rem 0; text-align: center;
+      color: var(--faint); font-size: 13px; letter-spacing: .1em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 1100px; margin: 0 auto;
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--line);
+      color: var(--faint); font-size: 11px; letter-spacing: .08em;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .page { padding: 7rem 1.5rem 4rem; }
+      .producto-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .producto-img { position: static; aspect-ratio: 16/9; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .8rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div style="display:flex;align-items:center">
+      <a href="index.html" class="nav-logo">Enough</a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="tienda.html" style="color:var(--gold)">Tienda</a>
+      <a href="blog.html">Blog</a>
+      <a href="dashboard.html">Archivo</a>
+    </div>
+  </nav>
+
+  <main class="page" id="main">
+    <div class="estado">Cargando producto...</div>
+  </main>
+
+  <footer>
+    <span class="nav-logo">Enough</span>
+    <span>© 2026 Enough. Bucaramanga, Colombia.</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://xwoqinouwnpzqiyqbpup.supabase.co',
+      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+    );
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    function formatCOP(n) {
+      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
+    }
+
+    function renderProducto(p) {
+      const img = p.imagen_url
+        ? `<img src="${p.imagen_url}" alt="${p.nombre}">`
+        : `<div class="img-placeholder">Enough</div>`;
+      const descLarga = p.descripcion_larga
+        ? `<div class="producto-desc-larga">${p.descripcion_larga}</div>` : '';
+      return `
+        <a href="tienda.html" class="back-link">← Volver a la tienda</a>
+        <div class="producto-layout">
+          <div class="producto-img">${img}</div>
+          <div class="producto-info">
+            <span class="producto-tag">Digital · Descarga inmediata</span>
+            <h1 class="producto-nombre">${p.nombre}</h1>
+            <div class="producto-precio">${formatCOP(p.precio)}<span>COP</span></div>
+            <p class="producto-desc">${p.descripcion ?? ''}</p>
+            ${descLarga}
+            <div class="cta-zona">
+              <button class="btn-comprar" id="btn-comprar" onclick="comprar('${p.id}')">
+                <span class="spinner"></span>
+                <span class="btn-text">Comprar ahora</span>
+              </button>
+              <div class="cta-msg" id="cta-msg"></div>
+              <p class="cta-nota">Pago seguro con Wompi · PSE, Nequi, tarjeta</p>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    async function comprar(productoId) {
+      const btn = document.getElementById('btn-comprar');
+      const msg = document.getElementById('cta-msg');
+
+      btn.disabled = true;
+      btn.classList.add('loading');
+      msg.textContent = '';
+      msg.className = 'cta-msg';
+
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { window.location.href = 'acceso.html'; return; }
+
+        const res = await fetch(
+          'https://xwoqinouwnpzqiyqbpup.supabase.co/functions/v1/wompi-checkout',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({ producto_id: productoId, cantidad: 1 }),
+          }
+        );
+
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error ?? 'Error al crear el pago');
+
+        msg.textContent = '— Redirigiendo a pago seguro...';
+        msg.className = 'cta-msg ok';
+        setTimeout(() => { window.location.href = json.checkout_url; }, 600);
+      } catch (err) {
+        msg.textContent = '— ' + err.message;
+        msg.className = 'cta-msg error';
+        btn.disabled = false;
+        btn.classList.remove('loading');
+      }
+    }
+
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) { window.location.href = 'acceso.html'; return; }
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const main = document.getElementById('main');
+
+      if (!id) {
+        main.innerHTML = '<div class="estado">Producto no especificado. <a href="tienda.html" style="color:var(--gold)">Ver tienda →</a></div>';
+        return;
+      }
+
+      const { data, error } = await sb.from('productos').select('*').eq('id', id).eq('activo', true).single();
+      if (error || !data) {
+        main.innerHTML = '<div class="estado">Producto no encontrado. <a href="tienda.html" style="color:var(--gold)">Ver tienda →</a></div>';
+        return;
+      }
+
+      document.title = `${data.nombre} · Enough`;
+      main.innerHTML = renderProducto(data);
+    }
+
+    init();
+  </script>
+</body>
+</html>
