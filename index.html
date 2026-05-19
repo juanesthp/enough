@@ -19,9 +19,11 @@
   <meta name="twitter:description" content="Un archivo sobre atmósferas, materia y la forma de habitar el mundo.">
   <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
 
+  <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -45,7 +47,7 @@
         radial-gradient(circle at top left, rgba(182,154,106,.12), transparent 22%),
         radial-gradient(circle at 82% 18%, rgba(70,58,42,.18), transparent 28%),
         linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
-      font-family: Raleway, sans-serif;
+      font-family: 'DM Sans', sans-serif;
       padding: 40px;
       max-width: 800px;
       margin: 0 auto;
@@ -198,6 +200,129 @@
       text-align: center;
     }
 
+    .acceso-section {
+      border-top: none;
+      margin-top: -1.4rem;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .acceso-panel {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 2rem;
+      align-items: stretch;
+      background:
+        linear-gradient(180deg, rgba(15,16,19,.94), rgba(9,10,12,.98)),
+        radial-gradient(circle at top left, rgba(182,154,106,.12), transparent 30%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .acceso-copy,
+    .acceso-card {
+      padding: 2.5rem;
+    }
+    .acceso-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      min-height: 100%;
+    }
+    .acceso-copy .section-label,
+    .acceso-copy h2,
+    .acceso-copy p {
+      text-align: left;
+    }
+    .acceso-copy h2 {
+      margin-bottom: 1.25rem;
+      max-width: 18rem;
+    }
+    .acceso-copy p { max-width: 28rem; }
+    .acceso-note {
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .acceso-card {
+      background: rgba(255,255,255,.025);
+      border-left: 1px solid var(--line);
+    }
+    .acceso-card h3 {
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+    }
+    .acceso-form {
+      display: grid;
+      gap: 1rem;
+    }
+    .acceso-form label {
+      display: grid;
+      gap: .55rem;
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .acceso-form input {
+      width: 100%;
+      padding: 1rem 1.1rem;
+      border: 1px solid rgba(239,230,216,.12);
+      background: rgba(255,255,255,.02);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      transition: border-color .25s, background .25s;
+    }
+    .acceso-form input:focus {
+      border-color: rgba(182,154,106,.72);
+      background: rgba(255,255,255,.035);
+    }
+    .acceso-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .8rem;
+      margin-top: .5rem;
+    }
+    .btn-ghost {
+      display: inline-block;
+      padding: .85rem 1.8rem;
+      border: 1px solid rgba(239,230,216,.18);
+      color: var(--muted);
+      background: transparent;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      transition: border-color .25s, color .25s, background .25s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--text);
+      color: var(--text);
+      background: rgba(255,255,255,.03);
+    }
+    .acceso-links {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .acceso-links a {
+      color: rgba(239,230,216,.76);
+      border-bottom-color: rgba(239,230,216,.12);
+    }
+
     .filosofia-grid {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -288,20 +413,6 @@
     * { cursor: none; }
     .cursor { position: fixed; pointer-events: none; z-index: 9999; transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference; }
 
-    .time-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 28px;
-      padding: 0;
-      background: transparent;
-      border: none;
-      box-shadow: none;
-    }
-    .cd-digit { font-family: 'Cormorant Garamond', serif; font-size: clamp(.8rem, 1.2vw, 1rem); font-weight: 300; color: rgba(239,230,216,.42); letter-spacing: .5px; line-height: 1; }
-    .cd-label { display: none; }
-    .cd-tick { opacity: .55; transition: opacity .15s ease; }
-
     @media (max-width: 920px) {
       body { padding: 28px; overflow-x: hidden; }
       nav {
@@ -340,20 +451,15 @@
       .hero h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); letter-spacing: 8px; }
       .hero-sub { max-width: 28rem; }
       section { margin-top: 48px; padding-top: 32px; }
-      #countdown-wrapper {
-        gap: 1.2rem !important;
-        flex-wrap: nowrap;
-        justify-content: center !important;
-        margin: 0 auto;
-        overflow-x: auto;
-        padding: 0 .25rem .25rem;
-      }
-      .time-block { min-width: 72px; }
+      .acceso-panel,
       .filosofia-grid,
       .servicios-grid,
       .contacto-dark { grid-template-columns: 1fr; }
       .filosofia-grid { gap: 2.25rem; }
       .filosofia-left { position: static; }
+      .acceso-copy,
+      .acceso-card { padding: 2rem; }
+      .acceso-card { border-left: none; border-top: 1px solid var(--line); }
       .contacto-dark {
         width: auto;
         margin-left: -28px;
@@ -385,16 +491,8 @@
       .hero-content { left: 1.5rem; right: 1.5rem; bottom: 1.5rem; }
       .hero h1 { font-size: 2.5rem; letter-spacing: 6px; }
       .filosofia-numero { font-size: 4rem; }
-      #countdown-wrapper {
-        display: flex !important;
-        flex-wrap: nowrap;
-        justify-content: flex-start !important;
-        gap: .9rem !important;
-        max-width: none;
-        overflow-x: auto;
-        padding: 0 .1rem .25rem;
-      }
-      .time-block { min-width: 64px; }
+      .acceso-actions,
+      .acceso-links { flex-direction: column; }
       .contacto-dark {
         margin-left: -20px;
         margin-right: -20px;
@@ -422,6 +520,7 @@
   <nav id="nav">
     <a href="#" class="logo">Enough</a>
     <a href="#filosofia">Filosofía</a>
+    <a href="#acceso">Acceso</a>
     <a href="galeria.html">Galería</a>
     <a href="blog.html">Blog</a>
     <a href="fragmentos.html">Fragmentos</a>
@@ -440,12 +539,37 @@
     </div>
   </div>
 
-  <section id="countdown" style="border-top: none; margin-top: -1.4rem; padding-top: 0; padding-bottom: 0;">
-    <div id="countdown-wrapper" style="display: flex; flex-direction: row; align-items: center; width: fit-content; margin-left: 4rem; gap: .35rem;">
-      <div class="time-block"><span id="cd-days" class="cd-digit">00</span><span class="cd-label">Días</span></div>
-      <div class="time-block"><span id="cd-hours" class="cd-digit">00</span><span class="cd-label">Horas</span></div>
-      <div class="time-block"><span id="cd-minutes" class="cd-digit">00</span><span class="cd-label">Minutos</span></div>
-      <div class="time-block"><span id="cd-seconds" class="cd-digit">00</span><span class="cd-label">Segundos</span></div>
+  <section id="acceso" class="acceso-section">
+    <div class="acceso-panel">
+      <div class="acceso-copy">
+        <div>
+          <span class="section-label">Acceso</span>
+          <h2>Un punto de entrada para volver al archivo</h2>
+          <p>Hecho para lectores, colaboradores y usuarios que quieran seguir el rastro de Enough con una entrada clara, sobria y directa.</p>
+        </div>
+        <span class="acceso-note">Acceso privado · seguimiento editorial · actualizaciones del archivo</span>
+      </div>
+      <div class="acceso-card">
+        <h3>Entrar</h3>
+        <form class="acceso-form">
+          <label for="user-email">
+            Correo
+            <input id="user-email" type="email" name="email" placeholder="tu@correo.com" autocomplete="email">
+          </label>
+          <label for="user-password">
+            Contraseña
+            <input id="user-password" type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password">
+          </label>
+          <div class="acceso-actions">
+            <a href="#contacto" class="btn-primary">Ingresar</a>
+            <a href="#contacto" class="btn-ghost">Solicitar acceso</a>
+          </div>
+          <div class="acceso-links">
+            <a href="#contacto">Recuperar contraseña</a>
+            <a href="#contacto">Crear usuario</a>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -568,26 +692,6 @@
       heroImage.addEventListener('contextmenu', e => e.preventDefault());
       heroImage.addEventListener('dragstart', e => e.preventDefault());
     }
-
-    const targetDate = new Date('2026-10-05T00:00:00');
-    function animateCD(id, value) {
-      const el = document.getElementById(id);
-      const newVal = value.toString().padStart(2, '0');
-      if (el.innerText !== newVal) {
-        el.classList.add('cd-tick');
-        setTimeout(() => { el.innerText = newVal; el.classList.remove('cd-tick'); }, 150);
-      }
-    }
-    function updateCD() {
-      const diff = targetDate - new Date();
-      if (diff <= 0) { clearInterval(cdInterval); return; }
-      animateCD('cd-days',    Math.floor(diff / 86400000));
-      animateCD('cd-hours',   Math.floor(diff / 3600000) % 24);
-      animateCD('cd-minutes', Math.floor(diff / 60000) % 60);
-      animateCD('cd-seconds', Math.floor(diff / 1000) % 60);
-    }
-    const cdInterval = setInterval(updateCD, 1000);
-    updateCD();
   </script>
 
 </body>
