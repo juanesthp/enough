@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Acceso Ãƒâ€šÃ‚Â· Enough</title>
+  <title>Acceso · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Accede o crea tu cuenta en Enough.">
@@ -13,12 +13,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #f2efe9;
-      --dark:    #1a1a18;
-      --muted:   #4a4a47;
-      --gold:    #b8a88a;
-      --line:    #e2ddd6;
-      --nav-bg:  rgba(242,239,233,.95);
+      --bg: #f2efe9;
+      --dark: #1a1a18;
+      --muted: #4a4a47;
+      --gold: #b8a88a;
+      --line: #e2ddd6;
+      --nav-bg: rgba(242,239,233,.95);
     }
 
     html { scroll-padding-top: 8rem; }
@@ -34,10 +34,12 @@
       min-height: 100vh;
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Nav ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
+    /* Nav */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       display: flex;
       justify-content: space-between;
@@ -67,7 +69,7 @@
       margin-right: 40px;
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ PÃƒÆ’Ã‚Â¡gina ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
+    /* Página */
     .acceso-wrap {
       margin-top: 8rem;
       display: grid;
@@ -77,7 +79,6 @@
       min-height: calc(100vh - 14rem);
     }
 
-    /* Columna izquierda */
     .acceso-meta { position: sticky; top: 7rem; }
     .acceso-numero {
       font-family: 'Cormorant Garamond', serif;
@@ -108,10 +109,8 @@
       line-height: 2;
     }
 
-    /* Columna derecha ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â formulario */
     .acceso-form-wrap { padding-top: .5rem; }
 
-    /* Tabs */
     .tabs {
       display: flex;
       gap: 2.5rem;
@@ -138,7 +137,6 @@
     }
     .tab-btn:hover:not(.active) { color: var(--muted); }
 
-    /* Form */
     form { display: none; flex-direction: column; gap: 1.6rem; }
     form.visible { display: flex; }
 
@@ -167,7 +165,6 @@
     .field input::placeholder { color: var(--line); }
     .field input:focus { border-bottom-color: var(--gold); }
 
-    /* Barra de fortaleza */
     .strength-track {
       height: 1px;
       background: var(--line);
@@ -190,7 +187,6 @@
       min-height: 1em;
     }
 
-    /* BotÃƒÆ’Ã‚Â³n principal */
     .btn-send {
       background: none;
       border: 1px solid var(--dark);
@@ -209,7 +205,6 @@
       color: var(--bg);
     }
 
-    /* OAuth */
     .oauth-sep {
       display: flex;
       align-items: center;
@@ -219,7 +214,8 @@
       text-transform: uppercase;
       color: var(--gold);
     }
-    .oauth-sep::before, .oauth-sep::after {
+    .oauth-sep::before,
+    .oauth-sep::after {
       content: '';
       flex: 1;
       height: 1px;
@@ -241,7 +237,6 @@
     }
     .btn-oauth:hover { border-color: var(--gold); color: var(--dark); }
 
-    /* Mensaje confirmaciÃƒÆ’Ã‚Â³n */
     .form-msg {
       font-size: 11px;
       letter-spacing: .15em;
@@ -252,7 +247,6 @@
       margin-top: -.6rem;
     }
 
-    /* Footer */
     footer {
       background: #111110;
       color: rgba(247,245,240,.35);
@@ -266,20 +260,25 @@
       margin-top: 5rem;
       letter-spacing: 2px;
     }
-    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: rgba(247,245,240,.35); }
+    footer .logo {
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 200;
+      text-transform: uppercase;
+      color: rgba(247,245,240,.35);
+    }
 
-    /* Cursor */
     * { cursor: none; }
     .cursor {
       position: fixed;
       pointer-events: none;
       z-index: 9999;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       mix-blend-mode: difference;
       transition: transform .15s ease;
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Responsive ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     @media (max-width: 920px) {
       body { padding: 28px; }
       nav {
@@ -318,6 +317,7 @@
       }
       .cursor { display: none; }
     }
+
     @media (max-width: 640px) {
       body { padding: 20px; }
       footer { margin-left: -20px; margin-right: -20px; }
@@ -326,7 +326,6 @@
 </head>
 <body>
 
-  <!-- Cursor personalizado -->
   <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none">
     <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
     <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
@@ -334,21 +333,19 @@
 
   <nav>
     <a href="index.html" class="logo">Enough</a>
-    <a href="index.html#filosofia">FilosofÃƒÆ’Ã‚Â­a</a>
-    <a href="galeria.html">GalerÃƒÆ’Ã‚Â­a</a>
+    <a href="index.html#filosofia">Filosofía</a>
+    <a href="galeria.html">Galería</a>
     <a href="blog.html">Blog</a>
     <a href="fragmentos.html">Fragmentos</a>
-    <a href="sobre.html">Sobre mÃƒÆ’Ã‚Â­</a>
+    <a href="sobre.html">Sobre mí</a>
     <a href="index.html#servicios">Servicios</a>
     <a href="acceso.html" aria-current="page">Acceso</a>
   </nav>
 
   <main>
     <div class="acceso-wrap">
-
-      <!-- Columna izquierda -->
       <div class="acceso-meta">
-        <span class="acceso-numero">ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</span>
+        <span class="acceso-numero">—</span>
         <span class="acceso-label">Enough<br>Acceso privado</span>
         <div class="acceso-separador"></div>
         <p class="acceso-desc">
@@ -356,36 +353,33 @@
         </p>
       </div>
 
-      <!-- Columna derecha -->
       <div class="acceso-form-wrap">
         <div class="tabs">
           <button class="tab-btn active" type="button" onclick="showTab('login')">Entrar</button>
           <button class="tab-btn" type="button" onclick="showTab('registro')">Crear cuenta</button>
         </div>
 
-        <!-- FORM: LOGIN -->
         <form id="form-login" class="visible" onsubmit="handleLogin(event)">
           <div class="field">
             <label for="l-email">Correo</label>
             <input type="email" id="l-email" placeholder="tu@correo.com" autocomplete="email" required>
           </div>
           <div class="field">
-            <label for="l-pass">ContraseÃƒÆ’Ã‚Â±a</label>
-            <input type="password" id="l-pass" placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢" autocomplete="current-password" required>
+            <label for="l-pass">Contraseña</label>
+            <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" required>
           </div>
           <div class="form-msg" id="msg-login"></div>
-          <button class="btn-send" type="submit">Iniciar sesiÃƒÆ’Ã‚Â³n</button>
-          <div class="oauth-sep">o continÃƒÆ’Ã‚Âºa con</div>
+          <button class="btn-send" type="submit">Iniciar sesión</button>
+          <div class="oauth-sep">o continúa con</div>
           <div class="oauth-btns">
             <button class="btn-oauth" type="button" onclick="oauthMsg()">Google</button>
             <button class="btn-oauth" type="button" onclick="oauthMsg()">GitHub</button>
           </div>
           <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-align:right;margin-top:-.5rem">
-            <a href="#" style="color:var(--gold);text-decoration:none" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">Ãƒâ€šÃ‚Â¿Olvidaste tu contraseÃƒÆ’Ã‚Â±a?</a>
+            <a href="#" style="color:var(--gold);text-decoration:none" onmouseover="this.style.opacity='.6'" onmouseout="this.style.opacity='1'">¿Olvidaste tu contraseña?</a>
           </div>
         </form>
 
-        <!-- FORM: REGISTRO -->
         <form id="form-registro" onsubmit="handleRegistro(event)">
           <div style="display:flex;gap:1.2rem">
             <div class="field" style="flex:1">
@@ -394,7 +388,7 @@
             </div>
             <div class="field" style="flex:1">
               <label for="r-apellido">Apellido</label>
-              <input type="text" id="r-apellido" placeholder="GarcÃƒÆ’Ã‚Â­a" autocomplete="family-name">
+              <input type="text" id="r-apellido" placeholder="García" autocomplete="family-name">
             </div>
           </div>
           <div class="field">
@@ -402,38 +396,35 @@
             <input type="email" id="r-email" placeholder="tu@correo.com" autocomplete="email" required>
           </div>
           <div class="field">
-            <label for="r-pass">ContraseÃƒÆ’Ã‚Â±a</label>
-            <input type="password" id="r-pass" placeholder="MÃƒÆ’Ã‚Â­nimo 8 caracteres" autocomplete="new-password" required oninput="checkStrength(this.value)">
+            <label for="r-pass">Contraseña</label>
+            <input type="password" id="r-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required oninput="checkStrength(this.value)">
             <div class="strength-track"><div class="strength-fill" id="sbar"></div></div>
             <div class="strength-hint" id="shint"></div>
           </div>
           <div class="field">
-            <label for="r-pass2">Confirmar contraseÃƒÆ’Ã‚Â±a</label>
-            <input type="password" id="r-pass2" placeholder="Repite tu contraseÃƒÆ’Ã‚Â±a" autocomplete="new-password" required>
+            <label for="r-pass2">Confirmar contraseña</label>
+            <input type="password" id="r-pass2" placeholder="Repite tu contraseña" autocomplete="new-password" required>
           </div>
           <div class="form-msg" id="msg-registro"></div>
           <button class="btn-send" type="submit">Crear cuenta</button>
-          <div class="oauth-sep">o continÃƒÆ’Ã‚Âºa con</div>
+          <div class="oauth-sep">o continúa con</div>
           <div class="oauth-btns">
             <button class="btn-oauth" type="button" onclick="oauthMsg()">Google</button>
             <button class="btn-oauth" type="button" onclick="oauthMsg()">GitHub</button>
           </div>
         </form>
       </div>
-
     </div>
   </main>
 
   <footer>
     <span class="logo">Enough</span>
-    <span>Ãƒâ€šÃ‚Â© 2026 Enough. DiseÃƒÆ’Ã‚Â±o con intenciÃƒÆ’Ã‚Â³n.</span>
+    <span>© 2026 Enough. Diseño con intención.</span>
     <span>Bucaramanga, Colombia</span>
   </footer>
 
-  <!-- 1. LibrerÃƒÆ’Ã‚Â­a de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- 2. Tu conexiÃƒÆ’Ã‚Â³n ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â reemplaza los dos valores de abajo con los de tu proyecto -->
   <script>
     const { createClient } = supabase;
     const sb = createClient(
@@ -442,20 +433,17 @@
     );
   </script>
 
-  <!-- 3. Toda la lÃƒÆ’Ã‚Â³gica de la pÃƒÆ’Ã‚Â¡gina -->
   <script>
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Cursor ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
       cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
+      cursor.style.top = e.clientY + 'px';
     });
     document.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(1.4)');
       el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
     });
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Tabs ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     function showTab(tab) {
       document.getElementById('form-login').classList.toggle('visible', tab === 'login');
       document.getElementById('form-registro').classList.toggle('visible', tab === 'registro');
@@ -464,35 +452,33 @@
       });
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Fortaleza de contraseÃƒÆ’Ã‚Â±a ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     function checkStrength(v) {
       let s = 0;
-      if (v.length >= 8)          s++;
-      if (/[A-Z]/.test(v))        s++;
-      if (/[0-9]/.test(v))        s++;
+      if (v.length >= 8) s++;
+      if (/[A-Z]/.test(v)) s++;
+      if (/[0-9]/.test(v)) s++;
       if (/[^A-Za-z0-9]/.test(v)) s++;
-      const pcts   = [0, 30, 55, 75, 100];
+      const pcts = [0, 30, 55, 75, 100];
       const colors = ['', '#c0392b', '#e2b96a', '#b8a88a', '#4a6741'];
-      const labels = ['', 'DÃƒÆ’Ã‚Â©bil', 'Regular', 'Buena', 'Fuerte'];
-      document.getElementById('sbar').style.width      = pcts[s] + '%';
+      const labels = ['', 'Débil', 'Regular', 'Buena', 'Fuerte'];
+      document.getElementById('sbar').style.width = pcts[s] + '%';
       document.getElementById('sbar').style.background = colors[s];
-      document.getElementById('shint').textContent     = labels[s];
+      document.getElementById('shint').textContent = labels[s];
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Login ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     async function handleLogin(e) {
       e.preventDefault();
       e.stopPropagation();
       const msg = document.getElementById('msg-login');
-      msg.textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Verificando credencialesÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦';
+      msg.textContent = '— Verificando credenciales...';
       const { error } = await sb.auth.signInWithPassword({
-        email:    document.getElementById('l-email').value,
+        email: document.getElementById('l-email').value,
         password: document.getElementById('l-pass').value,
       });
       if (error) {
-        msg.textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ' + error.message;
+        msg.textContent = '— ' + error.message;
       } else {
-        msg.textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Acceso concedido';
+        msg.textContent = '— Acceso concedido';
         setTimeout(() => window.location.href = 'dashboard.html', 800);
       }
     }
@@ -500,34 +486,36 @@
     async function handleRegistro(e) {
       e.preventDefault();
       e.stopPropagation();
-      const pass  = document.getElementById('r-pass').value;
+      const pass = document.getElementById('r-pass').value;
       const pass2 = document.getElementById('r-pass2').value;
       const email = document.getElementById('r-email').value;
-      const msg   = document.getElementById('msg-registro');
-      if (pass !== pass2) { msg.textContent = '- Las contrasenas no coinciden'; return; }
-      msg.textContent = '- Creando tu cuenta...';
+      const msg = document.getElementById('msg-registro');
+      if (pass !== pass2) {
+        msg.textContent = '— Las contraseñas no coinciden';
+        return;
+      }
+      msg.textContent = '— Creando tu cuenta...';
       const { data, error } = await sb.auth.signUp({
         email,
         password: pass,
         options: { data: { nombre: document.getElementById('r-nombre').value } }
       });
       if (error) {
-        msg.textContent = '- ' + error.message;
+        msg.textContent = '— ' + error.message;
         return;
       }
       if (data?.session) {
-        msg.textContent = '- Cuenta creada. Entrando...';
+        msg.textContent = '— Cuenta creada. Entrando...';
         setTimeout(() => window.location.href = 'dashboard.html', 800);
         return;
       }
-      msg.textContent = '- Cuenta creada. Revisa tu correo para verificar y luego inicia sesion';
+      msg.textContent = '— Cuenta creada. Revisa tu correo para verificar y luego inicia sesión';
       document.getElementById('l-email').value = email;
       document.getElementById('l-pass').value = '';
       showTab('login');
       document.getElementById('form-login').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    /* ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ OAuth ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ */
     async function oauthMsg() {
       await sb.auth.signInWithOAuth({ provider: 'google' });
     }
