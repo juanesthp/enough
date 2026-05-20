@@ -2,759 +2,655 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Proceso · Enough</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>Archivo · Enough</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
 
   <style>
-    :root {
-      --bg:     #07080a;
-      --text:   #efe6d8;
-      --muted:  rgba(239,230,216,.68);
-      --faint:  rgba(239,230,216,.28);
-      --line:   rgba(239,230,216,.08);
-      --gold:   #b69a6a;
-      --panel:  rgba(255,255,255,.03);
-      --panel2: rgba(255,255,255,.055);
-      --red:    rgba(180,60,60,.8);
-    }
+    /* ─── Dashboard — archivo privado, denso, editorial back-office ─── */
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-padding-top: 6rem; }
-
-    body {
-      background:
-        radial-gradient(circle at 14% 10%, rgba(182,154,106,.1), transparent 20%),
-        linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
-      font-family: Raleway, sans-serif;
-      font-weight: 300;
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    * { cursor: none; }
-    .cursor {
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      top: 0; left: 0;
-      mix-blend-mode: difference;
-      transition: transform .15s ease;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(7,8,10,.94);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
-    nav a, .nav-btn {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: opacity .2s;
-      background: none;
-      border: none;
-      font-family: Raleway, sans-serif;
-      font-weight: 300;
-    }
-    nav a:hover, .nav-btn:hover { opacity: .5; }
-    .logo {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
-      text-transform: uppercase;
-      margin-right: 40px;
-      text-decoration: none;
-      color: var(--text);
-    }
-    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-user {
-      font-size: 11px;
-      letter-spacing: .1em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
-
-    /* ── PANTALLA DE CARGA ── */
-    #loading-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity .5s ease;
-    }
-    #loading-screen.fade {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .loading-mark {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      font-weight: 300;
-      letter-spacing: 12px;
-      color: rgba(239,230,216,.2);
-      text-transform: uppercase;
-      animation: pulso 2s ease-in-out infinite;
-    }
-    @keyframes pulso {
-      0%, 100% { opacity: .2; }
-      50%       { opacity: .6; }
-    }
-
-    /* ── LAYOUT ── */
-    .page {
-      max-width: 860px;
+    /* Welcome banner */
+    .welcome {
+      max-width: 1480px;
       margin: 0 auto;
-      padding: 8rem 40px 6rem;
-    }
-
-    /* ── HEADER ── */
-    .page-header {
+      padding: 28px var(--gutter);
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: start;
-      margin-bottom: 5rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--line);
-    }
-    .header-meta { position: sticky; top: 6rem; }
-    .header-numero {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem;
-      font-weight: 300;
-      color: rgba(239,230,216,.1);
-      line-height: 1;
-      display: block;
-      margin-bottom: 1rem;
-    }
-    .header-label {
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      line-height: 2.2;
-      display: block;
-    }
-    .header-sep { width: 1px; height: 2.5rem; background: var(--gold); margin: 1.5rem 0; opacity: .5; }
-    .header-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 2;
-      letter-spacing: .02em;
-    }
-    .header-right h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      font-weight: 300;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-    .header-right p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 2;
-      text-align: left;
-    }
-
-    /* ── PANEL NUEVA ENTRADA ── */
-    .admin-panel {
-      background: var(--panel2);
-      border: 1px solid rgba(182,154,106,.18);
-      padding: 2.5rem;
-      margin-bottom: 4rem;
-    }
-    .admin-panel-header {
-      display: flex;
-      justify-content: space-between;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
       align-items: center;
-      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
     }
-    .admin-title {
+    .welcome .who {
+      grid-column: 1 / span 6;
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .welcome .who em { font-style: italic; color: var(--text-soft); }
+    .welcome .session {
+      grid-column: 7 / span 6;
+      text-align: right;
+      font-family: var(--label-font);
       font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--muted);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 24px;
     }
-    .admin-toggle {
-      font-size: 10px;
-      letter-spacing: .15em;
+    .welcome .session .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+    }
+    .welcome .session .pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+      box-shadow: 0 0 8px oklch(78% 0.12 145 / .7);
+    }
+    .welcome .session a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
+    }
+    .welcome .session a:hover { color: var(--text); border-color: var(--gold); }
+
+    /* Stats row */
+    .stats {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+    }
+    .stat {
+      background: var(--bg);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat .k {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
       text-transform: uppercase;
       color: var(--faint);
-      background: none;
-      border: none;
-      font-family: Raleway, sans-serif;
-      transition: color .2s;
     }
-    .admin-toggle:hover { color: var(--text); }
-
-    /* form dentro del panel */
-    .entry-form { display: flex; flex-direction: column; gap: 1.4rem; }
-    .form-field label {
-      display: block;
-      font-size: 10px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .5rem;
-    }
-    .form-field input,
-    .form-field textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--line);
-      padding: .5rem 0;
-      font-family: Raleway, sans-serif;
-      font-size: 14px;
-      font-weight: 300;
+    .stat .v {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1;
       color: var(--text);
-      letter-spacing: .02em;
-      outline: none;
-      transition: border-color .2s;
-      resize: none;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
     }
-    .form-field input::placeholder,
-    .form-field textarea::placeholder { color: rgba(239,230,216,.2); }
-    .form-field input:focus,
-    .form-field textarea:focus { border-bottom-color: var(--gold); }
-    .form-field textarea { min-height: 140px; line-height: 1.9; }
-    .form-actions { display: flex; align-items: center; gap: 2rem; margin-top: .5rem; }
-    .btn-publish {
-      background: none;
-      border: 1px solid rgba(239,230,216,.5);
-      font-family: Raleway, sans-serif;
-      font-size: 10px;
-      letter-spacing: .2em;
+    .stat .v em { font-style: italic; color: var(--text-soft); font-size: 28px; }
+    .stat .n {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--text);
-      padding: .8rem 2rem;
-      transition: background .25s, color .25s;
+      color: var(--muted);
     }
-    .btn-publish:hover { background: var(--text); color: var(--bg); }
-    .form-msg {
-      font-size: 10px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      min-height: 1em;
-    }
-    .form-msg.error { color: var(--red); }
+    .stat .n.up { color: oklch(78% 0.12 145); }
 
-    /* ── FEED ── */
-    .feed-header {
+    /* Main grid */
+    .dash {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 40px var(--gutter) 80px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 36px 24px;
+      position: relative;
+      z-index: 3;
+    }
+    .panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--hair-2);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .panel .p-head {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 2.5rem;
+      gap: 16px;
     }
-    .feed-title {
+    .panel h2 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .panel h2 em { font-style: italic; color: var(--text-soft); }
+    .panel .p-num {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Latest fragment (large) */
+    .frag-latest { grid-column: 1 / span 7; padding: 0; min-height: 380px; }
+    .frag-latest::before {
+      content: '';
+      position: absolute;
+      left: 30%; top: 30%;
+      width: 60%; height: 60%;
+      background: radial-gradient(ellipse at center,
+        color-mix(in oklch, var(--turrell-a) 14%, transparent),
+        transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .frag-latest .frag-img {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      position: relative;
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .frag-latest .frag-img::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .frag-latest .frag-body {
+      padding: 28px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .frag-latest .frag-meta {
+      display: flex;
+      gap: 18px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .frag-latest .frag-meta .sep { color: var(--faint); }
+    .frag-latest h3 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .frag-latest h3 em { font-style: italic; color: var(--text-soft); }
+    .frag-latest p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+    .frag-latest .actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Right column panels */
+    .right-col { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: 24px; }
+
+    /* Próximos */
+    .proximo .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid var(--hair-2);
+      align-items: baseline;
+    }
+    .proximo .item:last-child { border-bottom: 1px solid var(--hair-2); }
+    .proximo .item .when {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+      min-width: 64px;
+    }
+    .proximo .item .what {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .proximo .item .where {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* Cuenta */
+    .cuenta .row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .cuenta .row:last-of-type { border-bottom: 1px solid var(--hair-2); margin-bottom: 16px; }
+    .cuenta .row .k { color: var(--faint); }
+    .cuenta .row .v { color: var(--text); font-weight: 500; }
+    .cuenta .row .v.muted { color: var(--muted); font-weight: 400; }
+
+    /* Compras */
+    .compras { grid-column: 1 / span 12; }
+    .compras-list {
+      display: grid;
+      grid-template-columns: 60px 80px 1fr 180px 140px 120px;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .compras-list .h-cell {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair-2);
+      color: var(--faint);
+    }
+    .compras-list .h-cell:last-child { text-align: right; }
+    .compras-list .row {
+      display: contents;
+    }
+    .compras-list .row .c {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .compras-list .row .c.tnum { font-variant-numeric: tabular-nums; }
+    .compras-list .row .c.right { justify-content: flex-end; }
+    .compras-list .num { color: var(--gold); font-variant-numeric: tabular-nums; }
+    .compras-list .thumb {
+      width: 56px;
+      aspect-ratio: 1 / 1;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border: 1px solid var(--hair);
+      position: relative;
+    }
+    .compras-list .thumb.tint-warm::after,
+    .compras-list .thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .compras-list .thumb.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 70%); }
+    .compras-list .thumb.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 70%); }
+    .compras-list .name {
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text);
+    }
+    .compras-list .name em { font-style: italic; color: var(--text-soft); }
+    .compras-list .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font-size: 9px;
+      letter-spacing: .22em;
+    }
+    .compras-list .status.ok::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+    }
+    .compras-list .status.pen::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .compras-list .dl {
+      font-family: var(--label-font);
       font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
     }
-    .feed-count {
-      font-size: 10px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--faint);
-    }
+    .compras-list .dl:hover { color: var(--text); border-color: var(--gold); }
 
-    .entrada {
+    /* Notas / recortes */
+    .notas { grid-column: 1 / span 12; }
+    .notas-grid {
       display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 2.5rem;
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--line);
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity .5s ease, transform .5s ease;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
     }
-    .entrada.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .entrada-fecha {
+    .nota {
+      background: var(--bg);
+      padding: 22px;
       display: flex;
       flex-direction: column;
-      gap: .3rem;
-      padding-top: .25rem;
+      gap: 12px;
+      min-height: 200px;
     }
-    .fecha-dia {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem;
-      font-weight: 300;
-      color: rgba(239,230,216,.18);
-      line-height: 1;
-    }
-    .fecha-mes {
+    .nota .n-date {
+      font-family: var(--label-font);
       font-size: 9px;
-      letter-spacing: .2em;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
-      opacity: .7;
     }
-    .fecha-año {
-      font-size: 9px;
-      letter-spacing: .15em;
-      color: var(--faint);
-    }
-    .entrada-cuerpo { }
-    .entrada-titulo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      font-weight: 300;
+    .nota .n-q {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.4;
       color: var(--text);
-      letter-spacing: 2px;
-      margin-bottom: .8rem;
-      line-height: 1.3;
     }
-    .entrada-texto {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 2.1;
-      white-space: pre-wrap;
+    .nota .n-q .first {
+      font-size: 1.3em;
+      color: var(--gold);
+      font-style: normal;
+      margin-right: .08em;
+      vertical-align: -.04em;
     }
-    .entrada-meta {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    .entrada-autor {
-      font-size: 9px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--faint);
-    }
-    .btn-delete-entrada {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      background: none;
-      border: none;
-      font-family: Raleway, sans-serif;
-      font-size: 9px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(180,60,60,.45);
-      padding: 0;
-      transition: color .2s;
-    }
-    .btn-delete-entrada:hover { color: var(--red); }
-
-    /* Estado vacío */
-    .feed-empty {
-      padding: 4rem 0;
-      text-align: center;
-    }
-    .feed-empty p {
-      font-size: 13px;
-      color: var(--faint);
-      line-height: 2;
-      letter-spacing: .05em;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #050608;
-      color: var(--faint);
+    .nota .n-foot {
+      margin-top: auto;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 2rem 4rem;
-      font-size: 12px;
-      letter-spacing: 2px;
-      border-top: 1px solid var(--line);
-      margin-top: 4rem;
-    }
-    footer .logo-f {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--faint);
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 920px) {
-      nav {
-        position: sticky;
-        top: 0;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: .9rem;
-        padding: .95rem 1.2rem;
-        overflow-x: auto;
-        white-space: nowrap;
-        scrollbar-width: none;
-        backdrop-filter: none;
-        background: rgba(7,8,10,.96);
-      }
-      nav::-webkit-scrollbar { display: none; }
-      .nav-right { gap: 1.5rem; }
-      .page { padding: 2rem 28px 5rem; }
-      .page-header { grid-template-columns: 1fr; gap: 2rem; }
-      .header-meta { position: static; }
-      .entrada { grid-template-columns: 70px 1fr; gap: 1.5rem; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
-      .cursor { display: none; }
-    }
-
-    @media (max-width: 640px) {
-      .page { padding: 2rem 20px 4rem; }
-      nav a, .nav-btn { font-size: 9px; }
-      .entrada { grid-template-columns: 1fr; gap: 0.5rem; }
-      .entrada-fecha { flex-direction: row; align-items: baseline; gap: .8rem; margin-bottom: .6rem; }
-      .fecha-dia { font-size: 1.4rem; }
+      .welcome { grid-template-columns: 1fr; gap: 14px; }
+      .welcome .who, .welcome .session { grid-column: 1 / span 1; }
+      .welcome .session { justify-content: flex-start; flex-wrap: wrap; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .dash { grid-template-columns: 1fr; gap: 24px; padding: 24px var(--gutter) 60px; }
+      .frag-latest, .right-col, .compras, .notas { grid-column: 1; }
+      .compras-list { grid-template-columns: 40px 1fr 1fr; }
+      .compras-list .h-cell:nth-child(2),
+      .compras-list .h-cell:nth-child(4),
+      .compras-list .h-cell:nth-child(6),
+      .compras-list .row .c:nth-child(2),
+      .compras-list .row .c:nth-child(4),
+      .compras-list .row .c:nth-child(6) { display: none; }
+      .notas-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Cursor -->
-  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none">
-    <line x1="13" y1="3" x2="13" y2="23" stroke="#fff" stroke-width="1.6"/>
-    <line x1="3" y1="13" x2="23" y2="13" stroke="#fff" stroke-width="1.6"/>
-  </svg>
-
-  <!-- Loading -->
-  <div id="loading-screen">
-    <span class="loading-mark">Enough</span>
-  </div>
-
-  <!-- Nav -->
-  <nav>
-    <a href="index.html" class="logo">Enough</a>
-    <div class="nav-right">
-      <span class="nav-user" id="nav-user">—</span>
-      <a href="galeria.html" class="nav-btn">Galería</a>
-      <a href="blog.html" class="nav-btn">Blog</a>
-      <a href="tienda.html" class="nav-btn">Tienda</a>
-      <button class="nav-btn" id="btn-logout">Salir</button>
-    </div>
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
+      <li><a href="acceso.html">Salir</a></li>
+    </ul>
+    <div class="nav-coords"><b>05</b> · Archivo</div>
   </nav>
 
-  <main class="page">
+  <header class="page-head">
+    <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
+    <h1>Tu <em>archivo</em>.</h1>
+    <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br>Lunes, 19 may.</div>
+    <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
+  </header>
 
-    <!-- Header -->
-    <div class="page-header">
-      <div class="header-meta">
-        <span class="header-numero">P</span>
-        <span class="header-label">Enough<br>Proceso<br>Acceso privado</span>
-        <div class="header-sep"></div>
-        <p class="header-desc">Lo que funciona,<br>lo que no,<br>y lo que todavía no sé si sirve.</p>
+  <section class="welcome">
+    <div class="who">Bienvenida de vuelta,<br><em>Ana</em>.</div>
+    <div class="session">
+      <span class="pill">Sesión activa</span>
+      <span>Último acceso · 17 may.</span>
+      <a href="acceso.html">Cerrar sesión</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <span class="k">Fragmentos leídos</span>
+      <span class="v">12<em>/24</em></span>
+      <span class="n up">+ 3 esta semana</span>
+    </div>
+    <div class="stat">
+      <span class="k">Compras</span>
+      <span class="v">4</span>
+      <span class="n">3 digitales · 1 print</span>
+    </div>
+    <div class="stat">
+      <span class="k">Guardados</span>
+      <span class="v">18</span>
+      <span class="n">8 luz · 6 materia · 4 umbral</span>
+    </div>
+    <div class="stat">
+      <span class="k">Próxima edición</span>
+      <span class="v"><em>01</em><br></span>
+      <span class="n">Junio · sin frecuencia</span>
+    </div>
+  </section>
+
+  <main class="dash">
+
+    <!-- Latest fragment -->
+    <article class="panel frag-latest">
+      <div class="frag-img"></div>
+      <div class="frag-body">
+        <div class="frag-meta">
+          <span>Fragmento</span><span class="sep">·</span>
+          <span>N.º 12</span><span class="sep">·</span>
+          <span>17 may. 2026</span>
+        </div>
+        <h3>La sombra como <em>presencia</em>.</h3>
+        <p>Hay tardes en las que la sombra no es la ausencia de luz sino su forma más concreta. Cae sobre el muro, lo divide en dos temperaturas, y se queda ahí, quieta, midiendo el tiempo en grados. El cuerpo lo siente antes que la mirada lo entienda.</p>
+        <div class="actions">
+          <a href="#" class="btn btn-solid">Leer completo</a>
+          <a href="#" class="btn btn-ghost">Guardar</a>
+        </div>
       </div>
-      <div class="header-right">
-        <h1>Proceso</h1>
-        <p>Un registro abierto del proceso de construcción de Enough. Sin edición. Sin orden fijo. Sin prisa.</p>
-      </div>
+    </article>
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <section class="panel proximo">
+        <div class="p-head">
+          <h2>Próximas <em>publicaciones</em></h2>
+          <span class="p-num">04 piezas</span>
+        </div>
+        <div>
+          <div class="item">
+            <span class="when">Jun 02</span>
+            <span class="what">Vol. I — Apertura, prólogo</span>
+            <span class="where">Ensayo</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 14</span>
+            <span class="what">Fragmento N.º 13 — <em>Aire</em></span>
+            <span class="where">Cuaderno</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 28</span>
+            <span class="what">Print — Umbral, edición de 30</span>
+            <span class="where">Tienda</span>
+          </div>
+          <div class="item">
+            <span class="when">Jul —</span>
+            <span class="what">Archivo 2025, segunda parte</span>
+            <span class="where">Tienda</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel cuenta">
+        <div class="p-head">
+          <h2>Cuenta</h2>
+          <span class="p-num">Lectora</span>
+        </div>
+        <div>
+          <div class="row"><span class="k">Nombre</span><span class="v">Ana García</span></div>
+          <div class="row"><span class="k">Correo</span><span class="v muted">ana@ejemplo.com</span></div>
+          <div class="row"><span class="k">Tipo</span><span class="v">Lectora · Vol. I</span></div>
+          <div class="row"><span class="k">Desde</span><span class="v muted">12 feb. 2026</span></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="#" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Editar perfil</a>
+          <a href="acceso.html" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Salir</a>
+        </div>
+      </section>
     </div>
 
-    <!-- Panel nueva entrada (visible para todos los usuarios autenticados) -->
-    <div class="admin-panel" id="admin-panel">
-      <div class="admin-panel-header">
-        <span class="admin-title">Nueva entrada</span>
-        <button class="admin-toggle" id="toggle-form">Colapsar</button>
+    <!-- Compras -->
+    <section class="panel compras">
+      <div class="p-head">
+        <h2>Tus <em>compras</em></h2>
+        <span class="p-num">4 piezas · todas pagadas</span>
       </div>
-      <div id="form-wrap">
-        <form class="entry-form" id="entry-form">
-          <div class="form-field">
-            <label for="e-titulo">Título (opcional)</label>
-            <input type="text" id="e-titulo" placeholder="Sin título">
-          </div>
-          <div class="form-field">
-            <label for="e-cuerpo">Entrada *</label>
-            <textarea id="e-cuerpo" placeholder="Lo que está pasando en el proceso..."></textarea>
-          </div>
-          <div class="form-actions">
-            <button class="btn-publish" type="submit">Publicar entrada</button>
-            <span class="form-msg" id="form-msg"></span>
-          </div>
-        </form>
+      <div class="compras-list">
+        <span class="h-cell">N.º</span>
+        <span class="h-cell">Img</span>
+        <span class="h-cell">Pieza</span>
+        <span class="h-cell">Fecha</span>
+        <span class="h-cell">Estado</span>
+        <span class="h-cell">Descarga</span>
+
+        <div class="row">
+          <span class="c num">04</span>
+          <span class="c"><span class="thumb tint-warm"></span></span>
+          <span class="c"><span class="name">Vol. I — <em>Apertura</em></span></span>
+          <span class="c tnum">14 may. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">03</span>
+          <span class="c"><span class="thumb tint-violet"></span></span>
+          <span class="c"><span class="name">Wallpapers — <em>Luz</em></span></span>
+          <span class="c tnum">02 may. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar ZIP →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">02</span>
+          <span class="c"><span class="thumb"></span></span>
+          <span class="c"><span class="name">Fragmentos</span></span>
+          <span class="c tnum">18 abr. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">01</span>
+          <span class="c"><span class="thumb tint-warm"></span></span>
+          <span class="c"><span class="name">Print — <em>Tarde tendida</em></span></span>
+          <span class="c tnum">06 abr. 2026</span>
+          <span class="c"><span class="status pen">En envío</span></span>
+          <span class="c right"><a href="#" class="dl">Rastrear →</a></span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Feed -->
-    <div class="feed-header">
-      <span class="feed-title">Entradas</span>
-      <span class="feed-count" id="feed-count">—</span>
-    </div>
-
-    <div id="feed"></div>
+    <!-- Notas guardadas -->
+    <section class="panel notas">
+      <div class="p-head">
+        <h2>Notas <em>guardadas</em></h2>
+        <span class="p-num">18 fragmentos · 6 categorías</span>
+      </div>
+      <div class="notas-grid">
+        <div class="nota">
+          <span class="n-date">N.º 11 · 08 may.</span>
+          <p class="n-q"><span class="first">"</span>La penumbra no es una falta de luz: es la luz volviéndose materia, espesa, casi tocable."</p>
+          <div class="n-foot"><span>Luz</span><span>Guardado</span></div>
+        </div>
+        <div class="nota">
+          <span class="n-date">N.º 09 · 27 abr.</span>
+          <p class="n-q"><span class="first">"</span>El concreto guarda el calor del día como si recordara. Cuando lo tocas a las once, todavía es la tarde anterior."</p>
+          <div class="n-foot"><span>Materia</span><span>Guardado</span></div>
+        </div>
+        <div class="nota">
+          <span class="n-date">N.º 07 · 14 abr.</span>
+          <p class="n-q"><span class="first">"</span>Hay umbrales que detienen al cuerpo antes de detener la mirada. Algo en el aire cambia de densidad."</p>
+          <div class="n-foot"><span>Umbral</span><span>Guardado</span></div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <footer>
-    <span class="logo-f">Enough</span>
-    <span>© 2026 Enough.</span>
-    <span>Bucaramanga, Colombia</span>
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="#">Fragmentos</a><a href="#">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Cuenta</a><a href="acceso.html">Salir</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    /* ─── CONFIG ─── */
-    const SUPABASE_URL = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd';
-
-    /* ─── INIT ─── */
-    const { createClient } = supabase;
-    const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    let currentUser = null;
-
-    /* ─── CURSOR ─── */
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(1.4)');
-      el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-    });
-
-    /* ─── HELPERS DE FECHA ─── */
-    const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
-    function formatFecha(isoString) {
-      const d = new Date(isoString);
-      return {
-        dia: d.getDate().toString().padStart(2, '0'),
-        mes: MESES[d.getMonth()],
-        año: d.getFullYear()
-      };
-    }
-
-    /* ─── ELIMINAR ENTRADA ─── */
-    async function eliminarEntrada(id, el) {
-      if (!confirm('¿Eliminar esta entrada? Esta acción no se puede deshacer.')) return;
-
-      el.style.opacity = '0.4';
-      el.style.pointerEvents = 'none';
-
-      const { error } = await sb.from('entradas').delete().eq('id', id);
-
-      if (error) {
-        el.style.opacity = '';
-        el.style.pointerEvents = '';
-        alert('Error al eliminar: ' + error.message);
-        return;
-      }
-
-      el.style.transition = 'opacity .3s ease, transform .3s ease';
-      el.style.transform = 'translateX(-8px)';
-      setTimeout(() => {
-        el.remove();
-        // Actualizar contador
-        const items = document.querySelectorAll('.entrada');
-        const n = items.length;
-        document.getElementById('feed-count').textContent =
-          n === 0 ? '0 entradas' : `${n} entrada${n !== 1 ? 's' : ''}`;
-        if (n === 0) {
-          document.getElementById('feed').innerHTML = `
-            <div class="feed-empty">
-              <p>El proceso aún no tiene entradas.<br>Todo empieza en algún momento.</p>
-            </div>`;
-        }
-      }, 300);
-    }
-
-    /* ─── RENDER FEED ─── */
-    function renderEntrada(entrada, index) {
-      const { dia, mes, año } = formatFecha(entrada.created_at);
-      const titulo = entrada.titulo
-        ? `<h3 class="entrada-titulo">${entrada.titulo}</h3>`
-        : '';
-
-      const esMia = currentUser && entrada.user_id === currentUser.id;
-      const autorNombre = entrada.user_name || '—';
-
-      const btnEliminar = esMia ? `
-        <button class="btn-delete-entrada" data-id="${entrada.id}" title="Eliminar entrada">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.4">
-            <line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/>
-          </svg>
-          Eliminar
-        </button>` : '';
-
-      const el = document.createElement('div');
-      el.className = 'entrada';
-      el.style.transitionDelay = `${index * 80}ms`;
-      el.innerHTML = `
-        <div class="entrada-fecha">
-          <span class="fecha-dia">${dia}</span>
-          <span class="fecha-mes">${mes}</span>
-          <span class="fecha-año">${año}</span>
-        </div>
-        <div class="entrada-cuerpo">
-          ${titulo}
-          <p class="entrada-texto">${entrada.cuerpo}</p>
-          <div class="entrada-meta">
-            <span class="entrada-autor">${autorNombre}</span>
-            ${btnEliminar}
-          </div>
-        </div>
-      `;
-
-      if (esMia) {
-        const btn = el.querySelector('.btn-delete-entrada');
-        btn.addEventListener('click', () => eliminarEntrada(entrada.id, el));
-        btn.addEventListener('mouseenter', () => cursor.style.transform = 'scale(1.4)');
-        btn.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-      }
-
-      return el;
-    }
-
-    function renderFeed(entradas) {
-      const feed    = document.getElementById('feed');
-      const counter = document.getElementById('feed-count');
-      feed.innerHTML = '';
-
-      if (!entradas || entradas.length === 0) {
-        feed.innerHTML = `
-          <div class="feed-empty">
-            <p>El proceso aún no tiene entradas.<br>Todo empieza en algún momento.</p>
-          </div>`;
-        counter.textContent = '0 entradas';
-        return;
-      }
-
-      counter.textContent = `${entradas.length} entrada${entradas.length !== 1 ? 's' : ''}`;
-      entradas.forEach((e, i) => {
-        const el = renderEntrada(e, i);
-        feed.appendChild(el);
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => el.classList.add('visible'));
-        });
-      });
-    }
-
-    /* ─── CARGAR ENTRADAS ─── */
-    async function cargarEntradas() {
-      const { data, error } = await sb
-        .from('entradas')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error cargando entradas:', error);
-        document.getElementById('feed').innerHTML = `
-          <div class="feed-empty"><p>Error cargando el proceso. Intenta de nuevo.</p></div>`;
-        return;
-      }
-
-      renderFeed(data);
-    }
-
-    /* ─── PUBLICAR ENTRADA ─── */
-    document.getElementById('entry-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const msg    = document.getElementById('form-msg');
-      const titulo = document.getElementById('e-titulo').value.trim();
-      const cuerpo = document.getElementById('e-cuerpo').value.trim();
-
-      if (!cuerpo) {
-        msg.textContent = '— El cuerpo no puede estar vacío';
-        msg.className = 'form-msg error';
-        return;
-      }
-
-      msg.textContent = '— Publicando…';
-      msg.className = 'form-msg';
-
-      const nombre = currentUser?.user_metadata?.nombre
-        || currentUser?.email?.split('@')[0]
-        || 'Anónimo';
-
-      const { error } = await sb.from('entradas').insert({
-        titulo: titulo || null,
-        cuerpo,
-        user_id: currentUser.id,
-        user_name: nombre
-      });
-
-      if (error) {
-        msg.textContent = '— Error: ' + error.message;
-        msg.className = 'form-msg error';
-        return;
-      }
-
-      msg.textContent = '— Publicado';
-      document.getElementById('e-titulo').value = '';
-      document.getElementById('e-cuerpo').value = '';
-      setTimeout(() => { msg.textContent = ''; }, 3000);
-      await cargarEntradas();
-    });
-
-    /* ─── TOGGLE FORM ─── */
-    let formVisible = true;
-    document.getElementById('toggle-form').addEventListener('click', () => {
-      const wrap = document.getElementById('form-wrap');
-      const btn  = document.getElementById('toggle-form');
-      formVisible = !formVisible;
-      wrap.style.display = formVisible ? 'block' : 'none';
-      btn.textContent = formVisible ? 'Colapsar' : 'Expandir';
-    });
-
-    /* ─── AUTH + INIT ─── */
-    async function init() {
-      const { data: { session } } = await sb.auth.getSession();
-
-      if (!session) {
-        window.location.href = 'acceso.html';
-        return;
-      }
-
-      currentUser = session.user;
-      const nombre = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
-
-      document.getElementById('nav-user').textContent = nombre;
-
-      await cargarEntradas();
-
-      const ls = document.getElementById('loading-screen');
-      ls.classList.add('fade');
-      setTimeout(() => ls.remove(), 500);
-    }
-
-    /* ─── LOGOUT ─── */
-    document.getElementById('btn-logout').addEventListener('click', async () => {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    });
-
-    sb.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && window.location.pathname.includes('acceso')) {
-        window.location.href = 'dashboard.html';
-      }
-    });
-
-    init();
-  </script>
 
 </body>
 </html>
+
