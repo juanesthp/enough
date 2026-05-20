@@ -859,49 +859,24 @@
     document.getElementById('btn-logout-cuenta').addEventListener('click', logout);
 
     /* ─── INIT ─── */
-    let iniciado = false;
-
-    function arrancar(user) {
-      if (iniciado) return;
-      iniciado = true;
-      poblarUsuario(user);
-      ocultarLoading();
-    }
-
-    /* Intento inmediato con getSession() */
-    sb.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        sb.auth.getUser().then(({ data: { user }, error }) => {
-          if (error || !user) { window.location.href = 'acceso.html'; return; }
-          arrancar(user);
-        });
-      }
-    });
-
-    /* Timeout de seguridad: si en 5 segundos no hay sesión → acceso */
-    const timeout = setTimeout(() => {
-      if (!iniciado) window.location.href = 'acceso.html';
-    }, 5000);
-
-    /* onAuthStateChange como respaldo y para detectar SIGNED_OUT */
     sb.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_OUT') {
-        clearTimeout(timeout);
         window.location.href = 'acceso.html';
         return;
       }
 
-      if (session?.user && !iniciado) {
-        clearTimeout(timeout);
-        const { data: { user }, error } = await sb.auth.getUser();
-        if (error || !user) { window.location.href = 'acceso.html'; return; }
-        arrancar(user);
-        return;
-      }
-
-      if (event === 'INITIAL_SESSION' && !session) {
-        clearTimeout(timeout);
-        window.location.href = 'acceso.html';
+      if (event === 'INITIAL_SESSION') {
+        if (session && session.user) {
+          const { data: { user }, error } = await sb.auth.getUser();
+          if (error || !user) {
+            window.location.href = 'acceso.html';
+            return;
+          }
+          poblarUsuario(user);
+          ocultarLoading();
+        } else {
+          window.location.href = 'acceso.html';
+        }
       }
     });
   </script>

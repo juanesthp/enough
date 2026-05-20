@@ -285,10 +285,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const { createClient } = supabase;
-    const sb = createClient(
-      'https://xwoqinouwnpzqiyqbpup.supabase.co',
-      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
-    );
+    const SUPA_URL = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY';
+    const sb = createClient(SUPA_URL, SUPA_KEY);
 
     function showTab(t) {
       document.getElementById('form-login').classList.toggle('on', t === 'login');
