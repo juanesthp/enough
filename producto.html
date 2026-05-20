@@ -7,209 +7,387 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
   <style>
-    :root {
-      --bg: #07080a;
-      --bg-soft: #0d0f12;
-      --panel: rgba(255,255,255,.03);
-      --panel-strong: rgba(255,255,255,.06);
-      --text: #efe6d8;
-      --muted: rgba(239,230,216,.68);
-      --faint: rgba(239,230,216,.36);
-      --line: rgba(239,230,216,.1);
-      --gold: #b69a6a;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 22%),
-                  linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    /* ─── Producto — colapsado, ficha técnica editorial ─── */
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(7,8,10,.2);
-      transition: background .4s;
-    }
-    nav.scrolled { background: rgba(7,8,10,.92); backdrop-filter: blur(10px); }
-    nav a {
-      text-decoration: none; color: var(--text);
-      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
-      transition: opacity .2s; border-bottom: none;
-    }
-    nav a:hover { opacity: .6; }
-    .nav-logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; margin-right: 40px; }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-
-    /* ── LAYOUT ── */
-    .page {
-      max-width: 1100px;
+    .producto-bar {
+      max-width: 1480px;
       margin: 0 auto;
-      padding: 9rem 4rem 6rem;
+      padding: 96px var(--gutter) 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+      gap: 16px;
+      flex-wrap: wrap;
     }
-
-    .back-link {
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-      color: var(--faint); text-decoration: none;
-      margin-bottom: 3.5rem;
+    .producto-bar .crumbs {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .producto-bar .crumbs a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 8px;
       transition: color .2s;
     }
-    .back-link:hover { color: var(--text); }
+    .producto-bar .crumbs a:hover { color: var(--text); }
+    .producto-bar .crumbs span { margin-right: 8px; }
+    .producto-bar .crumbs b { color: var(--text); font-weight: 500; }
 
-    /* ── PRODUCTO ── */
-    .producto-layout {
+    .producto {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 36px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 56px;
       align-items: start;
     }
 
-    /* Imagen */
-    .producto-img {
-      aspect-ratio: 3/4;
-      background: var(--bg-soft);
-      border: 1px solid var(--line);
-      overflow: hidden;
+    /* IMAGE column */
+    .pr-media {
       position: sticky;
-      top: 8rem;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .producto-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: grayscale(20%);
-      display: block;
+    .pr-hero {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      overflow: hidden;
+      position: relative;
     }
-    .img-placeholder {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--faint); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    .pr-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.92) contrast(1.04); }
+    .pr-hero.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
     }
+    .pr-hero.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .pr-hero.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .pr-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .pr-thumb {
+      aspect-ratio: 1 / 1;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      cursor: pointer;
+      transition: border-color .2s;
+      position: relative;
+    }
+    .pr-thumb:hover, .pr-thumb.on { border-color: var(--gold); }
+    .pr-thumb.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .pr-thumb.tint-warm::after,
+    .pr-thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .pr-thumb.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 70%); }
+    .pr-thumb.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 70%); }
 
-    /* Info */
-    .producto-info { display: flex; flex-direction: column; gap: 2rem; }
-
-    .producto-tag {
-      font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+    /* INFO column */
+    .pr-info {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .pr-meta {
+      display: flex;
+      gap: 14px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
       color: var(--gold);
     }
-    .producto-nombre {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 300; font-style: italic;
-      line-height: 1.1;
-    }
-    .producto-precio {
-      font-size: 1.5rem; font-weight: 300;
+    .pr-meta .sep { color: var(--faint); }
+    .pr-meta .vol { color: var(--faint); }
+    .pr-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: .98;
+      letter-spacing: .005em;
+      text-transform: uppercase;
       color: var(--text);
-      font-feature-settings: "tnum";
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--line);
     }
-    .producto-precio span { font-size: 13px; color: var(--muted); margin-left: .4rem; }
-
-    .producto-desc {
-      font-size: 14px; color: var(--muted); font-weight: 300;
-      line-height: 1.8;
-    }
-    .producto-desc-larga {
-      font-size: 14px; color: var(--muted); font-weight: 300;
-      line-height: 1.8;
-      border-top: 1px solid var(--line);
-      padding-top: 1.5rem;
+    .pr-name em {
+      font-style: italic;
+      letter-spacing: 0;
+      color: var(--text-soft);
     }
 
-    /* CTA */
-    .cta-zona { display: flex; flex-direction: column; gap: 1rem; }
-
-    .btn-comprar {
-      display: flex; align-items: center; justify-content: center; gap: .8rem;
-      padding: 1.1rem 2.4rem;
-      background: transparent;
-      border: 1px solid rgba(239,230,216,.72);
+    .pr-price {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 18px 0 18px;
+      border-top: 1px solid var(--hair-2);
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .pr-price .amt {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
-      cursor: pointer;
-      transition: background .25s, color .25s, border-color .25s;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
     }
-    .btn-comprar:hover:not(:disabled) { background: var(--text); color: var(--bg); }
-    .btn-comprar:disabled { opacity: .5; cursor: not-allowed; }
-    .btn-comprar .spinner {
-      width: 14px; height: 14px;
-      border: 1px solid currentColor; border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: none;
-    }
-    .btn-comprar.loading .spinner { display: block; }
-    .btn-comprar.loading .btn-text { display: none; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .cta-msg {
-      font-size: 12px; min-height: 1.2em; letter-spacing: .06em;
+    .pr-price .cur {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
       color: var(--muted);
     }
-    .cta-msg.error { color: #e05b5b; }
-    .cta-msg.ok    { color: #6aad72; }
-
-    .cta-nota {
-      font-size: 11px; color: var(--faint); letter-spacing: .06em;
+    .pr-price .stock {
+      margin-left: auto;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pr-price .stock::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: oklch(78% 0.12 145);
+      border-radius: 50%;
+      box-shadow: 0 0 10px oklch(78% 0.12 145 / .6);
     }
 
-    /* ── LOADING / ERROR ── */
-    .estado {
-      padding: 10rem 0; text-align: center;
-      color: var(--faint); font-size: 13px; letter-spacing: .1em;
+    .pr-lede {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--text);
+      max-width: 38ch;
     }
 
-    /* ── FOOTER ── */
-    footer {
-      max-width: 1100px; margin: 0 auto;
-      padding: 3rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid var(--line);
-      color: var(--faint); font-size: 11px; letter-spacing: .08em;
+    .pr-body {
+      font-size: 14.5px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 56ch;
     }
+    .pr-body p + p { margin-top: 14px; }
 
-    @media (max-width: 768px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { gap: 1.2rem; }
-      .page { padding: 7rem 1.5rem 4rem; }
-      .producto-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-      .producto-img { position: static; aspect-ratio: 16/9; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .8rem; text-align: center; }
+    .pr-spec {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 8px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .pr-spec div {
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .pr-spec div:nth-last-child(-n+2) { border-bottom: 1px solid var(--hair-2); }
+    .pr-spec .k { color: var(--faint); }
+    .pr-spec .v { color: var(--text); font-weight: 500; text-align: right; }
+
+    .pr-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .pr-actions .btn-solid { flex: 1; min-width: 200px; justify-content: center; padding: 18px 24px; font-size: 11px; }
+    .pr-actions .btn-ghost { padding: 18px 22px; }
+
+    .pr-note {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--faint);
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .pr-note::before { content: '·'; color: var(--gold); }
+
+    /* RELATED */
+    .related {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 80px var(--gutter) 40px;
+      position: relative;
+      z-index: 3;
+      border-top: 1px solid var(--hair);
+    }
+    .related-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 32px;
+    }
+    .related-head h3 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 32px;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .related-head h3 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .related-head .right {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .rel-card {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: opacity .2s;
+    }
+    .rel-card:hover { opacity: .8; }
+    .rel-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      position: relative;
+    }
+    .rel-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .rel-img.tint-warm::after,
+    .rel-img.tint-violet::after,
+    .rel-img.tint-dusk::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .rel-img.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%); }
+    .rel-img.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%); }
+    .rel-img.tint-dusk::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-c) 20%, transparent), transparent 70%); }
+
+    .rel-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .rel-meta .num { color: var(--gold); }
+    .rel-meta .price { color: var(--muted); }
+    .rel-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.05;
+      color: var(--text);
+    }
+    .rel-name em { font-style: italic; color: var(--text-soft); }
+
+    @media (max-width: 920px) {
+      .producto { grid-template-columns: 1fr; gap: 36px; padding: 24px var(--gutter) 60px; }
+      .pr-media { position: static; }
+      .related-grid { grid-template-columns: 1fr; gap: 32px; }
+      .pr-actions .btn-solid { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-  <nav id="nav">
-    <div style="display:flex;align-items:center">
-      <a href="index.html" class="nav-logo">Enough</a>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="tienda.html" style="color:var(--gold)">Tienda</a>
-      <a href="blog.html">Blog</a>
-      <a href="dashboard.html">Archivo</a>
-    </div>
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="tienda.html" aria-current="page">Tienda</a></li>
+      <li><a href="dashboard.html">Archivo</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b id="pr-cur-num">03.01</b> · Pieza</div>
   </nav>
 
-  <main class="page" id="main">
-    <div class="estado">Cargando producto...</div>
+  <div class="producto-bar">
+    <nav class="crumbs">
+      <a href="index.html">Enough</a><span>/</span><a href="tienda.html">Tienda</a><span>/</span><b id="pr-crumb">—</b>
+    </nav>
+    <a href="tienda.html" class="back-link">Volver al catálogo</a>
+  </div>
+
+  <main class="producto" id="producto">
+    <!-- rendered below -->
   </main>
 
-  <footer>
-    <span class="nav-logo">Enough</span>
-    <span>© 2026 Enough. Bucaramanga, Colombia.</span>
+  <section class="related">
+    <div class="related-head">
+      <h3>Del mismo <em>archivo</em>.</h3>
+      <div class="right">3 piezas · seleccionadas</div>
+    </div>
+    <div class="related-grid" id="related"></div>
+  </section>
+
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-seal">
+      <div class="seal" aria-hidden="true">
+        <div class="si">Vol.<b>I</b>MMXXVI</div>
+      </div>
+      <div class="end">Hecho con cuidado, sin frecuencia</div>
+      <div class="meta">© MMXXVI · Enough Editorial<br>Bucaramanga, CO</div>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -219,105 +397,110 @@
       'https://xwoqinouwnpzqiyqbpup.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY'
     );
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (!session) window.location.href = 'acceso.html';
+    });
 
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+    // Same catalog as tienda
+    const products = [
+      { id: 'vol-1', num: '01', name: 'Vol. I — Apertura', em: '', cat: 'Ensayo', fmt: 'PDF · 84 p.', price: 38000, tint: 'tint-warm',
+        lede: 'Primer volumen del editorial. Diez ensayos sobre atmósfera, materia y la forma de habitar.',
+        desc: ['El editorial nace como un archivo en formación: textos, observaciones y fotografías propias que documentan la relación entre el cuerpo y el espacio cuando todo se vuelve quieto.',
+               'Esta primera entrega reúne diez ensayos cortos, cinco fotografías originales y tres notas de proceso. Diseñado para leerse despacio, en cualquier orden, sin frecuencia.'],
+        specs: [['Tipo','Ensayo digital'],['Páginas','84'],['Formato','PDF (A4 + A5)'],['Idioma','Español'],['Edición','01 / MMXXVI'],['Entrega','Inmediata']] },
+      { id: 'archivo-2024', num: '02', name: 'Archivo 2024', em: '', cat: 'Archivo', fmt: 'ZIP · 240 imgs', price: 65000, tint: '',
+        lede: 'Selección curada del archivo fotográfico del año, en alta resolución y con notas.',
+        desc: ['240 imágenes seleccionadas a lo largo de 2024 en Bucaramanga y alrededores. Cada serie viene con un breve texto de campo y referencias.',
+               'Distribuidas en carpetas temáticas: luz, materia, umbral, vacío, ritmo. Todo en alta resolución, listo para impresión o referencia.'],
+        specs: [['Tipo','Archivo fotográfico'],['Imágenes','240'],['Resolución','3000 × 4000 px'],['Formato','ZIP (TIFF + JPG)'],['Notas','Incluidas'],['Entrega','Inmediata']] },
+      { id: 'wallpapers-luz', num: '03', name: 'Wallpapers — Luz', em: 'Luz', cat: 'Wallpapers', fmt: '6 archivos', price: 18000, tint: 'tint-violet',
+        lede: 'Seis fondos digitales basados en observaciones lumínicas del archivo.',
+        desc: ['Seis composiciones derivadas de observaciones reales del archivo. Cada wallpaper está optimizado para escritorio (5K) y móvil (4K).',
+               'Pensadas para acompañar trabajo profundo sin distraer.'],
+        specs: [['Tipo','Wallpapers'],['Cantidad','6'],['Resoluciones','5K + 4K'],['Formato','PNG'],['Edición','03 / MMXXVI'],['Entrega','Inmediata']] },
+      { id: 'fragmentos', num: '04', name: 'Fragmentos', em: '', cat: 'Ensayo', fmt: 'PDF · 32 p.', price: 22000, tint: '',
+        lede: 'Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.',
+        desc: ['Una colección de fragmentos cortos publicados a lo largo del año. Pequeños textos casi diarios sobre la experiencia del espacio.',
+               'Diseñado para leerse en sesiones breves, una página a la vez.'],
+        specs: [['Tipo','Cuaderno digital'],['Páginas','32'],['Formato','PDF'],['Edición','04 / MMXXVI'],['Idioma','Español'],['Entrega','Inmediata']] },
+      { id: 'print-tarde', num: '05', name: 'Print — Tarde tendida', em: 'Tarde tendida', cat: 'Impresión', fmt: 'A3 · 280 g/m²', price: 95000, tint: 'tint-warm',
+        lede: 'Impresión giclée numerada. Edición de 30 piezas con certificado.',
+        desc: ['Reproducción giclée sobre papel mate de algodón 280 g/m². Cada pieza viene firmada, numerada y acompañada de un certificado de autenticidad.',
+               'Tiempo de entrega: 7 a 10 días hábiles. Envío internacional disponible.'],
+        specs: [['Tipo','Impresión'],['Tamaño','A3 (297 × 420 mm)'],['Papel','Cotton Rag 280 g/m²'],['Edición','30 numeradas'],['Certificado','Sí'],['Entrega','7–10 días']] },
+    ];
 
-    function formatCOP(n) {
-      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
-    }
+    function formatCOP(n) { return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n); }
 
-    function renderProducto(p) {
-      const img = p.imagen_url
-        ? `<img src="${p.imagen_url}" alt="${p.nombre}">`
-        : `<div class="img-placeholder">Enough</div>`;
-      const descLarga = p.descripcion_larga
-        ? `<div class="producto-desc-larga">${p.descripcion_larga}</div>` : '';
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'vol-1';
+    const p = products.find(x => x.id === id) || products[0];
+
+    document.title = `${p.name} · Enough`;
+    document.getElementById('pr-cur-num').innerHTML = `<b>03.${p.num}</b>`;
+    document.getElementById('pr-crumb').textContent = p.name;
+
+    const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+    const tint = p.tint ? ' ' + p.tint : '';
+    const main = document.getElementById('producto');
+    main.innerHTML = `
+      <div class="pr-media">
+        <div class="pr-hero placeholder${tint}" id="hero"></div>
+        <div class="pr-thumbs">
+          <div class="pr-thumb placeholder${tint} on"></div>
+          <div class="pr-thumb placeholder${p.tint === 'tint-warm' ? ' tint-violet' : ' tint-warm'}"></div>
+          <div class="pr-thumb placeholder"></div>
+          <div class="pr-thumb placeholder${tint}"></div>
+        </div>
+      </div>
+      <div class="pr-info">
+        <div class="pr-meta">
+          <span>${p.num}</span>
+          <span class="sep">·</span>
+          <span>${p.cat}</span>
+          <span class="sep">·</span>
+          <span class="vol">Vol. I / MMXXVI</span>
+        </div>
+        <h1 class="pr-name">${nameHtml}</h1>
+        <p class="pr-lede">${p.lede}</p>
+        <div class="pr-price">
+          <span class="amt">$ ${formatCOP(p.price)}</span>
+          <span class="cur">COP</span>
+          <span class="stock">En stock</span>
+        </div>
+        <div class="pr-body">${p.desc.map(d => `<p>${d}</p>`).join('')}</div>
+        <div class="pr-spec">
+          ${p.specs.map(([k,v]) => `<div><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}
+        </div>
+        <div class="pr-actions">
+          <button class="btn btn-solid" id="buy">Comprar ahora</button>
+          <a href="tienda.html" class="btn btn-ghost">Seguir explorando</a>
+        </div>
+        <div class="pr-note">Pago seguro · PSE, Nequi, tarjeta · Acceso al instante</div>
+      </div>
+    `;
+
+    // related
+    const related = products.filter(x => x.id !== p.id).slice(0, 3);
+    document.getElementById('related').innerHTML = related.map(r => {
+      const nh = r.em ? r.name.replace(r.em, `<em>${r.em}</em>`) : r.name;
+      const t = r.tint ? ' ' + r.tint : '';
       return `
-        <a href="tienda.html" class="back-link">← Volver a la tienda</a>
-        <div class="producto-layout">
-          <div class="producto-img">${img}</div>
-          <div class="producto-info">
-            <span class="producto-tag">Digital · Descarga inmediata</span>
-            <h1 class="producto-nombre">${p.nombre}</h1>
-            <div class="producto-precio">${formatCOP(p.precio)}<span>COP</span></div>
-            <p class="producto-desc">${p.descripcion ?? ''}</p>
-            ${descLarga}
-            <div class="cta-zona">
-              <button class="btn-comprar" id="btn-comprar" onclick="comprar('${p.id}')">
-                <span class="spinner"></span>
-                <span class="btn-text">Comprar ahora</span>
-              </button>
-              <div class="cta-msg" id="cta-msg"></div>
-              <p class="cta-nota">Pago seguro con Wompi · PSE, Nequi, tarjeta</p>
-            </div>
-          </div>
-        </div>`;
-    }
+        <a class="rel-card" href="producto.html?id=${r.id}">
+          <div class="rel-img placeholder${t}"></div>
+          <div class="rel-meta"><span class="num">${r.num} — ${r.cat}</span><span class="price">$ ${formatCOP(r.price)}</span></div>
+          <h4 class="rel-name">${nh}</h4>
+        </a>`;
+    }).join('');
 
-    async function comprar(productoId) {
-      const btn = document.getElementById('btn-comprar');
-      const msg = document.getElementById('cta-msg');
-
+    document.getElementById('buy').addEventListener('click', e => {
+      const btn = e.target;
+      const original = btn.textContent;
+      btn.textContent = 'Procesando…';
       btn.disabled = true;
-      btn.classList.add('loading');
-      msg.textContent = '';
-      msg.className = 'cta-msg';
-
-      try {
-        const { data: { session } } = await sb.auth.getSession();
-        if (!session) { window.location.href = 'acceso.html'; return; }
-
-        const res = await fetch(
-          'https://xwoqinouwnpzqiyqbpup.supabase.co/functions/v1/wompi-checkout',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session.access_token}`,
-            },
-            body: JSON.stringify({ producto_id: productoId, cantidad: 1 }),
-          }
-        );
-
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error ?? 'Error al crear el pago');
-
-        msg.textContent = '— Redirigiendo a pago seguro...';
-        msg.className = 'cta-msg ok';
-        setTimeout(() => { window.location.href = json.checkout_url; }, 600);
-      } catch (err) {
-        msg.textContent = '— ' + err.message;
-        msg.className = 'cta-msg error';
-        btn.disabled = false;
-        btn.classList.remove('loading');
-      }
-    }
-
-    async function init() {
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) { window.location.href = 'acceso.html'; return; }
-
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      const main = document.getElementById('main');
-
-      if (!id) {
-        main.innerHTML = '<div class="estado">Producto no especificado. <a href="tienda.html" style="color:var(--gold)">Ver tienda →</a></div>';
-        return;
-      }
-
-      const { data, error } = await sb.from('productos').select('*').eq('id', id).eq('activo', true).single();
-      if (error || !data) {
-        main.innerHTML = '<div class="estado">Producto no encontrado. <a href="tienda.html" style="color:var(--gold)">Ver tienda →</a></div>';
-        return;
-      }
-
-      document.title = `${data.nombre} · Enough`;
-      main.innerHTML = renderProducto(data);
-    }
-
-    init();
+      setTimeout(() => { btn.textContent = 'Redirigiendo a pago seguro →'; }, 700);
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 2400);
+    });
   </script>
 </body>
 </html>

@@ -5,11 +5,48 @@
   <title>Galería · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Galería · Enough. Archivo visual de atmósferas, luz y materia. Bucaramanga.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="enough.css">
+  <style>
+    /* ─── Dark page override (re-flip enough.css palette) ─── */
+    :root {
+      --bg:        #0f0d0a;
+      --bg-soft:   #16130f;
+      --panel:     #1c1916;
+      --text:      #efe6d4;
+      --text-soft: #e2d8c2;
+      --muted:     rgba(239,230,212,.62);
+      --faint:     rgba(239,230,212,.30);
+      --hair:      rgba(239,230,212,.10);
+      --hair-2:    rgba(239,230,212,.18);
+      --gold:        #b69a6a;
+      --gold-soft:   #8f7750;
+      --gold-bright: #cab086;
+    }
+    body::before {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .78  0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .42;
+      mix-blend-mode: overlay;
+    }
+    body::after {
+      background:
+        radial-gradient(1100px 700px at 12% 0%, rgba(182,154,106,.06), transparent 60%),
+        radial-gradient(900px 600px at 92% 8%, rgba(182,154,106,.035), transparent 65%),
+        radial-gradient(1400px 900px at 50% 108%, rgba(0,0,0,.45), transparent 65%);
+    }
+    nav.site-nav {
+      background: linear-gradient(180deg, rgba(15,13,10,.86), rgba(15,13,10,0));
+    }
+    .btn-solid { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+    .btn-solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--bg); }
+    /* Seal glow on dark */
+    footer.site-foot .ft-seal .seal {
+      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--gold) 30%, var(--bg)) 0%, var(--bg-soft) 60%, var(--bg) 100%);
+    }
+  </style>
+
 
   <style>
     /* ─── Galería — colapsada, tipo archivo / contact-sheet ─── */
@@ -31,9 +68,21 @@
       position: relative;
       z-index: 3;
     }
-    .filter-strip .label { grid-column: 1 / span 2; color: var(--faint); }
-    .filter-strip .chips { grid-column: 3 / span 8; display: flex; gap: 6px; flex-wrap: wrap; }
-    .filter-strip .right { grid-column: 11 / span 2; text-align: right; color: var(--faint); }
+    .filter-strip .label {
+      grid-column: 1 / span 2;
+      color: var(--faint);
+    }
+    .filter-strip .chips {
+      grid-column: 3 / span 8;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-strip .right {
+      grid-column: 11 / span 2;
+      text-align: right;
+      color: var(--faint);
+    }
     .filter-strip .right b { color: var(--text); font-weight: 500; }
     .chip {
       background: transparent;
@@ -48,7 +97,11 @@
       transition: border-color .2s, color .2s, background .2s;
     }
     .chip:hover { color: var(--text); border-color: var(--text); }
-    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+    .chip.on {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
 
     /* contact-sheet grid */
     .sheet {
@@ -72,6 +125,7 @@
       transition: background .25s;
     }
     .frame:hover { background: var(--bg-soft); }
+
     .frame-img {
       width: 100%;
       aspect-ratio: 4 / 5;
@@ -86,6 +140,7 @@
       transition: transform .9s ease, filter .6s;
     }
     .frame:hover .frame-img img { transform: scale(1.04); filter: brightness(.96) saturate(1); }
+
     .frame-img.placeholder {
       background:
         repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
@@ -106,6 +161,7 @@
       background: radial-gradient(ellipse at 50% 45%, color-mix(in oklch, var(--turrell-c) 22%, transparent), transparent 70%);
       mix-blend-mode: soft-light;
     }
+
     .frame-meta {
       padding: 10px 14px 14px;
       display: grid;
@@ -113,9 +169,29 @@
       gap: 10px;
       align-items: baseline;
     }
-    .frame-num { font-family: var(--label-font); font-size: 9px; letter-spacing: .18em; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .frame-title { font-family: var(--display-font); font-style: italic; font-weight: 400; font-size: 15px; color: var(--text); line-height: 1.1; letter-spacing: 0; }
-    .frame-loc { font-family: var(--label-font); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+    .frame-num {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .18em;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .frame-title {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    .frame-loc {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
 
     /* lightbox */
     .lb {
@@ -146,7 +222,12 @@
       filter: blur(80px);
       pointer-events: none;
     }
-    .lb-stage img { position: relative; max-width: 100%; max-height: 100%; object-fit: contain; }
+    .lb-stage img {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
     .lb-stage .lb-frame.placeholder {
       width: min(70vh, 80%);
       aspect-ratio: 4/5;
@@ -155,19 +236,91 @@
         linear-gradient(180deg, var(--bg-soft), var(--panel));
       border: 1px solid var(--hair);
     }
-    .lb-info { padding: 88px 36px 36px; border-left: 1px solid var(--hair-2); background: rgba(15,13,10,.5); overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
-    .lb-eyebrow { font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
-    .lb-title { font-family: var(--display-font); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: 0; color: var(--text); }
-    .lb-desc { font-size: 14px; line-height: 1.85; color: var(--muted); }
-    .lb-cap { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
-    .lb-cap div { padding: 12px 0; border-top: 1px solid var(--hair-2); }
+    .lb-info {
+      padding: 88px 36px 36px;
+      border-left: 1px solid var(--hair-2);
+      background: rgba(15,13,10,.5);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .lb-eyebrow {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lb-title {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .lb-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--muted);
+    }
+    .lb-cap {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .lb-cap div {
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+    }
     .lb-cap b { display: block; color: var(--text); font-weight: 500; margin-top: 4px; }
-    .lb-controls { position: fixed; bottom: 28px; left: 28px; display: flex; gap: 8px; z-index: 9100; }
-    .lb-controls button { width: 44px; height: 44px; background: rgba(15,13,10,.7); border: 1px solid var(--hair-2); color: var(--text); font: 300 18px var(--body-font); cursor: pointer; transition: background .2s, border-color .2s; }
+    .lb-controls {
+      position: fixed;
+      bottom: 28px; left: 28px;
+      display: flex;
+      gap: 8px;
+      z-index: 9100;
+    }
+    .lb-controls button {
+      width: 44px; height: 44px;
+      background: rgba(15,13,10,.7);
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font: 300 18px var(--body-font);
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
     .lb-controls button:hover { background: var(--bg-soft); border-color: var(--gold); }
-    .lb-close { position: fixed; top: 22px; right: 22px; width: 44px; height: 44px; background: rgba(15,13,10,.7); border: 1px solid var(--hair-2); color: var(--text); font: 300 22px var(--body-font); cursor: pointer; z-index: 9100; transition: background .2s, color .2s; }
+    .lb-close {
+      position: fixed; top: 22px; right: 22px;
+      width: 44px; height: 44px;
+      background: rgba(15,13,10,.7);
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font: 300 22px var(--body-font);
+      cursor: pointer;
+      z-index: 9100;
+      transition: background .2s, color .2s;
+    }
     .lb-close:hover { background: var(--gold); color: var(--bg); }
-    .lb-counter { position: fixed; top: 28px; left: 28px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); z-index: 9100; }
+    .lb-counter {
+      position: fixed;
+      top: 28px; left: 28px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      z-index: 9100;
+    }
     .lb-counter b { color: var(--text); font-weight: 500; }
 
     @media (max-width: 920px) {
@@ -178,7 +331,9 @@
       .lb-stage { padding: 48px 20px 20px; min-height: 60vh; }
       .lb-info { border-left: none; border-top: 1px solid var(--hair-2); padding: 24px 20px; }
     }
-    @media (max-width: 520px) { .sheet { grid-template-columns: 1fr; } }
+    @media (max-width: 520px) {
+      .sheet { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -188,9 +343,8 @@
     <ul>
       <li><a href="index.html">Inicio</a></li>
       <li><a href="galeria.html" aria-current="page">Galería</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="fragmentos.html">Fragmentos</a></li>
       <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="dashboard.html">Archivo</a></li>
       <li><a href="acceso.html">Acceso</a></li>
     </ul>
     <div class="nav-coords"><b>02</b> · Galería</div>
@@ -220,6 +374,7 @@
     <div class="sheet" id="sheet"></div>
   </main>
 
+  <!-- Lightbox -->
   <div class="lb" id="lb" role="dialog" aria-modal="true">
     <div class="lb-counter" id="lb-counter"></div>
     <button class="lb-close" id="lb-close" aria-label="Cerrar">×</button>
@@ -243,44 +398,50 @@
 
   <footer class="site-foot">
     <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
-    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
-    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="#">Fragmentos</a><a href="#">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
     <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
     <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
-    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-seal">
+      <div class="seal" aria-hidden="true">
+        <div class="si">Vol.<b>I</b>MMXXVI</div>
+      </div>
+      <div class="end">Hecho con cuidado, sin frecuencia</div>
+      <div class="meta">© MMXXVI · Enough Editorial<br>Bucaramanga, CO</div>
+    </div>
   </footer>
 
   <script>
     const items = [
-      { src: null, tint: 'tint-warm',   num: '01', title: 'Tarde tendida',   loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
+      { src: 'espacio.jpg', tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
         desc: 'La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.' },
-      { src: null, tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
+      { src: null,           tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
         desc: 'Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.' },
-      { src: null, tint: 'tint-dusk',   num: '03', title: 'Borde de azul',   loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
+      { src: null,           tint: 'tint-dusk',   num: '03', title: 'Borde de azul',  loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
         desc: 'La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.' },
-      { src: null, tint: '',            num: '04', title: 'Trama',           loc: 'Muro',        year: 2025, time: '14:22', cat: 'materia',
+      { src: null,           tint: '',            num: '04', title: 'Trama',          loc: 'Muro',        year: 2025, time: '14:22', cat: 'materia',
         desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
-      { src: null, tint: 'tint-warm',   num: '05', title: 'Reposo',          loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
+      { src: null,           tint: 'tint-warm',   num: '05', title: 'Reposo',         loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
         desc: 'La calma como cualidad espacial y no solo como estilo.' },
-      { src: null, tint: '',            num: '06', title: 'Materia',         loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
+      { src: null,           tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
         desc: 'Observación de acabados, tactilidad y peso visual.' },
-      { src: null, tint: 'tint-violet', num: '07', title: 'Umbral',          loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
+      { src: null,           tint: 'tint-violet', num: '07', title: 'Umbral',         loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
         desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
-      { src: null, tint: '',            num: '08', title: 'Vacío',           loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
+      { src: null,           tint: '',            num: '08', title: 'Vacío',          loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
         desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
-      { src: null, tint: 'tint-dusk',   num: '09', title: 'Ritmo',           loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
+      { src: null,           tint: 'tint-dusk',   num: '09', title: 'Ritmo',          loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
         desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
-      { src: null, tint: '',            num: '10', title: 'Calma',           loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
+      { src: null,           tint: '',            num: '10', title: 'Calma',          loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
         desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
-      { src: null, tint: 'tint-warm',   num: '11', title: 'Tensión',         loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
+      { src: null,           tint: 'tint-warm',   num: '11', title: 'Tensión',        loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
         desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
-      { src: null, tint: '',            num: '12', title: 'Silencio',        loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
+      { src: null,           tint: '',            num: '12', title: 'Silencio',       loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
         desc: 'Espacios que no necesitan exceso para sentirse completos.' },
-      { src: null, tint: 'tint-violet', num: '13', title: 'Huella',          loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
+      { src: null,           tint: 'tint-violet', num: '13', title: 'Huella',         loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
         desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
-      { src: null, tint: '',            num: '14', title: 'Densidad',        loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
+      { src: null,           tint: '',            num: '14', title: 'Densidad',       loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
         desc: 'Capas de materia y sombra que agregan espesor emocional.' },
-      { src: null, tint: 'tint-dusk',   num: '15', title: 'Luz',             loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
+      { src: null,           tint: 'tint-dusk',   num: '15', title: 'Luz',            loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
         desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
     ];
 
@@ -293,7 +454,9 @@
       visibleItems = currentFilter === 'all' ? items : items.filter(i => i.cat === currentFilter);
       sheet.innerHTML = visibleItems.map((it, idx) => {
         const tint = it.tint ? ' ' + it.tint : '';
-        const img = it.src ? `<img src="${it.src}" alt="${it.title}" loading="lazy">` : '';
+        const img = it.src
+          ? `<img src="${it.src}" alt="${it.title}" loading="lazy">`
+          : '';
         const placeholder = it.src ? '' : ' placeholder';
         return `
           <article class="frame" data-i="${idx}">
@@ -316,6 +479,7 @@
       render();
     }));
 
+    // Lightbox
     const lb = document.getElementById('lb');
     const lbStage = document.getElementById('lb-stage');
     const lbTitle = document.getElementById('lb-title');

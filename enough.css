@@ -2,26 +2,28 @@
    Enough · Editorial — shared design system
    Mid-Century editorial + single Turrell atmospheric accent.
    Two type families only: Cormorant Garamond + DM Sans.
+   Default palette: warm cream / paper (light). Dark pages
+   override :root variables locally.
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  /* WARM DARK */
-  --bg:        #0f0d0a;
-  --bg-soft:   #16130f;
-  --panel:     #1c1916;
+  /* WARM CREAM — editorial paper */
+  --bg:        #f1ece2;
+  --bg-soft:   #e8e2d4;
+  --panel:     #dcd4c2;
 
   /* TYPE */
-  --text:      #efe6d4;
-  --text-soft: #e2d8c2;
-  --muted:     rgba(239,230,212,.62);
-  --faint:     rgba(239,230,212,.30);
-  --hair:      rgba(239,230,212,.10);
-  --hair-2:    rgba(239,230,212,.18);
+  --text:      #1c1814;
+  --text-soft: #2a2521;
+  --muted:     rgba(28,24,20,.62);
+  --faint:     rgba(28,24,20,.40);
+  --hair:      rgba(28,24,20,.10);
+  --hair-2:    rgba(28,24,20,.18);
 
-  /* ACCENT — bronze gold */
-  --gold:        #b69a6a;
-  --gold-soft:   #8f7750;
-  --gold-bright: #cab086;
+  /* ACCENT — bronze gold (darker for light bg) */
+  --gold:        #8a6e3c;
+  --gold-soft:   #6a5328;
+  --gold-bright: #a4884e;
 
   /* TURRELL */
   --turrell-a: oklch(70% 0.13 320);
@@ -55,15 +57,15 @@ body {
   min-height: 100vh;
 }
 
-/* warm grain */
+/* paper grain — light, warm */
 body::before {
   content: '';
   position: fixed; inset: -2px;
   pointer-events: none;
   z-index: 1;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .78  0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  opacity: .42;
-  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18  0 0 0 0 .14  0 0 0 0 .08  0 0 0 .07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: .9;
+  mix-blend-mode: multiply;
 }
 body::after {
   content: '';
@@ -71,9 +73,8 @@ body::after {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(1100px 700px at 12% 0%, rgba(182,154,106,.06), transparent 60%),
-    radial-gradient(900px 600px at 92% 8%, rgba(182,154,106,.035), transparent 65%),
-    radial-gradient(1400px 900px at 50% 108%, rgba(0,0,0,.45), transparent 65%);
+    radial-gradient(1200px 800px at 15% 0%, rgba(138,110,60,.05), transparent 60%),
+    radial-gradient(1100px 700px at 90% 12%, rgba(138,110,60,.035), transparent 65%);
 }
 
 main {
@@ -96,7 +97,7 @@ nav.site-nav {
   max-width: 1480px;
   margin: 0 auto;
   padding: 18px var(--gutter);
-  background: linear-gradient(180deg, rgba(15,13,10,.86), rgba(15,13,10,0));
+  background: linear-gradient(180deg, rgba(241,236,226,.88), rgba(241,236,226,0));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -253,11 +254,11 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
 }
 .btn:hover { border-color: var(--gold); color: var(--gold); }
 .btn-solid {
-  background: var(--gold);
+  background: var(--text);
   color: var(--bg);
-  border-color: var(--gold);
+  border-color: var(--text);
 }
-.btn-solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--bg); }
+.btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--bg); }
 .btn-ghost {
   border-color: var(--hair-2);
   color: var(--muted);
@@ -329,8 +330,8 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   color: var(--muted);
   min-height: 1em;
 }
-.form-msg.error { color: #e07a6a; }
-.form-msg.ok    { color: #8fb88a; }
+.form-msg.error { color: #c05a4a; }
+.form-msg.ok    { color: #5a8a55; }
 
 /* ───── FOOTER ───── */
 footer.site-foot {
@@ -373,6 +374,60 @@ footer.site-foot .ft-c2 { grid-column: 7 / span 2; }
 footer.site-foot .ft-c3 { grid-column: 9 / span 2; }
 footer.site-foot .ft-c4 { grid-column: 11 / span 2; text-align: right; }
 
+/* ── Seal / colophon row ── */
+footer.site-foot .ft-seal {
+  grid-column: 1 / span 12;
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--hair-2);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 32px;
+}
+footer.site-foot .ft-seal .seal {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  border: 1px solid var(--hair-2);
+  background: radial-gradient(ellipse at 50% 40%,
+    color-mix(in oklch, var(--gold) 22%, var(--bg-soft)) 0%,
+    var(--bg) 70%);
+  display: grid;
+  place-items: center;
+}
+footer.site-foot .ft-seal .si {
+  text-align: center;
+  font-family: var(--label-font);
+  font-size: 8px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  line-height: 1.5;
+}
+footer.site-foot .ft-seal .si b {
+  display: block;
+  font-family: var(--display-font);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 26px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
+  margin: 3px 0;
+  line-height: 1;
+}
+footer.site-foot .ft-seal .end,
+footer.site-foot .ft-seal .meta {
+  font-family: var(--label-font);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  line-height: 1.7;
+}
+footer.site-foot .ft-seal .meta { text-align: right; }
+
+/* ft-huge (legacy — kept for backward compat) */
 footer.site-foot .ft-huge {
   grid-column: 1 / span 12;
   margin-top: 80px;
@@ -419,9 +474,6 @@ footer.site-foot .ft-huge::after {
 footer.site-foot .ft-huge .dot {
   -webkit-text-stroke: 1px var(--gold);
   color: color-mix(in oklch, var(--gold) 30%, transparent);
-  text-shadow:
-    0 0 24px color-mix(in oklch, var(--gold) 65%, transparent),
-    0 0 60px color-mix(in oklch, var(--gold-bright) 40%, transparent);
 }
 
 /* ───── REVEAL ───── */
@@ -445,6 +497,9 @@ footer.site-foot .ft-huge .dot {
   footer.site-foot .ft-c2,
   footer.site-foot .ft-c3,
   footer.site-foot .ft-c4 { grid-column: 1 / span 12; text-align: left; }
+  footer.site-foot .ft-seal { grid-template-columns: 1fr; gap: 16px; }
+  footer.site-foot .ft-seal .seal { display: none; }
+  footer.site-foot .ft-seal .meta { text-align: left; }
   footer.site-foot .ft-huge { font-size: 22vw; margin-top: 40px; }
 }
 

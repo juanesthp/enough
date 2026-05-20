@@ -20,39 +20,50 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg:       #1a1815;
-      --bg-soft:  #22201c;
-      --panel:    #2a2723;
-      --text:     #efe6d4;
-      --text-soft:#e2d8c2;
-      --muted:    rgba(239,230,212,.62);
-      --faint:    rgba(239,230,212,.30);
-      --hair:     rgba(239,230,212,.10);
-      --hair-2:   rgba(239,230,212,.18);
-      --gold:        #b69a6a;
-      --gold-soft:   #8f7750;
-      --gold-bright: #cab086;
-      --turrell-a: oklch(70% 0.13 320);
-      --turrell-b: oklch(82% 0.12 35);
-      --turrell-c: oklch(78% 0.10 280);
-      --moire-opacity: 0;
+      /* WARM CREAM — editorial paper */
+      --paper:     #f1ece2;
+      --paper-2:   #e8e2d4;
+      --panel:     #dcd4c2;
+
+      /* INK */
+      --ink:       #1c1814;
+      --ink-soft:  #2a2521;
+      --muted:     rgba(28,24,20,.62);
+      --faint:     rgba(28,24,20,.40);
+      --hair:      rgba(28,24,20,.10);
+      --hair-2:    rgba(28,24,20,.18);
+
+      /* BRONZE ACCENT */
+      --gold:        #8a6e3c;
+      --gold-soft:   #6a5328;
+      --gold-bright: #a4884e;
+
+      /* LIGHT PLATES — pastel washes (Turrell on paper) */
+      --plate-a: oklch(82% 0.10 320);   /* lavender rose */
+      --plate-b: oklch(88% 0.10 60);    /* warm amber */
+      --plate-c: oklch(84% 0.10 30);    /* coral */
+      --plate-d: oklch(85% 0.08 200);   /* sky */
+      --plate-e: oklch(86% 0.07 145);   /* sage */
+      --plate-f: oklch(80% 0.08 280);   /* dusk violet */
+
       --gutter: clamp(22px, 4vw, 80px);
-      --label-font: 'DM Sans', sans-serif;
+
+      --label-font:   'DM Sans', sans-serif;
       --display-font: 'Cormorant Garamond', serif;
-      --body-font: 'DM Sans', sans-serif;
+      --body-font:    'DM Sans', sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background: var(--bg); }
+    html, body { background: var(--paper); }
     html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--body-font);
-      color: var(--text);
+      color: var(--ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
@@ -60,14 +71,15 @@
       letter-spacing: .005em;
     }
 
+    /* Paper grain — warm, very subtle */
     body::before {
       content: '';
       position: fixed; inset: -2px;
       pointer-events: none;
       z-index: 1;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .78  0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      opacity: .45;
-      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18  0 0 0 0 .14  0 0 0 0 .08  0 0 0 .07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .9;
+      mix-blend-mode: multiply;
     }
     body::after {
       content: '';
@@ -75,9 +87,8 @@
       pointer-events: none;
       z-index: 0;
       background:
-        radial-gradient(1200px 700px at 18% 0%, rgba(182,154,106,.07), transparent 60%),
-        radial-gradient(900px 600px at 88% 12%, rgba(182,154,106,.04), transparent 70%),
-        radial-gradient(1400px 900px at 50% 110%, rgba(0,0,0,.45), transparent 65%);
+        radial-gradient(1200px 800px at 15% 0%, rgba(138,110,60,.05), transparent 60%),
+        radial-gradient(1100px 700px at 90% 12%, rgba(138,110,60,.035), transparent 65%);
     }
 
     main {
@@ -89,61 +100,61 @@
     }
 
     /* ───── NAV ───── */
-    nav {
+    nav.site-nav {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 50;
       display: grid;
-      grid-template-columns: auto 1fr;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
+      gap: 32px;
       max-width: 1480px;
       margin: 0 auto;
-      padding: 24px var(--gutter);
-      background: linear-gradient(180deg, rgba(26,24,21,.78), rgba(26,24,21,0));
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      padding: 22px var(--gutter);
+      background: linear-gradient(180deg, rgba(241,236,226,.88), rgba(241,236,226,0));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    nav .mark {
+    nav.site-nav .mark {
       display: inline-flex;
       align-items: center;
       gap: 14px;
       font-family: var(--display-font);
-      font-style: normal;
       font-weight: 400;
-      font-size: 20px;
+      font-size: 19px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--ink);
       text-decoration: none;
+      white-space: nowrap;
     }
-    nav .mark .dot { color: var(--gold); }
-    nav .mark::before {
+    nav.site-nav .mark::before {
       content:'';
-      width: 38px;
+      width: 32px;
       height: 1.5px;
       background: var(--gold);
       display: inline-block;
     }
-    nav ul {
+    nav.site-nav .mark .dot { color: var(--gold); }
+    nav.site-nav ul {
       list-style: none;
       display: flex;
-      justify-content: flex-end;
-      gap: 36px;
+      justify-content: center;
+      gap: 30px;
       font-family: var(--label-font);
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: .14em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
     }
-    nav ul a {
+    nav.site-nav ul a {
       color: var(--muted);
       text-decoration: none;
       transition: color .25s;
       position: relative;
     }
-    nav ul a:hover { color: var(--text); }
-    nav ul a.active { color: var(--text); }
-    nav ul a.active::after {
+    nav.site-nav ul a:hover { color: var(--ink); }
+    nav.site-nav ul a.active { color: var(--ink); }
+    nav.site-nav ul a.active::after {
       content: '';
       position: absolute;
       left: 0; right: 0;
@@ -151,8 +162,18 @@
       height: 1px;
       background: var(--gold);
     }
+    nav.site-nav .nav-coords {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-align: right;
+      line-height: 1.6;
+    }
+    nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
 
-    /* ───── EDITORIAL META STRIP ───── */
+    /* ───── ISSUE STRIP ───── */
     .issue-strip {
       max-width: 1480px;
       margin: 0 auto;
@@ -163,8 +184,8 @@
       grid-template-columns: repeat(12, 1fr);
       gap: 24px;
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .18em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--muted);
     }
@@ -179,7 +200,7 @@
     .issue-strip > .s2 { grid-column: 4 / span 3; }
     .issue-strip > .s3 { grid-column: 7 / span 3; }
     .issue-strip > .s4 { grid-column: 10 / span 3; }
-    .issue-strip b { color: var(--text); font-weight: 500; }
+    .issue-strip b { color: var(--ink); font-weight: 500; }
 
     /* ───── HERO ───── */
     .hero {
@@ -214,135 +235,155 @@
       font-family: var(--display-font);
       font-weight: 400;
       font-size: clamp(68px, 12vw, 200px);
-      line-height: .9;
+      line-height: .92;
       letter-spacing: .01em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--ink);
       margin-top: 32px;
-      text-align: left;
     }
     .hero-title em {
       font-style: italic;
-      font-weight: 400;
-      color: var(--text-soft);
       letter-spacing: 0;
+      color: var(--ink-soft);
     }
     .hero-title .dot { color: var(--gold); }
 
-    .aperture {
-      grid-column: 1 / span 12;
-      justify-self: center;
-      width: clamp(280px, 32vw, 440px);
-      aspect-ratio: 4 / 5;
-      border-radius: 50%;
-      background: transparent;
-      border: none;
-      position: relative;
-      overflow: visible;
-      margin: 24px 0 64px;
-      isolation: isolate;
-    }
-    .aperture::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background:
-        radial-gradient(ellipse at 50% 42%,
-          var(--turrell-b) 0%,
-          var(--turrell-a) 38%,
-          var(--turrell-c) 72%,
-          color-mix(in oklch, var(--turrell-c) 30%, transparent) 92%,
-          transparent 100%);
-      filter: blur(2px);
-      box-shadow:
-        0 0 100px 30px color-mix(in oklch, var(--turrell-a) 32%, transparent),
-        0 0 220px 80px color-mix(in oklch, var(--turrell-b) 14%, transparent);
-      z-index: -1;
-    }
-    .aperture::after {
-      content: '';
-      position: absolute; inset: 0;
-      border-radius: 50%;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .3 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      mix-blend-mode: overlay;
-      opacity: .5;
-      pointer-events: none;
-    }
-    .aperture-cap {
-      position: absolute;
-      left: 50%;
-      bottom: -36px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 28px;
-      white-space: nowrap;
-      font-family: var(--label-font);
-      font-size: 10px;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      color: var(--faint);
-    }
-    .aperture-cap span:first-child::after {
-      content: '·';
-      margin-left: 28px;
-      opacity: .6;
-    }
-
     .hero-lede {
-      grid-column: 1 / span 6;
+      grid-column: 3 / span 7;
       margin-top: 60px;
       font-family: var(--display-font);
       font-style: italic;
       font-weight: 300;
       font-size: clamp(22px, 2.3vw, 32px);
-      line-height: 1.4;
-      color: var(--text);
+      line-height: 1.45;
+      color: var(--ink);
       max-width: 30ch;
       text-align: left;
       text-wrap: pretty;
     }
     .hero-cta-row {
-      grid-column: 1 / span 12;
+      grid-column: 3 / span 9;
       display: flex;
       gap: 18px;
       align-items: center;
-      margin-top: 48px;
+      margin-top: 40px;
       flex-wrap: wrap;
     }
+
+    /* ───── LIGHT PLATES — Turrell-as-art-plates ───── */
+    .plates-strip {
+      grid-column: 1 / span 12;
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      align-items: end;
+    }
+    .plate {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: default;
+      transition: transform .4s ease;
+    }
+    .plate:hover { transform: translateY(-3px); }
+    .plate-frame {
+      aspect-ratio: 3 / 4;
+      background: #0e1518;
+      border: 1px solid var(--ink);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.5) inset,
+        0 18px 36px rgba(28,24,20,.18),
+        0 0 0 6px var(--paper);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .plate-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--plate-grad);
+      filter: blur(.3px) saturate(1.05);
+    }
+    .plate-frame::after {
+      content:'';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: overlay;
+      opacity: .55;
+      pointer-events: none;
+    }
+    .plate:nth-child(1) .plate-frame { --plate-grad: radial-gradient(ellipse 65% 55% at 50% 45%, #ffd366 0%, #e8632a 18%, #b53124 38%, #3a4e52 75%, #11252a 100%); }
+    .plate:nth-child(2) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 50%, #f4d2c0 0%, #c97a8a 22%, #6d3460 50%, #2b2842 80%, #0e1422 100%); }
+    .plate:nth-child(3) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 52% at 50% 50%, #ffc28a 0%, #e85a3f 22%, #8a2030 50%, #2d1e30 80%, #0f0f1a 100%); }
+    .plate:nth-child(4) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 45%, #ffe89a 0%, #f08a3a 20%, #b3522d 45%, #2c5a6a 78%, #0e1c24 100%); }
+    .plate:nth-child(5) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 55%, #d9eac2 0%, #9bb085 25%, #4a6b4a 55%, #1f3236 85%, #0d181b 100%); }
+    .plate:nth-child(6) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 50%, #f5b3a8 0%, #b04c75 25%, #5a2f6b 55%, #1f2240 85%, #0a0e1e 100%); }
+
+    .plate-cap {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      align-items: baseline;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .plate-cap .num {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--gold);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .plate-cap .name {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink);
+    }
+    .plate-cap .time {
+      grid-column: 2;
+      font-size: 8.5px;
+      color: var(--faint);
+    }
+
+    /* ───── BUTTONS ───── */
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
-      padding: 16px 26px;
+      gap: 12px;
+      padding: 14px 22px;
       background: transparent;
-      color: var(--text);
+      color: var(--ink);
       border: 1px solid var(--hair-2);
       font-family: var(--label-font);
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: .2em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
       transition: border-color .3s, background .3s, color .3s;
     }
-    .btn::after {
-      content: '→';
-      font-family: var(--body-font);
-      letter-spacing: 0;
-    }
+    .btn::after { content: '→'; font-family: var(--body-font); letter-spacing: 0; }
     .btn:hover { border-color: var(--gold); color: var(--gold); }
     .btn-solid {
-      background: var(--gold);
-      color: var(--bg);
-      border-color: var(--gold);
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
     }
-    .btn-solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--bg); }
+    .btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--paper); }
     .btn-link {
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .2em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--muted);
       text-decoration: none;
@@ -350,9 +391,9 @@
       padding-bottom: 4px;
       transition: color .2s, border-color .2s;
     }
-    .btn-link:hover { color: var(--text); border-color: var(--gold); }
+    .btn-link:hover { color: var(--ink); border-color: var(--gold); }
 
-    /* ───── SECTION CHROME ───── */
+    /* ───── SECTIONS ───── */
     section.spread {
       position: relative;
       padding: clamp(80px, 14vh, 160px) 0;
@@ -364,8 +405,8 @@
     .sec-id {
       grid-column: 1 / span 2;
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .2em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--faint);
       align-self: start;
@@ -375,38 +416,36 @@
     .sec-id .num {
       font-family: var(--display-font);
       font-style: italic;
-      font-weight: 400;
-      font-size: 56px;
+      font-size: 52px;
       line-height: 1;
-      color: var(--text);
+      color: var(--ink);
       letter-spacing: 0;
       display: block;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .sec-eyebrow {
       grid-column: 3 / span 9;
       font-family: var(--label-font);
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 36px;
     }
 
-    /* ───── 01 — Manifiesto ───── */
     .manifiesto-h {
       grid-column: 3 / span 9;
       font-family: var(--display-font);
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(44px, 5.8vw, 88px);
-      line-height: .98;
-      letter-spacing: -.015em;
-      color: var(--text);
+      line-height: 1;
+      letter-spacing: -.005em;
+      color: var(--ink);
       text-wrap: balance;
       margin-bottom: 60px;
       max-width: 18ch;
     }
-    .manifiesto-h em { font-style: italic; font-weight: 400; color: var(--text-soft); }
+    .manifiesto-h em { font-style: italic; color: var(--ink-soft); }
     .manifiesto-body {
       grid-column: 3 / span 5;
       display: flex;
@@ -415,8 +454,8 @@
     }
     .manifiesto-body p {
       font-size: 15.5px;
-      line-height: 1.95;
-      color: var(--muted);
+      line-height: 1.9;
+      color: var(--ink-soft);
       max-width: 54ch;
     }
     .manifiesto-pull {
@@ -429,7 +468,7 @@
       font-weight: 300;
       font-size: 22px;
       line-height: 1.55;
-      color: var(--text);
+      color: var(--ink);
       text-wrap: pretty;
     }
     .manifiesto-pull .cap {
@@ -443,28 +482,28 @@
       color: var(--gold);
     }
 
-    /* ───── 02 — Espacios ───── */
+    /* ───── 02 ESPACIOS ───── */
     .spaces-head {
       grid-column: 3 / span 9;
       display: flex;
       align-items: end;
       justify-content: space-between;
       gap: 40px;
-      margin-bottom: 64px;
+      margin-bottom: 56px;
     }
     .spaces-head h2 {
       font-family: var(--display-font);
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(40px, 5vw, 72px);
-      line-height: .95;
-      letter-spacing: -.01em;
+      line-height: 1;
+      letter-spacing: -.005em;
       max-width: 16ch;
     }
-    .spaces-head h2 em { font-style: italic; color: var(--text-soft); }
+    .spaces-head h2 em { font-style: italic; color: var(--ink-soft); }
     .spaces-head .right {
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .18em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--muted);
       text-align: right;
@@ -476,9 +515,9 @@
       grid-column: 3 / span 10;
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 48px 24px;
+      gap: 56px 24px;
     }
-    .project { display: flex; flex-direction: column; gap: 18px; }
+    .project { display: flex; flex-direction: column; gap: 16px; }
     .project-large { grid-column: span 7; }
     .project-small { grid-column: span 5; }
     .project-wide  { grid-column: span 12; }
@@ -487,7 +526,7 @@
     .project-img {
       width: 100%;
       aspect-ratio: 4 / 5;
-      background: var(--bg-soft);
+      background: var(--paper-2);
       border: 1px solid var(--hair);
       overflow: hidden;
       position: relative;
@@ -496,58 +535,59 @@
     .project-img img {
       width: 100%; height: 100%;
       object-fit: cover;
-      display: block;
-      filter: brightness(.88) contrast(1.05) saturate(.92);
-      transition: transform .9s ease, filter .6s;
+      filter: contrast(1.02) saturate(.96);
+      transition: transform .9s ease;
     }
-    .project:hover .project-img img { transform: scale(1.025); filter: brightness(.95) contrast(1.05) saturate(.95); }
+    .project:hover .project-img img { transform: scale(1.025); }
+
     .project-img.placeholder {
       background:
-        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
-        linear-gradient(180deg, var(--bg-soft), var(--panel));
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--paper-2), var(--panel));
     }
     .project-img.tint-warm::after {
       content:''; position:absolute; inset:0;
-      background: radial-gradient(ellipse at 50% 60%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
-      mix-blend-mode: soft-light; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--plate-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: multiply;
     }
-    .project-img.tint-violet::after {
+    .project-img.tint-rose::after {
       content:''; position:absolute; inset:0;
-      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
-      mix-blend-mode: soft-light; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--plate-a) 20%, transparent), transparent 70%);
+      mix-blend-mode: multiply;
     }
 
     .project-meta {
       display: flex;
       justify-content: space-between;
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .18em;
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
     }
     .project-meta .year { color: var(--faint); }
     .project-title {
       font-family: var(--display-font);
-      font-weight: 300;
-      font-size: clamp(26px, 2.4vw, 36px);
+      font-weight: 400;
+      font-size: clamp(26px, 2.4vw, 34px);
       line-height: 1.05;
       letter-spacing: -.005em;
-      color: var(--text);
+      color: var(--ink);
     }
-    .project-title em { font-style: italic; color: var(--text-soft); }
+    .project-title em { font-style: italic; color: var(--ink-soft); }
     .project-brief {
       font-size: 14px;
       line-height: 1.75;
-      color: var(--muted);
+      color: var(--ink-soft);
       max-width: 44ch;
     }
     .project-link {
+      margin-top: 2px;
       font-family: var(--label-font);
       font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--ink);
       text-decoration: none;
       border-bottom: 1px solid var(--hair-2);
       padding-bottom: 4px;
@@ -556,7 +596,95 @@
     }
     .project-link:hover { color: var(--gold); border-color: var(--gold); }
 
-    /* ───── 03 — Fragmento ───── */
+    /* ───── 03 — LIGHT FIELD (plates as their own section) ───── */
+    .field {
+      grid-column: 3 / span 10;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px 24px;
+    }
+    .field-head {
+      grid-column: 3 / span 9;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .field-head h2 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1;
+      letter-spacing: -.005em;
+      max-width: 18ch;
+    }
+    .field-head h2 em { font-style: italic; color: var(--ink-soft); }
+    .field-head .right {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    .field-plate {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .field-plate .plate-frame {
+      aspect-ratio: 4 / 5;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.5) inset,
+        0 28px 60px rgba(28,24,20,.16),
+        0 0 0 8px var(--paper);
+    }
+    .field-plate:nth-child(1) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 45%, #ffd366 0%, #e8632a 18%, #b53124 38%, #3a4e52 75%, #11252a 100%); }
+    .field-plate:nth-child(2) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 50%, #f4d2c0 0%, #c97a8a 22%, #6d3460 50%, #2b2842 80%, #0e1422 100%); }
+    .field-plate:nth-child(3) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 50%, #f5b3a8 0%, #b04c75 25%, #5a2f6b 55%, #1f2240 85%, #0a0e1e 100%); }
+
+    .field-plate .pf-info {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 12px;
+      padding-top: 6px;
+    }
+    .field-plate .pf-num {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 24px;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .field-plate .pf-name {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .field-plate .pf-cap {
+      grid-column: 2;
+      font-family: var(--label-font);
+      font-size: 9.5px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .field-plate .pf-desc {
+      grid-column: 1 / span 2;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      margin-top: 8px;
+      max-width: 36ch;
+    }
+
+    /* ───── 04 — Fragmento quote ───── */
     .fragmento {
       position: relative;
       padding: clamp(100px, 16vh, 200px) 0;
@@ -570,13 +698,12 @@
       width: 60vw; height: 60vw;
       max-width: 800px; max-height: 800px;
       transform: translate(-50%, -50%);
-      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 14%, transparent), transparent 70%);
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--plate-a) 16%, transparent), transparent 70%);
       filter: blur(40px);
       pointer-events: none;
     }
     .fragmento-inner {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       max-width: 1480px;
       margin: 0 auto;
       padding: 0 var(--gutter);
@@ -587,11 +714,11 @@
     .fragmento-eyebrow {
       grid-column: 3 / span 9;
       font-family: var(--label-font);
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
     .fragmento-q {
       grid-column: 3 / span 9;
@@ -599,34 +726,34 @@
       font-style: italic;
       font-weight: 300;
       font-size: clamp(34px, 4.6vw, 68px);
-      line-height: 1.12;
+      line-height: 1.15;
       letter-spacing: -.005em;
-      color: var(--text);
+      color: var(--ink);
       text-wrap: balance;
       max-width: 24ch;
     }
     .fragmento-q .first { font-size: 1.4em; color: var(--gold); font-style: normal; margin-right: .08em; vertical-align: -.04em; }
     .fragmento-cap {
       grid-column: 3 / span 9;
-      margin-top: 56px;
+      margin-top: 48px;
       font-family: var(--label-font);
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--muted);
       display: flex;
       gap: 32px;
     }
-    .fragmento-cap span b { color: var(--text); font-weight: 500; margin-left: 8px; }
+    .fragmento-cap span b { color: var(--ink); font-weight: 500; margin-left: 8px; }
 
-    /* ───── 04 — Acceso ───── */
+    /* ───── 05 — Acceso ───── */
     .acceso-body {
       grid-column: 3 / span 9;
       display: grid;
       grid-template-columns: 1.1fr 1fr;
       gap: 0;
       border: 1px solid var(--hair-2);
-      background: var(--bg-soft);
+      background: var(--paper-2);
     }
     .acceso-copy {
       padding: 48px 52px;
@@ -636,19 +763,19 @@
     }
     .acceso-copy h3 {
       font-family: var(--display-font);
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(28px, 3vw, 40px);
       line-height: 1.1;
-      letter-spacing: -.01em;
+      letter-spacing: -.005em;
       margin-bottom: 22px;
       max-width: 16ch;
       text-wrap: balance;
     }
-    .acceso-copy h3 em { font-style: italic; color: var(--text-soft); }
+    .acceso-copy h3 em { font-style: italic; color: var(--ink-soft); }
     .acceso-copy p {
       font-size: 14px;
       line-height: 1.85;
-      color: var(--muted);
+      color: var(--ink-soft);
       max-width: 36ch;
     }
     .acceso-copy .corner {
@@ -660,6 +787,7 @@
       text-transform: uppercase;
       color: var(--faint);
     }
+
     .acceso-cta {
       padding: 48px 52px;
       display: flex;
@@ -670,20 +798,15 @@
     }
     .acceso-cta h4 {
       font-family: var(--label-font);
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 6px;
     }
-    .acceso-cta p {
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-    .acceso-cta .btn { justify-content: center; margin-top: 8px; }
+    .acceso-cta .btn { justify-content: center; }
 
-    /* ───── 05 — Contacto ───── */
+    /* ───── 06 — Contacto ───── */
     .colophon {
       grid-column: 3 / span 9;
       display: grid;
@@ -693,17 +816,16 @@
     }
     .colophon h2 {
       font-family: var(--display-font);
-      font-weight: 300;
+      font-weight: 400;
       font-size: clamp(38px, 5vw, 64px);
       line-height: 1;
-      letter-spacing: -.01em;
+      letter-spacing: -.005em;
       max-width: 14ch;
     }
-    .colophon h2 em { font-style: italic; color: var(--text-soft); }
+    .colophon h2 em { font-style: italic; color: var(--ink-soft); }
     .colophon-right {
       display: flex;
       flex-direction: column;
-      gap: 0;
       padding-top: 8px;
     }
     .colo-row {
@@ -719,7 +841,7 @@
     }
     .colo-row:last-child { border-bottom: 1px solid var(--hair-2); }
     .colo-row .k { color: var(--faint); }
-    .colo-row .v { color: var(--text); }
+    .colo-row .v { color: var(--ink); }
     .colo-row .v a {
       color: inherit;
       text-decoration: none;
@@ -730,132 +852,185 @@
     .colo-row .v a:hover { color: var(--gold); border-color: var(--gold); }
 
     /* ───── FOOTER ───── */
-    footer {
+    footer.site-foot {
       position: relative;
       z-index: 3;
       max-width: 1480px;
-      margin: 0 auto;
-      padding: 80px var(--gutter) 40px;
+      margin: 80px auto 0;
+      padding: 80px var(--gutter) 56px;
       border-top: 1px solid var(--hair-2);
       display: grid;
       grid-template-columns: repeat(12, 1fr);
+      gap: 24px 24px;
+    }
+    .ed-mark {
+      grid-column: 1 / span 4;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ed-mark .name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 36px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .ed-mark .name .dot { color: var(--gold); }
+    .ed-mark .tag {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.4;
+      max-width: 32ch;
+    }
+
+    .ed-seal {
+      grid-column: 9 / span 4;
+      justify-self: end;
+      align-self: start;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1px solid var(--hair-2);
+      background:
+        radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--plate-b) 40%, var(--paper)) 0%, var(--paper-2) 60%, var(--paper) 100%);
+      position: relative;
+      display: grid;
+      place-items: center;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.6) inset,
+        0 0 60px color-mix(in oklch, var(--plate-a) 18%, transparent);
+    }
+    .ed-seal::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed color-mix(in oklch, var(--gold) 50%, transparent);
+      border-radius: 50%;
+      animation: rotate 80s linear infinite;
+    }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    .ed-seal .seal-inner {
+      text-align: center;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      line-height: 1.4;
+    }
+    .ed-seal .seal-inner b {
+      display: block;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 38px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink);
+      margin: 6px 0 4px;
+      line-height: 1;
+    }
+
+    .ed-colophon {
+      grid-column: 1 / span 12;
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--hair-2);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 24px;
       font-family: var(--label-font);
-      font-size: 11px;
-      letter-spacing: .18em;
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ed-colophon .col { display: flex; flex-direction: column; gap: 10px; }
+    .ed-colophon .col h5 {
+      color: var(--gold);
+      font-weight: 500;
+      font-size: 9px;
+    }
+    .ed-colophon .col span { color: var(--ink); font-weight: 400; }
+    .ed-colophon .col a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      align-self: flex-start;
+      transition: color .2s, border-color .2s;
+    }
+    .ed-colophon .col a:hover { color: var(--gold); border-color: var(--gold); }
+
+    .ed-end {
+      grid-column: 1 / span 12;
+      margin-top: 64px;
+      padding-top: 28px;
+      border-top: 1px solid var(--hair);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--faint);
     }
-    .ft-mark {
-      grid-column: 1 / span 3;
-      font-family: var(--display-font);
-      font-style: normal;
-      font-weight: 400;
-      font-size: 28px;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-    .ft-mark .dot { color: var(--gold); }
-    .ft-col {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .ft-col b { color: var(--text); font-weight: 500; }
-    .ft-col a { color: var(--muted); text-decoration: none; transition: color .2s; }
-    .ft-col a:hover { color: var(--text); }
-    .ft-c1 { grid-column: 5 / span 2; }
-    .ft-c2 { grid-column: 7 / span 2; }
-    .ft-c3 { grid-column: 9 / span 2; }
-    .ft-c4 { grid-column: 11 / span 2; text-align: right; }
-
-    .ft-huge {
-      grid-column: 1 / span 12;
-      margin-top: 100px;
-      font-family: var(--display-font);
-      font-style: normal;
-      font-weight: 300;
-      font-size: clamp(80px, 22vw, 360px);
-      line-height: .82;
-      letter-spacing: .02em;
-      text-transform: uppercase;
-      color: transparent;
-      -webkit-text-stroke: 1px color-mix(in oklch, var(--text) 35%, transparent);
+    .ed-end .center {
+      flex: 1;
       text-align: center;
-      position: relative;
-      isolation: isolate;
-      padding: 6vw 0 4vw;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 18px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--gold);
     }
-    .ft-huge::before {
-      content: '';
-      position: absolute;
-      left: 50%; top: 50%;
-      width: 86%; height: 110%;
-      transform: translate(-50%, -50%);
-      background:
-        radial-gradient(ellipse 32% 60% at 18% 50%, color-mix(in oklch, var(--turrell-a) 78%, transparent), transparent 70%),
-        radial-gradient(ellipse 28% 55% at 50% 55%, color-mix(in oklch, var(--turrell-b) 70%, transparent), transparent 70%),
-        radial-gradient(ellipse 32% 60% at 82% 50%, color-mix(in oklch, var(--turrell-c) 78%, transparent), transparent 70%);
-      filter: blur(72px) saturate(1.15);
-      opacity: .55;
-      z-index: -2;
-      pointer-events: none;
-    }
-    .ft-huge::after {
-      content: 'ENOUGH.';
-      position: absolute;
-      left: 0; right: 0; top: 6vw;
-      color: transparent;
-      -webkit-text-stroke: 1px color-mix(in oklch, var(--turrell-a) 60%, transparent);
-      filter: blur(.6px);
-      transform: translate(-.012em, .004em);
-      z-index: -1;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-    .ft-huge .dot {
-      -webkit-text-stroke: 1px var(--gold);
-      color: color-mix(in oklch, var(--gold) 30%, transparent);
-      text-shadow:
-        0 0 24px color-mix(in oklch, var(--gold) 70%, transparent),
-        0 0 60px color-mix(in oklch, var(--gold-bright) 45%, transparent);
-    }
+    .ed-end .center::before, .ed-end .center::after { content: ' · '; color: var(--faint); margin: 0 12px; }
 
     /* ───── REVEAL ───── */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s ease; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ───── RESPONSIVE ───── */
     @media (max-width: 920px) {
       :root { --gutter: 20px; }
-      nav { padding: 16px var(--gutter); grid-template-columns: auto 1fr; }
-      nav ul { display: none; }
+      nav.site-nav { padding: 14px var(--gutter); grid-template-columns: auto 1fr; gap: 12px; }
+      nav.site-nav ul { display: none; }
       .issue-strip { padding: 96px var(--gutter) 0; }
       .issue-strip > div { grid-column: 1 / span 12 !important; }
       .hero { padding: 40px 0 56px; min-height: auto; }
-      .hero-title { grid-column: 1 / span 12; font-size: clamp(60px, 18vw, 110px); }
-      .aperture { grid-column: 1 / span 12; width: min(78%, 360px); margin: 32px auto 56px; }
+      .hero-title { grid-column: 1 / span 12; }
       .hero-lede { grid-column: 1 / span 12; }
+      .hero-cta-row { grid-column: 1 / span 12; }
+      .plates-strip { grid-template-columns: repeat(3, 1fr); gap: 12px; }
       section.spread { padding: 72px 0; }
       .sec-id { grid-column: 1 / span 12; position: static; margin-bottom: 18px; }
-      .sec-id .num { font-size: 44px; margin-bottom: 6px; }
+      .sec-id .num { font-size: 42px; }
       .sec-eyebrow, .manifiesto-h, .manifiesto-body, .manifiesto-pull,
-      .spaces-head, .spaces-grid, .fragmento-eyebrow, .fragmento-q, .fragmento-cap,
+      .spaces-head, .spaces-grid, .field-head, .field,
+      .fragmento-eyebrow, .fragmento-q, .fragmento-cap,
       .acceso-body, .colophon { grid-column: 1 / span 12; }
       .manifiesto-pull { margin-top: 28px; padding: 28px 22px; }
-      .spaces-head { flex-direction: column; align-items: start; gap: 18px; }
+      .spaces-head, .field-head { flex-direction: column; align-items: start; gap: 18px; }
       .spaces-grid { grid-template-columns: 1fr; gap: 56px; }
       .project-large, .project-small, .project-wide { grid-column: span 1; }
       .project-offset { padding-top: 0; }
+      .field { grid-template-columns: 1fr; }
       .acceso-body { grid-template-columns: 1fr; }
       .acceso-copy { border-right: none; border-bottom: 1px solid var(--hair-2); padding: 36px; min-height: auto; }
       .acceso-copy .corner { position: static; margin-top: 22px; }
       .acceso-cta { padding: 36px; }
       .colophon { grid-template-columns: 1fr; gap: 32px; }
-      footer { padding: 56px var(--gutter) 28px; }
-      .ft-mark, .ft-c1, .ft-c2, .ft-c3, .ft-c4 { grid-column: 1 / span 12; text-align: left; }
-      .ft-huge { font-size: 22vw; }
+      footer.site-foot { padding: 56px var(--gutter) 32px; }
+      .ed-mark, .ed-seal { grid-column: 1 / span 12; justify-self: start; }
+      .ed-seal { margin-top: 24px; }
+      .ed-colophon { grid-template-columns: repeat(2, 1fr); }
+      .ed-end { flex-direction: column; gap: 12px; text-align: left; }
+      .ed-end .center { text-align: left; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -865,19 +1040,20 @@
 </head>
 <body>
 
-  <nav id="nav">
+  <nav class="site-nav">
     <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
     <ul>
       <li><a href="#manifiesto" class="active">Manifiesto</a></li>
-      <li><a href="galeria.html">Galería</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="#espacios">Espacios</a></li>
+      <li><a href="#estudios">Estudios</a></li>
+      <li><a href="#fragmento">Fragmento</a></li>
       <li><a href="#contacto">Contacto</a></li>
       <li><a href="acceso.html">Acceso</a></li>
     </ul>
+    <div class="nav-coords"></div>
   </nav>
 
-  <!-- Issue metadata strip -->
+  <!-- Issue strip -->
   <div class="issue-strip">
     <div class="s1"><span>Editorial</span><b>Vol. I</b></div>
     <div class="s2"><span>Edición</span><b>00 — Apertura</b></div>
@@ -891,14 +1067,7 @@
     <section class="hero" id="hero">
       <div class="hero-eyebrow">— Un archivo sobre atmósferas, materia y la forma de habitar.</div>
 
-      <h1 class="hero-title">ENO<em>UGH</em><span class="dot">.</span></h1>
-
-      <div class="aperture" aria-hidden="true">
-        <div class="aperture-cap">
-          <span>Atmósfera</span>
-          <span>Bucaramanga</span>
-        </div>
-      </div>
+      <h1 class="hero-title">Eno<em>ugh</em><span class="dot">.</span></h1>
 
       <p class="hero-lede">
         Atención que precede a la imagen — donde la materia, el silencio y la luz vuelven a sostener el espacio entre quien mira y la pared.
@@ -906,11 +1075,39 @@
 
       <div class="hero-cta-row">
         <a href="#manifiesto" class="btn btn-solid">Leer el manifiesto</a>
-        <a href="galeria.html" class="btn-link">Ver el archivo visual</a>
+        <a href="#espacios" class="btn-link">Ver el archivo visual</a>
+      </div>
+
+      <!-- Six light plates as art-book strip -->
+      <div class="plates-strip" aria-hidden="true">
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">I</span><span class="name">Cálida</span><span class="time">06 : 14</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">II</span><span class="name">Tendida</span><span class="time">11 : 03</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">III</span><span class="name">Coral</span><span class="time">17 : 28</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">IV</span><span class="name">Mediodía</span><span class="time">12 : 00</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">V</span><span class="name">Sage</span><span class="time">15 : 47</span></div>
+        </div>
+        <div class="plate">
+          <div class="plate-frame"></div>
+          <div class="plate-cap"><span class="num">VI</span><span class="name">Crepúsculo</span><span class="time">18 : 47</span></div>
+        </div>
       </div>
     </section>
 
-    <!-- ── 01 — MANIFIESTO ── -->
+    <!-- ── 01 MANIFIESTO ── -->
     <section class="spread reveal" id="manifiesto">
       <div class="sec-id">
         <span class="num">01</span>
@@ -922,7 +1119,7 @@
       <div class="manifiesto-body">
         <p>La arquitectura contemporánea desarrolló una obsesión por verse bien antes que por sentirse real. Espacios diseñados para sobrevivir como imagen — impecables, costosos, controlados. Y aun así, cuando entras en ellos, algo falta. El cuerpo lo percibe antes de entenderlo.</p>
         <p>Enough nace en dirección contraria. No desde la idea de perfección, sino desde una atención casi obsesiva a la experiencia del espacio cuando todo se vuelve quieto. Cuando el ruido baja, los sentidos cambian.</p>
-        <p>La arquitectura deja de percibirse únicamente con la mirada y empieza a sentirse en el cuerpo. Este archivo no es un portafolio. Es un registro: una documentación de cómo la materia, la sombra y los objetos inmóviles transforman la forma en que habitamos el tiempo y el vacío.</p>
+        <p>Este archivo no es un portafolio. Es un registro: una documentación de cómo la materia, la sombra y los objetos inmóviles transforman la forma en que habitamos el tiempo y el vacío.</p>
       </div>
 
       <aside class="manifiesto-pull">
@@ -931,7 +1128,7 @@
       </aside>
     </section>
 
-    <!-- ── 02 — ESPACIOS ── -->
+    <!-- ── 02 ESPACIOS ── -->
     <section class="spread reveal" id="espacios">
       <div class="sec-id">
         <span class="num">02</span>
@@ -949,15 +1146,15 @@
           <div class="project-img tint-warm">
             <img src="espacio.jpg" alt="Estudio interior, luz oblicua sobre muro">
           </div>
-          <div class="project-meta"><span class="loc">I — Bucaramanga</span><span class="year">2026</span></div>
+          <div class="project-meta"><span>I — Bucaramanga</span><span class="year">2026</span></div>
           <h3 class="project-title">Tarde tendida</h3>
           <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.</p>
-          <a href="galeria.html" class="project-link">Ver galería →</a>
+          <a href="galeria.html" class="project-link">Ver fragmento →</a>
         </article>
 
         <article class="project project-small project-offset">
-          <div class="project-img placeholder tint-violet"></div>
-          <div class="project-meta"><span class="loc">II — Patio</span><span class="year">2026</span></div>
+          <div class="project-img placeholder tint-rose"></div>
+          <div class="project-meta"><span>II — Patio</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Aire</em> suspendido</h3>
           <p class="project-brief">Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.</p>
           <a href="galeria.html" class="project-link">Ver fragmento →</a>
@@ -965,16 +1162,59 @@
 
         <article class="project project-wide">
           <div class="project-img placeholder"></div>
-          <div class="project-meta"><span class="loc">III — Umbral</span><span class="year">2026</span></div>
+          <div class="project-meta"><span>III — Umbral</span><span class="year">2026</span></div>
           <h3 class="project-title">Borde de <em>azul</em></h3>
-          <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto. Una observación sobre cómo el crepúsculo reorganiza la presencia.</p>
+          <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.</p>
           <a href="galeria.html" class="project-link">Ver fragmento →</a>
         </article>
 
       </div>
     </section>
 
-    <!-- ── 03 — FRAGMENTO ── -->
+    <!-- ── 03 ESTUDIOS DE LUZ (plates section) ── -->
+    <section class="spread reveal" id="estudios">
+      <div class="sec-id">
+        <span class="num">03</span>
+        Estudios<br>de luz
+      </div>
+
+      <div class="field-head">
+        <h2>Seis estudios sobre cómo <em>la luz ocupa</em> una habitación.</h2>
+        <div class="right">Láminas I — VI<br>Cuaderno N.º 04</div>
+      </div>
+
+      <div class="field">
+        <article class="field-plate">
+          <div class="plate-frame"></div>
+          <div class="pf-info">
+            <span class="pf-num">I</span>
+            <span class="pf-name">Cálida</span>
+            <span class="pf-cap">06 : 14 · Naciente · Cuarto norte</span>
+            <p class="pf-desc">La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared retiene el frío de la noche.</p>
+          </div>
+        </article>
+        <article class="field-plate">
+          <div class="plate-frame"></div>
+          <div class="pf-info">
+            <span class="pf-num">II</span>
+            <span class="pf-name">Lavanda</span>
+            <span class="pf-cap">11 : 03 · Vertical · Lucernario</span>
+            <p class="pf-desc">La luz desciende limpia desde arriba. La habitación contiene el día. El cuerpo se quieta.</p>
+          </div>
+        </article>
+        <article class="field-plate">
+          <div class="plate-frame"></div>
+          <div class="pf-info">
+            <span class="pf-num">III</span>
+            <span class="pf-name">Crepúsculo</span>
+            <span class="pf-cap">18 : 47 · Poniente · Borde de azul</span>
+            <p class="pf-desc">Once minutos antes de la noche. La materia se densifica. Quedarse cuesta menos que irse.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ── 04 FRAGMENTO ── -->
     <section class="fragmento reveal" id="fragmento">
       <div class="fragmento-inner">
         <div class="fragmento-eyebrow">— Fragmento · cuaderno</div>
@@ -984,36 +1224,35 @@
         <div class="fragmento-cap">
           <span>Año<b>2026</b></span>
           <span>Lugar<b>Bucaramanga</b></span>
+          <span>Fragmento<b>IV</b></span>
         </div>
       </div>
     </section>
 
-    <!-- ── 04 — ACCESO ── -->
+    <!-- ── 05 ACCESO ── -->
     <section class="spread reveal" id="acceso">
       <div class="sec-id">
         <span class="num">04</span>
-        Acceso<br>Entrada privada
+        Acceso<br>Privado
       </div>
       <div class="acceso-body">
         <div class="acceso-copy">
           <h3>Un punto de entrada para <em>volver</em> al archivo.</h3>
           <p>Hecho para lectores, colaboradores y usuarios que quieran seguir el rastro de Enough con una entrada clara, sobria y directa.</p>
-          <div class="corner">Acceso privado · Editorial · Actualizaciones</div>
+          <div class="corner">Acceso privado · Editorial</div>
         </div>
         <div class="acceso-cta">
           <h4>— Entrar al archivo</h4>
-          <p>Inicia sesión o crea tu cuenta para acceder al espacio privado de Enough.</p>
-          <a href="acceso.html" class="btn btn-solid">Ingresar</a>
-          <a href="acceso.html#registro" class="btn">Crear cuenta</a>
+          <a href="acceso.html" class="btn btn-solid">Ir al acceso</a>
         </div>
       </div>
     </section>
 
-    <!-- ── 05 — CONTACTO ── -->
+    <!-- ── 06 CONTACTO ── -->
     <section class="spread reveal" id="contacto">
       <div class="sec-id">
         <span class="num">05</span>
-        Contacto<br>Correspondencia
+        Contacto
       </div>
       <div class="colophon">
         <div>
@@ -1030,37 +1269,74 @@
 
   </main>
 
-  <footer>
-    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
-    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
-    <div class="ft-col ft-c2"><b>Editorial</b><a href="#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
-    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
-    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
-    <div class="ft-huge" aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+  <!-- ── EDITORIAL COLOPHON ── -->
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+        <a href="tienda.html">Tienda</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="sobre.html">Sobre mí</a>
+        <a href="#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span>Hecho con cuidado, sin frecuencia.</span>
+    </div>
   </footer>
 
   <script>
-    // Active nav link on scroll
-    const navLinks = document.querySelectorAll('nav ul a[href^="#"]');
+    const navLinks = document.querySelectorAll('nav ul a');
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+e.target.id));
         }
       });
     }, { rootMargin: '-40% 0px -50% 0px' });
-    ['manifiesto','espacios','fragmento','acceso','contacto'].forEach(id => {
+    ['manifiesto','espacios','estudios','fragmento','acceso','contacto'].forEach(id => {
       const el = document.getElementById(id); if (el) obs.observe(el);
     });
 
-    // Reveal on scroll
     const reveals = document.querySelectorAll('.reveal');
     const ro = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.08 });
     reveals.forEach(el => ro.observe(el));
 
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', (e) => {
         const id = a.getAttribute('href');

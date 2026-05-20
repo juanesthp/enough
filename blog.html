@@ -5,7 +5,6 @@
   <title>Blog · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Blog · Enough. Ensayos sobre arquitectura, atmósfera y referentes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -68,7 +67,7 @@
     .featured-media {
       aspect-ratio: 5 / 4;
       background:
-        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
         linear-gradient(180deg, var(--bg-soft), var(--panel));
       border-right: 1px solid var(--hair-2);
       position: relative;
@@ -78,45 +77,98 @@
       background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 20%, transparent), transparent 65%);
       mix-blend-mode: soft-light;
     }
-    .featured-body { padding: 48px; display: flex; flex-direction: column; gap: 18px; justify-content: center; }
+    .featured-body {
+      padding: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: center;
+    }
     .featured-meta {
-      display: flex; gap: 14px;
-      font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
+      display: flex;
+      gap: 14px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
     }
     .featured-meta .sep { color: var(--faint); }
     .featured-meta .date { color: var(--muted); }
     .featured h2 {
-      font-family: var(--display-font); font-weight: 400;
-      font-size: clamp(32px, 3.6vw, 52px); line-height: 1;
-      letter-spacing: .005em; text-transform: uppercase; color: var(--text);
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(32px, 3.6vw, 52px);
+      line-height: 1;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
     }
     .featured h2 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
-    .featured p { font-size: 15px; line-height: 1.8; color: var(--muted); max-width: 48ch; }
-    .featured-tag {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 10px; border: 1px solid var(--gold); color: var(--gold);
-      font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; align-self: flex-start;
+    .featured p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 48ch;
     }
-    .featured-tag::before { content: ''; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold); }
+    .featured-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+    .featured-tag::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--gold);
+    }
 
-    /* INDEX LIST */
+    /* INDEX LIST — colapsada, archivo */
     .index-head {
       max-width: 1480px;
       margin: 0 auto;
       padding: 80px var(--gutter) 22px;
-      position: relative; z-index: 3;
-      display: flex; justify-content: space-between; align-items: baseline;
+      position: relative;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
       border-bottom: 1px solid var(--hair-2);
     }
     .index-head h3 {
-      font-family: var(--display-font); font-weight: 400;
-      font-size: clamp(28px, 3vw, 40px); letter-spacing: .005em; text-transform: uppercase; color: var(--text);
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
     }
     .index-head h3 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
-    .index-head .count { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+    .index-head .count {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
     .index-head .count b { color: var(--text); font-weight: 500; }
 
-    .essay-list { max-width: 1480px; margin: 0 auto; padding: 0 var(--gutter) 80px; position: relative; z-index: 3; }
+    .essay-list {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+    }
     .essay-row {
       display: grid;
       grid-template-columns: 60px 110px 1fr 220px 70px;
@@ -128,50 +180,163 @@
       transition: background .25s, padding-left .25s;
       position: relative;
     }
-    .essay-row:hover { background: rgba(255,255,255,.02); padding-left: 10px; }
+    .essay-row:hover {
+      background: rgba(28,24,20,.02);
+      padding-left: 10px;
+    }
     .essay-row:hover .e-arrow { transform: translateX(4px); color: var(--gold); }
-    .essay-row .e-num { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .essay-row .e-date { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--faint); font-variant-numeric: tabular-nums; }
+    .essay-row .e-num {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .essay-row .e-date {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+      font-variant-numeric: tabular-nums;
+    }
     .essay-row .e-content { display: flex; flex-direction: column; gap: 8px; }
-    .essay-row h4 { font-family: var(--display-font); font-weight: 400; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.05; letter-spacing: .002em; color: var(--text); }
+    .essay-row h4 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(22px, 2.2vw, 30px);
+      line-height: 1.05;
+      letter-spacing: .002em;
+      color: var(--text);
+    }
     .essay-row h4 em { font-style: italic; color: var(--text-soft); }
-    .essay-row .e-brief { font-size: 13.5px; line-height: 1.65; color: var(--muted); max-width: 60ch; }
-    .essay-row .e-tag { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
-    .essay-row .e-arrow { font-family: var(--label-font); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--faint); text-align: right; transition: transform .2s, color .2s; }
+    .essay-row .e-brief {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 60ch;
+    }
+    .essay-row .e-tag {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .essay-row .e-arrow {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+      text-align: right;
+      transition: transform .2s, color .2s;
+    }
 
-    /* READER MODAL */
+    /* READER MODAL — always dark, override light palette variables inside */
     .reader {
-      position: fixed; inset: 0; z-index: 9000;
+      --text:      #efe6d4;
+      --text-soft: rgba(239,230,212,.78);
+      --muted:     rgba(239,230,212,.55);
+      --faint:     rgba(239,230,212,.30);
+      --hair-2:    rgba(239,230,212,.18);
+      color: var(--text);
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
       background: rgba(7,8,10,.96);
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity .35s ease;
       overflow-y: auto;
     }
     .reader.open { opacity: 1; pointer-events: all; }
-    .reader-stage { max-width: 760px; margin: 0 auto; padding: 120px 32px 80px; position: relative; }
+    .reader-stage {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 120px 32px 80px;
+      position: relative;
+    }
     .reader-stage::before {
       content: '';
-      position: fixed; left: 50%; top: 40%; width: 80vw; height: 80vw;
+      position: fixed;
+      left: 50%; top: 40%;
+      width: 80vw; height: 80vw;
       max-width: 900px; max-height: 900px;
       transform: translate(-50%, -50%);
       background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 10%, transparent), transparent 65%);
-      filter: blur(80px); pointer-events: none; z-index: -1;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
     }
-    .reader-meta { display: flex; gap: 14px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+    .reader-meta {
+      display: flex;
+      gap: 14px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 22px;
+    }
     .reader-meta .sep { color: var(--faint); }
     .reader-meta .date { color: var(--muted); }
-    .reader-title { font-family: var(--display-font); font-weight: 400; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; letter-spacing: .005em; text-transform: uppercase; color: var(--text); margin-bottom: 32px; }
-    .reader-title em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
-    .reader-rule { width: 60px; height: 1px; background: var(--gold); margin-bottom: 32px; }
-    .reader-body p { font-size: 16px; line-height: 1.95; color: var(--text-soft); margin-bottom: 18px; max-width: 60ch; }
-    .reader-body p:first-of-type::first-letter {
-      font-family: var(--display-font); font-size: 3.6em;
-      float: left; line-height: .9; margin: 4px 14px 0 0;
-      color: var(--gold); font-style: italic;
+    .reader-title {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 32px;
     }
-    .reader-close { position: fixed; top: 22px; right: 22px; width: 44px; height: 44px; background: rgba(15,13,10,.8); border: 1px solid var(--hair-2); color: var(--text); font: 300 22px var(--body-font); cursor: pointer; z-index: 9100; transition: background .2s, color .2s; }
-    .reader-close:hover { background: var(--gold); color: var(--bg); }
-    .reader-counter { position: fixed; top: 28px; left: 28px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); z-index: 9100; }
+    .reader-title em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .reader-rule {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 32px;
+    }
+    .reader-body p {
+      font-size: 16px;
+      line-height: 1.95;
+      color: var(--text-soft);
+      margin-bottom: 18px;
+      max-width: 60ch;
+    }
+    .reader-body p:first-of-type::first-letter {
+      font-family: var(--display-font);
+      font-size: 3.6em;
+      float: left;
+      line-height: .9;
+      margin: 4px 14px 0 0;
+      color: var(--gold);
+      font-style: italic;
+    }
+    .reader-close {
+      position: fixed;
+      top: 22px; right: 22px;
+      width: 44px; height: 44px;
+      background: rgba(15,13,10,.8);
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font: 300 22px var(--body-font);
+      cursor: pointer;
+      z-index: 9100;
+      transition: background .2s, color .2s;
+    }
+    .reader-close:hover { background: var(--gold); color: #0f0d0a; }
+    .reader-counter {
+      position: fixed;
+      top: 28px; left: 28px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      z-index: 9100;
+    }
     .reader-counter b { color: var(--text); font-weight: 500; }
 
     @media (max-width: 920px) {
@@ -221,6 +386,7 @@
   </div>
 
   <main>
+    <!-- Featured -->
     <article class="featured" data-id="atmosfera">
       <div class="featured-media" aria-hidden="true"></div>
       <div class="featured-body">
@@ -239,14 +405,17 @@
       </div>
     </article>
 
+    <!-- Index head -->
     <div class="index-head">
       <h3>Todos los <em>ensayos</em>.</h3>
       <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
     </div>
 
+    <!-- List -->
     <section class="essay-list" id="list"></section>
   </main>
 
+  <!-- Reader Modal -->
   <div class="reader" id="reader" role="dialog" aria-modal="true">
     <div class="reader-counter" id="r-counter"></div>
     <button class="reader-close" id="r-close" aria-label="Cerrar">×</button>
@@ -261,17 +430,30 @@
   <footer class="site-foot">
     <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
     <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
-    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
     <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
     <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
-    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-seal">
+      <div class="seal" aria-hidden="true">
+        <div class="si">Vol.<b>I</b>MMXXVI</div>
+      </div>
+      <div class="end">Hecho con cuidado, sin frecuencia</div>
+      <div class="meta">© MMXXVI · Enough Editorial<br>Bucaramanga, CO</div>
+    </div>
   </footer>
 
   <script>
     const essays = [
       {
-        id: 'atmosfera', num: '03', title: 'La atmósfera precede a la forma', em: 'atmósfera',
-        cat: 'ensayo', tag: 'Filosofía del espacio', date: 'Abril 2026', words: 1860, min: 12,
+        id: 'atmosfera',
+        num: '03',
+        title: 'La atmósfera precede a la forma',
+        em: 'atmósfera',
+        cat: 'ensayo',
+        tag: 'Filosofía del espacio',
+        date: 'Abril 2026',
+        words: 1860,
+        min: 12,
         brief: 'Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. Una observación sobre lo que Peter Zumthor llamó atmósfera — y por qué tomarla en serio como material de trabajo cambia todo.',
         body: [
           'Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. No es el precio del material ni la marca del arquitecto. Es otra cosa, más difícil de nombrar.',
@@ -282,8 +464,15 @@
         ]
       },
       {
-        id: 'sombra', num: '02', title: 'El elogio de la sombra', em: 'sombra',
-        cat: 'referente', tag: 'Referentes · Tanizaki', date: 'Marzo 2026', words: 1240, min: 8,
+        id: 'sombra',
+        num: '02',
+        title: 'El elogio de la sombra',
+        em: 'sombra',
+        cat: 'referente',
+        tag: 'Referentes · Tanizaki',
+        date: 'Marzo 2026',
+        words: 1240,
+        min: 8,
         brief: 'En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.',
         body: [
           'En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.',
@@ -294,8 +483,15 @@
         ]
       },
       {
-        id: 'vacio', num: '01', title: 'Vacío como decisión', em: 'Vacío',
-        cat: 'proceso', tag: 'Proceso · Mirada', date: 'Febrero 2026', words: 1410, min: 10,
+        id: 'vacio',
+        num: '01',
+        title: 'Vacío como decisión',
+        em: 'Vacío',
+        cat: 'proceso',
+        tag: 'Proceso · Mirada',
+        date: 'Febrero 2026',
+        words: 1410,
+        min: 10,
         brief: 'La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar. Un texto sobre el void como material primario.',
         body: [
           'La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar.',
@@ -341,6 +537,7 @@
       render();
     }));
 
+    // Featured click → open reader
     document.querySelectorAll('[data-id]').forEach(el => {
       if (el.classList.contains('btn') || el.classList.contains('featured')) {
         el.addEventListener('click', (ev) => {
@@ -350,6 +547,7 @@
       }
     });
 
+    // Reader
     const reader = document.getElementById('reader');
     function openReader(id) {
       const e = essays.find(x => x.id === id);

@@ -7,195 +7,354 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
   <style>
-    :root {
-      --bg: #07080a;
-      --bg-soft: #0d0f12;
-      --panel: rgba(255,255,255,.03);
-      --panel-strong: rgba(255,255,255,.06);
-      --text: #efe6d8;
-      --muted: rgba(239,230,216,.68);
-      --faint: rgba(239,230,216,.36);
-      --line: rgba(239,230,216,.1);
-      --gold: #b69a6a;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-padding-top: 8rem; }
-    body {
-      background: radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 22%),
-                  linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    /* ─── Tienda — colapsada, catálogo editorial ─── */
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(7,8,10,.2);
-      transition: background .4s;
-    }
-    nav.scrolled { background: rgba(7,8,10,.92); backdrop-filter: blur(10px); }
-    nav a {
-      text-decoration: none; color: var(--text);
-      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
-      transition: opacity .2s; border-bottom: none;
-    }
-    nav a:hover { opacity: .6; }
-    .nav-logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; margin-right: 40px; }
-    .nav-links { display: flex; gap: 2rem; align-items: center; }
-
-    /* ── LAYOUT ── */
-    .page {
-      max-width: 1100px;
+    .tienda-controls {
+      max-width: 1480px;
       margin: 0 auto;
-      padding: 8rem 4rem 6rem;
-    }
-
-    /* ── HEADER ── */
-    .page-header {
-      margin-bottom: 4rem;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 2rem;
-    }
-    .page-label {
-      font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
-      color: var(--gold); margin-bottom: .8rem;
-    }
-    .page-header h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 300; font-style: italic; line-height: 1.1;
-      color: var(--text);
-    }
-    .page-header p {
-      margin-top: 1rem; color: var(--muted);
-      font-size: 14px; font-weight: 300; max-width: 40ch;
-    }
-
-    /* ── GRID ── */
-    .productos-grid {
+      padding: 18px var(--gutter);
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2px;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      z-index: 3;
+    }
+    .tienda-controls .label { grid-column: 1 / span 2; color: var(--faint); }
+    .tienda-controls .filters { grid-column: 3 / span 6; display: flex; gap: 6px; flex-wrap: wrap; }
+    .tienda-controls .view { grid-column: 9 / span 4; display: flex; justify-content: flex-end; gap: 6px; }
+    .chip {
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
     }
 
-    .producto-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
+    /* ── GRID VIEW ── */
+    .grid-view {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .card {
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
       color: inherit;
-      display: flex; flex-direction: column;
-      transition: background .25s, border-color .25s;
+      transition: background .25s;
       position: relative;
-      overflow: hidden;
     }
-    .producto-card:hover { background: var(--panel-strong); border-color: rgba(239,230,216,.22); }
-    .producto-card:hover .card-arrow { opacity: 1; transform: translate(0,0); }
-
+    .card:hover { background: var(--bg-soft); }
     .card-img {
-      width: 100%; aspect-ratio: 4/3;
+      width: 100%;
+      aspect-ratio: 3 / 2;
       background: var(--bg-soft);
       overflow: hidden;
+      position: relative;
     }
     .card-img img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: grayscale(30%);
-      transition: transform .5s, filter .5s;
-    }
-    .producto-card:hover .card-img img { transform: scale(1.03); filter: grayscale(0%); }
-
-    .card-placeholder {
       width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--faint); font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      object-fit: cover;
+      filter: brightness(.88) contrast(1.05);
+      transition: transform .9s ease, filter .6s;
     }
-
-    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
-    .card-tag {
-      font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+    .card:hover .card-img img { transform: scale(1.03); filter: brightness(.96); }
+    .card-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .card-img.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 16%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .card-img.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .card-body {
+      padding: 18px 18px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 12px;
+      align-items: baseline;
+    }
+    .card-num {
+      grid-column: 1 / span 2;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
       color: var(--gold);
     }
-    .card-nombre {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 300; line-height: 1.2;
+    .card-name {
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .card-name em { font-style: italic; color: var(--text-soft); }
+    .card-fmt {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+      align-self: start;
+      padding-top: 8px;
     }
     .card-desc {
-      font-size: 13px; color: var(--muted); font-weight: 300;
-      line-height: 1.6; flex: 1;
+      grid-column: 1 / span 2;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
     }
-    .card-footer {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      padding: 1.2rem 1.5rem;
-      border-top: 1px solid var(--line);
+    .card-foot {
+      padding: 12px 18px 18px;
+      border-top: 1px solid var(--hair);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: auto;
+      font-family: var(--label-font);
     }
-    .card-precio {
-      font-size: 13px; color: var(--text);
-      font-feature-settings: "tnum";
+    .card-price {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
     }
-    .card-precio strong { font-size: 1.1rem; font-weight: 400; }
+    .card-price b {
+      color: var(--text);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0;
+      margin-right: 4px;
+    }
     .card-arrow {
-      font-size: 18px; color: var(--gold);
-      opacity: 0; transform: translate(-4px, 4px);
-      transition: opacity .25s, transform .25s;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: transform .2s;
     }
+    .card:hover .card-arrow { transform: translateX(4px); }
 
-    /* ── EMPTY / LOADING ── */
+    /* ── LIST VIEW ── */
+    .list-view {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 8px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: none;
+    }
+    .list-view.on { display: block; }
+    .grid-view.off { display: none; }
+
+    .list-row {
+      display: grid;
+      grid-template-columns: 60px 80px 1fr 180px 140px 80px;
+      gap: 24px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hair);
+      text-decoration: none;
+      color: inherit;
+      transition: background .2s, padding-left .2s;
+    }
+    .list-row:hover { background: rgba(28,24,20,.02); padding-left: 8px; }
+    .list-row .l-num {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .list-row .l-thumb {
+      width: 80px;
+      aspect-ratio: 1 / 1;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      overflow: hidden;
+      position: relative;
+    }
+    .list-row .l-thumb.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .list-row .l-thumb.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .list-row .l-thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .list-row .l-info { display: flex; flex-direction: column; gap: 4px; }
+    .list-row .l-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.1;
+      color: var(--text);
+    }
+    .list-row .l-name em { font-style: italic; color: var(--text-soft); }
+    .list-row .l-desc {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 56ch;
+    }
+    .list-row .l-fmt,
+    .list-row .l-price {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .list-row .l-fmt { color: var(--muted); }
+    .list-row .l-price { color: var(--text); font-variant-numeric: tabular-nums; }
+    .list-row .l-price b { color: var(--text); font-weight: 500; font-size: 13px; letter-spacing: 0; margin-right: 4px; }
+    .list-row .l-arrow {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: right;
+      transition: transform .2s;
+    }
+    .list-row:hover .l-arrow { transform: translateX(4px); }
+
+    .list-row.head {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair-2);
+      pointer-events: none;
+    }
+    .list-row.head:hover { background: transparent; padding-left: 0; }
+    .list-row.head .l-thumb { border: none; background: transparent; aspect-ratio: auto; height: auto; }
+
     .estado {
-      padding: 6rem 0; text-align: center;
-      color: var(--faint); font-size: 13px; letter-spacing: .1em;
+      grid-column: 1 / -1;
+      padding: 80px 0;
+      text-align: center;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
     }
 
-    /* ── FOOTER ── */
-    footer {
-      max-width: 1100px; margin: 0 auto;
-      padding: 3rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid var(--line);
-      color: var(--faint); font-size: 11px; letter-spacing: .08em;
-    }
-
-    @media (max-width: 640px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links { gap: 1.2rem; }
-      .page { padding: 7rem 1.5rem 4rem; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; gap: .8rem; text-align: center; }
+    @media (max-width: 920px) {
+      .tienda-controls { grid-template-columns: 1fr; gap: 10px; }
+      .tienda-controls .label, .tienda-controls .filters, .tienda-controls .view { grid-column: 1; }
+      .tienda-controls .view { justify-content: flex-start; }
+      .grid-view { grid-template-columns: 1fr; }
+      .list-row { grid-template-columns: 30px 56px 1fr; gap: 16px; }
+      .list-row .l-fmt, .list-row .l-price, .list-row .l-arrow { display: none; }
+      .list-row.head { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <nav id="nav">
-    <div style="display:flex;align-items:center">
-      <a href="index.html" class="nav-logo">Enough</a>
-    </div>
-    <div class="nav-links">
-      <a href="index.html">Inicio</a>
-      <a href="tienda.html" style="color:var(--gold)">Tienda</a>
-      <a href="blog.html">Blog</a>
-      <a href="dashboard.html">Archivo</a>
-    </div>
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="tienda.html" aria-current="page">Tienda</a></li>
+      <li><a href="dashboard.html">Archivo</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>03</b> · Tienda</div>
   </nav>
 
-  <main class="page">
-    <div class="page-header">
-      <p class="page-label">Tienda</p>
-      <h1>Objetos<br>con intención</h1>
-      <p>Publicaciones, archivos y piezas digitales del proyecto Enough.</p>
-    </div>
+  <header class="page-head">
+    <div class="head-id"><span class="num">03</span>Tienda</div>
+    <h1>Objetos con <em>intención</em>.</h1>
+    <div class="head-meta">8 piezas activas<br>Digital / Edición limitada<br>2024 — 2026</div>
+    <p class="head-eyebrow">Publicaciones, archivos y piezas digitales del proyecto. Todo se hace lento, en serie pequeña y con propósito.</p>
+  </header>
 
-    <div class="productos-grid" id="grid">
-      <div class="estado">Cargando productos...</div>
+  <div class="tienda-controls">
+    <div class="label">Filtrar</div>
+    <div class="filters" id="filters">
+      <button class="chip on" data-filter="all">Todo · 8</button>
+      <button class="chip" data-filter="ensayo">Ensayos</button>
+      <button class="chip" data-filter="archivo">Archivos</button>
+      <button class="chip" data-filter="wallpaper">Wallpapers</button>
+      <button class="chip" data-filter="impresion">Impresión</button>
     </div>
+    <div class="view">
+      <button class="chip on" data-view="grid">Grid</button>
+      <button class="chip" data-view="list">Lista</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="grid-view" id="grid"></div>
+    <div class="list-view" id="list"></div>
   </main>
 
-  <footer>
-    <span class="nav-logo">Enough</span>
-    <span>© 2026 Enough. Bucaramanga, Colombia.</span>
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-seal">
+      <div class="seal" aria-hidden="true">
+        <div class="si">Vol.<b>I</b>MMXXVI</div>
+      </div>
+      <div class="end">Hecho con cuidado, sin frecuencia</div>
+      <div class="meta">© MMXXVI · Enough Editorial<br>Bucaramanga, CO</div>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -205,47 +364,115 @@
       'https://xwoqinouwnpzqiyqbpup.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY'
     );
-
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
-
-    function formatCOP(n) {
-      return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
-    }
-
-    function renderCard(p) {
-      const img = p.imagen_url
-        ? `<img src="${p.imagen_url}" alt="${p.nombre}" loading="lazy">`
-        : `<div class="card-placeholder">Sin imagen</div>`;
-      return `
-        <a class="producto-card" href="producto.html?id=${p.id}">
-          <div class="card-img">${img}</div>
-          <div class="card-body">
-            <span class="card-tag">Digital</span>
-            <h2 class="card-nombre">${p.nombre}</h2>
-            <p class="card-desc">${p.descripcion ?? ''}</p>
-          </div>
-          <div class="card-footer">
-            <div class="card-precio"><strong>${formatCOP(p.precio)}</strong> COP</div>
-            <span class="card-arrow">→</span>
-          </div>
-        </a>`;
-    }
-
-    async function cargar() {
-      const grid = document.getElementById('grid');
-      const { data, error } = await sb.from('productos').select('*').eq('activo', true).order('created_at', { ascending: false });
-      if (error || !data?.length) {
-        grid.innerHTML = '<div class="estado">No hay productos disponibles por el momento.</div>';
-        return;
-      }
-      grid.innerHTML = data.map(renderCard).join('');
-    }
-
     sb.auth.getSession().then(({ data: { session } }) => {
       if (!session) window.location.href = 'acceso.html';
-      else cargar();
     });
+
+    const products = [
+      { id: 'vol-1', num: '01', name: 'Vol. I — Apertura', em: '', cat: 'ensayo', fmt: 'PDF · 84 p.', price: 38000, tint: 'tint-warm',
+        desc: 'Primer volumen del editorial. Diez ensayos sobre atmósfera, materia y la forma de habitar.' },
+      { id: 'archivo-2024', num: '02', name: 'Archivo 2024', em: '', cat: 'archivo', fmt: 'ZIP · 240 imgs', price: 65000, tint: '',
+        desc: 'Selección curada del archivo fotográfico del año, en alta resolución y con notas.' },
+      { id: 'wallpapers-luz', num: '03', name: 'Wallpapers — Luz', em: 'Luz', cat: 'wallpaper', fmt: '6 archivos', price: 18000, tint: 'tint-violet',
+        desc: 'Seis fondos digitales basados en observaciones lumínicas del archivo.' },
+      { id: 'fragmentos', num: '04', name: 'Fragmentos', em: '', cat: 'ensayo', fmt: 'PDF · 32 p.', price: 22000, tint: '',
+        desc: 'Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.' },
+      { id: 'print-tarde', num: '05', name: 'Print — Tarde tendida', em: 'Tarde tendida', cat: 'impresion', fmt: 'A3 · 280 g/m²', price: 95000, tint: 'tint-warm',
+        desc: 'Impresión giclée numerada. Edición de 30 piezas con certificado.' },
+      { id: 'sobre-luz', num: '06', name: 'Sobre la luz', em: 'luz', cat: 'ensayo', fmt: 'PDF · 48 p.', price: 25000, tint: 'tint-violet',
+        desc: 'Ensayo monográfico sobre cómo la luz construye atmósfera en el espacio doméstico.' },
+      { id: 'archivo-2025', num: '07', name: 'Archivo 2025', em: '', cat: 'archivo', fmt: 'ZIP · 310 imgs', price: 78000, tint: '',
+        desc: 'Selección 2025 con campo, notas de proceso y referencias visuales.' },
+      { id: 'wallpapers-vacio', num: '08', name: 'Wallpapers — Vacío', em: 'Vacío', cat: 'wallpaper', fmt: '4 archivos', price: 14000, tint: 'tint-warm',
+        desc: 'Cuatro fondos digitales sobre el vacío conceptual y la composición silenciosa.' },
+    ];
+
+    function formatCOP(n) {
+      return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n);
+    }
+
+    const gridEl = document.getElementById('grid');
+    const listEl = document.getElementById('list');
+    const chips = document.querySelectorAll('#filters .chip');
+    const viewChips = document.querySelectorAll('.view .chip');
+    let filter = 'all';
+    let view = 'grid';
+
+    function visible() {
+      return filter === 'all' ? products : products.filter(p => p.cat === filter);
+    }
+
+    function renderGrid() {
+      const items = visible();
+      if (!items.length) { gridEl.innerHTML = '<div class="estado">— Sin resultados</div>'; return; }
+      gridEl.innerHTML = items.map(p => {
+        const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+        const tint = p.tint ? ' ' + p.tint : '';
+        return `
+        <a class="card" href="producto.html?id=${p.id}">
+          <div class="card-img placeholder${tint}"></div>
+          <div class="card-body">
+            <span class="card-num">${p.num} — ${p.cat}</span>
+            <h3 class="card-name">${nameHtml}</h3>
+            <span class="card-fmt">${p.fmt}</span>
+            <p class="card-desc">${p.desc}</p>
+          </div>
+          <div class="card-foot">
+            <span class="card-price"><b>$ ${formatCOP(p.price)}</b>COP</span>
+            <span class="card-arrow">Ver →</span>
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    function renderList() {
+      const items = visible();
+      const head = `<div class="list-row head">
+        <span class="l-num">N.º</span>
+        <div class="l-thumb"></div>
+        <span>Pieza</span>
+        <span class="l-fmt">Formato</span>
+        <span class="l-price">Precio</span>
+        <span class="l-arrow">Acción</span>
+      </div>`;
+      const rows = items.map(p => {
+        const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+        const tint = p.tint ? ' ' + p.tint : '';
+        return `
+        <a class="list-row" href="producto.html?id=${p.id}">
+          <span class="l-num">${p.num}</span>
+          <div class="l-thumb placeholder${tint}"></div>
+          <div class="l-info">
+            <h3 class="l-name">${nameHtml}</h3>
+            <p class="l-desc">${p.desc}</p>
+          </div>
+          <span class="l-fmt">${p.fmt}</span>
+          <span class="l-price"><b>$ ${formatCOP(p.price)}</b>COP</span>
+          <span class="l-arrow">Ver →</span>
+        </a>`;
+      }).join('');
+      listEl.innerHTML = head + (rows || '<div class="estado">— Sin resultados</div>');
+    }
+
+    function render() {
+      renderGrid();
+      renderList();
+      gridEl.classList.toggle('off', view !== 'grid');
+      listEl.classList.toggle('on',  view === 'list');
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('on', x === c));
+      filter = c.dataset.filter;
+      render();
+    }));
+    viewChips.forEach(c => c.addEventListener('click', () => {
+      viewChips.forEach(x => x.classList.toggle('on', x === c));
+      view = c.dataset.view;
+      render();
+    }));
+
+    render();
   </script>
 </body>
 </html>
