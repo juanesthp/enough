@@ -11,6 +11,66 @@
   <link rel="stylesheet" href="enough.css">
 
   <style>
+    /* ─── Loading overlay ─── */
+    #dash-loading {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .4s ease;
+    }
+    #dash-loading.fade { opacity: 0; pointer-events: none; }
+    .loading-mark {
+      font-family: var(--display-font);
+      font-size: 2.2rem; font-weight: 300;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(239,230,212,.18);
+      animation: pulso 1.8s ease-in-out infinite;
+    }
+    @keyframes pulso { 0%,100%{opacity:.18} 50%{opacity:.55} }
+
+    /* ─── Profile modal ─── */
+    #modal-perfil {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(10,9,7,.72);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #modal-perfil.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--hair-2);
+      padding: 40px 44px;
+      width: min(540px, calc(100vw - 48px));
+      display: flex; flex-direction: column; gap: 24px;
+      position: relative;
+    }
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .modal-head h3 {
+      font-family: var(--display-font); font-weight: 400; font-size: 26px;
+      color: var(--text);
+    }
+    .modal-head h3 em { font-style: italic; color: var(--text-soft); }
+    .modal-close {
+      background: none; border: none; color: var(--faint);
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; cursor: pointer; transition: color .2s;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-fields { display: flex; flex-direction: column; gap: 18px; }
+    .modal-msg {
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; min-height: 1em;
+    }
+    .modal-msg.ok  { color: oklch(78% 0.12 145); }
+    .modal-msg.err { color: #c0392b; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-actions .btn { flex: 1; justify-content: center; }
+
     /* ─── Dashboard — archivo privado, denso, editorial back-office ─── */
 
     /* Welcome banner */
@@ -445,6 +505,42 @@
 </head>
 <body>
 
+  <!-- Loading overlay -->
+  <div id="dash-loading"><span class="loading-mark">Enough</span></div>
+
+  <!-- Modal editar perfil -->
+  <div id="modal-perfil" role="dialog" aria-modal="true" aria-label="Editar perfil">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Editar <em>perfil</em></h3>
+        <button class="modal-close" id="modal-close-btn">✕ Cerrar</button>
+      </div>
+      <div class="modal-fields">
+        <div class="field">
+          <label for="p-nombre">Nombre</label>
+          <input type="text" id="p-nombre" placeholder="Tu nombre" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="p-apellido">Apellido</label>
+          <input type="text" id="p-apellido" placeholder="Tu apellido" autocomplete="family-name">
+        </div>
+        <div class="field">
+          <label for="p-email">Correo</label>
+          <input type="email" id="p-email" placeholder="tu@correo.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="p-pass">Nueva contraseña <span style="color:var(--faint);font-size:9px;letter-spacing:.15em;">(dejar vacío para no cambiar)</span></label>
+          <input type="password" id="p-pass" placeholder="••••••••" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="modal-msg" id="modal-msg"></div>
+      <div class="modal-actions">
+        <button class="btn btn-solid" id="btn-guardar-perfil">Guardar cambios</button>
+        <button class="btn btn-ghost" id="modal-cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <nav class="site-nav">
     <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
     <ul>
@@ -465,11 +561,11 @@
   </header>
 
   <section class="welcome">
-    <div class="who">Bienvenida de vuelta,<br><em>Ana</em>.</div>
+    <div class="who">Bienvenida de vuelta,<br><em id="user-nombre">—</em>.</div>
     <div class="session">
       <span class="pill">Sesión activa</span>
-      <span>Último acceso · 17 may.</span>
-      <a href="acceso.html">Cerrar sesión</a>
+      <span id="user-last-access">—</span>
+      <a href="#" id="btn-logout">Cerrar sesión</a>
     </div>
   </section>
 
@@ -551,17 +647,17 @@
       <section class="panel cuenta">
         <div class="p-head">
           <h2>Cuenta</h2>
-          <span class="p-num">Lectora</span>
+          <span class="p-num" id="cuenta-tipo">—</span>
         </div>
         <div>
-          <div class="row"><span class="k">Nombre</span><span class="v">Ana García</span></div>
-          <div class="row"><span class="k">Correo</span><span class="v muted">ana@ejemplo.com</span></div>
-          <div class="row"><span class="k">Tipo</span><span class="v">Lectora · Vol. I</span></div>
-          <div class="row"><span class="k">Desde</span><span class="v muted">12 feb. 2026</span></div>
+          <div class="row"><span class="k">Nombre</span><span class="v" id="cuenta-nombre">—</span></div>
+          <div class="row"><span class="k">Correo</span><span class="v muted" id="cuenta-email">—</span></div>
+          <div class="row"><span class="k">Tipo</span><span class="v" id="cuenta-plan">—</span></div>
+          <div class="row"><span class="k">Desde</span><span class="v muted" id="cuenta-desde">—</span></div>
         </div>
         <div style="display:flex; gap:10px;">
-          <a href="#" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Editar perfil</a>
-          <a href="acceso.html" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Salir</a>
+          <button class="btn btn-ghost" id="btn-editar-perfil" style="flex:1; justify-content:center; font-size:10px;">Editar perfil</button>
+          <button class="btn btn-ghost" id="btn-logout-cuenta" style="flex:1; justify-content:center; font-size:10px;">Salir</button>
         </div>
       </section>
     </div>
@@ -651,5 +747,144 @@
     <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
 
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ─── CONFIG ─── */
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://xwoqinouwnpzqiyqbpup.supabase.co',
+      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+    );
+
+    /* ─── HELPERS ─── */
+    const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    function fmtFecha(iso) {
+      const d = new Date(iso);
+      return `${d.getDate()} ${MESES[d.getMonth()]}. ${d.getFullYear()}`;
+    }
+    function set(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    /* ─── POBLAR UI CON DATOS DEL USUARIO ─── */
+    function poblarUsuario(user) {
+      const meta      = user.user_metadata || {};
+      const nombre    = meta.nombre    || user.email.split('@')[0];
+      const apellido  = meta.apellido  || '';
+      const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
+      const plan      = meta.plan || 'Lectora';
+      const desde     = fmtFecha(user.created_at);
+      const lastSignIn = user.last_sign_in_at ? `Último acceso · ${fmtFecha(user.last_sign_in_at)}` : 'Primera sesión';
+
+      /* Welcome */
+      set('user-nombre', nombre);
+      set('user-last-access', lastSignIn);
+
+      /* Cuenta panel */
+      set('cuenta-nombre',  nombreCompleto);
+      set('cuenta-email',   user.email);
+      set('cuenta-plan',    `${plan} · Vol. I`);
+      set('cuenta-tipo',    plan);
+      set('cuenta-desde',   desde);
+
+      /* Pre-rellenar modal */
+      document.getElementById('p-nombre').value   = nombre;
+      document.getElementById('p-apellido').value = apellido;
+      document.getElementById('p-email').value    = user.email;
+    }
+
+    /* ─── MODAL PERFIL ─── */
+    const modal = document.getElementById('modal-perfil');
+
+    function abrirModal() { modal.classList.add('open'); }
+    function cerrarModal() {
+      modal.classList.remove('open');
+      setModalMsg('', '');
+      document.getElementById('p-pass').value = '';
+    }
+
+    function setModalMsg(txt, tipo) {
+      const el = document.getElementById('modal-msg');
+      el.textContent = txt;
+      el.className = 'modal-msg' + (tipo ? ' ' + tipo : '');
+    }
+
+    document.getElementById('btn-editar-perfil').addEventListener('click', abrirModal);
+    document.getElementById('modal-close-btn').addEventListener('click', cerrarModal);
+    document.getElementById('modal-cancel-btn').addEventListener('click', cerrarModal);
+
+    /* Cerrar al hacer clic en el fondo */
+    modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+
+    /* Guardar cambios de perfil */
+    document.getElementById('btn-guardar-perfil').addEventListener('click', async () => {
+      const nombre   = document.getElementById('p-nombre').value.trim();
+      const apellido = document.getElementById('p-apellido').value.trim();
+      const email    = document.getElementById('p-email').value.trim();
+      const pass     = document.getElementById('p-pass').value;
+
+      if (!nombre) { setModalMsg('— El nombre no puede estar vacío', 'err'); return; }
+      setModalMsg('— Guardando…', '');
+
+      const updates = {};
+      const { data: { user } } = await sb.auth.getUser();
+
+      /* Actualizar metadatos */
+      const { error: metaErr } = await sb.auth.updateUser({
+        data: { nombre, apellido }
+      });
+      if (metaErr) { setModalMsg('— ' + metaErr.message, 'err'); return; }
+
+      /* Actualizar email si cambió */
+      if (email && email !== user.email) {
+        const { error: emailErr } = await sb.auth.updateUser({ email });
+        if (emailErr) { setModalMsg('— ' + emailErr.message, 'err'); return; }
+        setModalMsg('— Revisa tu nuevo correo para confirmar el cambio', 'ok');
+      }
+
+      /* Actualizar contraseña si se escribió una */
+      if (pass) {
+        if (pass.length < 8) { setModalMsg('— La contraseña debe tener al menos 8 caracteres', 'err'); return; }
+        const { error: passErr } = await sb.auth.updateUser({ password: pass });
+        if (passErr) { setModalMsg('— ' + passErr.message, 'err'); return; }
+      }
+
+      /* Recargar usuario y actualizar UI */
+      const { data: { user: userActualizado } } = await sb.auth.getUser();
+      poblarUsuario(userActualizado);
+      setModalMsg('— Cambios guardados', 'ok');
+      document.getElementById('p-pass').value = '';
+      setTimeout(cerrarModal, 1600);
+    });
+
+    /* ─── LOGOUT ─── */
+    async function logout() {
+      await sb.auth.signOut();
+      window.location.href = 'acceso.html';
+    }
+    document.getElementById('btn-logout').addEventListener('click', e => { e.preventDefault(); logout(); });
+    document.getElementById('btn-logout-cuenta').addEventListener('click', logout);
+
+    /* ─── INIT ─── */
+    async function init() {
+      const { data: { session } } = await sb.auth.getSession();
+
+      if (!session) {
+        window.location.href = 'acceso.html';
+        return;
+      }
+
+      poblarUsuario(session.user);
+
+      /* Ocultar loading */
+      const loading = document.getElementById('dash-loading');
+      loading.classList.add('fade');
+      setTimeout(() => loading.remove(), 450);
+    }
+
+    init();
+  </script>
 </body>
 </html>
