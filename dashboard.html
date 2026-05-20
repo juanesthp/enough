@@ -556,12 +556,12 @@
   <header class="page-head">
     <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
     <h1>Tu <em>archivo</em>.</h1>
-    <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br>Lunes, 19 may.</div>
+    <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br><span id="head-fecha">—</span></div>
     <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
   </header>
 
   <section class="welcome">
-    <div class="who">Bienvenida de vuelta,<br><em id="user-nombre">—</em>.</div>
+    <div class="who">Bienvenido de vuelta,<br><em id="user-nombre">—</em>.</div>
     <div class="session">
       <span class="pill">Sesión activa</span>
       <span id="user-last-access">—</span>
@@ -757,7 +757,12 @@
     );
 
     /* ─── HELPERS ─── */
+    const DIAS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
     const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    (function() {
+      const h = new Date();
+      set('head-fecha', `${DIAS[h.getDay()]}, ${h.getDate()} ${MESES[h.getMonth()]}.`);
+    })();
     function fmtFecha(iso) {
       const d = new Date(iso);
       return `${d.getDate()} ${MESES[d.getMonth()]}. ${d.getFullYear()}`;
