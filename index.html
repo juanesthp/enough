@@ -420,8 +420,6 @@
     .hero-sub          { animation: subir .8s ease forwards; animation-delay: 1s; }
     .hero .btn-primary { animation: subir .8s ease forwards; animation-delay: 1.3s; }
 
-    * { cursor: none; }
-    .cursor { position: fixed; pointer-events: none; z-index: 9999; transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference; }
 
     @media (max-width: 920px) {
       body { padding: 28px; overflow-x: hidden; }
@@ -486,7 +484,6 @@
         text-align: center;
         padding: 2rem;
       }
-      .cursor { display: none; }
     }
 
     @media (max-width: 640px) {
@@ -522,10 +519,6 @@
 </head>
 <body>
 
-  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
-    <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
-  </svg>
 
   <nav id="nav">
     <a href="#" class="logo">Enough</a>
@@ -698,15 +691,6 @@
     }, { threshold: 0.1 });
     elementos.forEach(el => observer.observe(el));
 
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
-    });
 
     const heroImage = document.querySelector('.hero img');
     if (heroImage) {

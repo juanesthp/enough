@@ -30,7 +30,6 @@
             color: var(--dark);
             font-family: 'Raleway', sans-serif;
             font-weight: 300;
-            cursor: none;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -54,19 +53,6 @@
         body::before { top: 10vh; left: -80px; width: 240px; height: 240px; background: rgba(182, 154, 106, 0.08); }
         body::after  { right: -80px; bottom: 10vh; width: 280px; height: 280px; background: rgba(70, 70, 94, 0.12); }
 
-        .cursor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform .15s ease;
-            top: 0; left: 0;
-            mix-blend-mode: difference;
-        }
-
-        @media (max-width: 768px) {
-            .cursor { display: none; }
-            html, body { cursor: auto; }
-        }
 
         /* ── NAV — mismo patrón que todas las otras páginas ── */
         nav {
@@ -345,10 +331,6 @@
 </head>
 <body>
 
-    <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <line x1="13" y1="3" x2="13" y2="23" stroke="#f4ede3" stroke-width="1.6"/>
-        <line x1="3" y1="13" x2="23" y2="13" stroke="#f4ede3" stroke-width="1.6"/>
-    </svg>
 
     <nav>
         <a href="index.html" class="logo">Enough</a>
@@ -490,15 +472,6 @@
         renderIndex();
         initFromHash();
 
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top  = e.clientY + 'px';
-        });
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
-            el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
-        });
     </script>
 
 </body>

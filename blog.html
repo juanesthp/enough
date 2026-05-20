@@ -297,8 +297,6 @@
     }
     footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
 
-    * { cursor: none; }
-    .cursor { position: fixed; pointer-events: none; z-index: 9999; transition: transform .15s ease; top: 0; left: 0; mix-blend-mode: difference; }
 
     @media (max-width: 920px) {
       body { padding: 28px; }
@@ -342,7 +340,6 @@
         text-align: center;
         padding: 2rem;
       }
-      .cursor { display: none; }
     }
 
     @media (max-width: 640px) {
@@ -361,10 +358,6 @@
 </head>
 <body>
 
-  <svg class="cursor" id="cursor" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <line x1="13" y1="3" x2="13" y2="23" stroke="#ffffff" stroke-width="1.6"/>
-    <line x1="3" y1="13" x2="23" y2="13" stroke="#ffffff" stroke-width="1.6"/>
-  </svg>
 
   <nav>
     <a href="index.html" class="logo">Enough</a>
@@ -500,15 +493,6 @@
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
-    });
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(1.4)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; });
-    });
   </script>
 
 </body>
