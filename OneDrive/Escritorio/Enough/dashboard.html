@@ -867,24 +867,54 @@
     document.getElementById('btn-logout').addEventListener('click', e => { e.preventDefault(); logout(); });
     document.getElementById('btn-logout-cuenta').addEventListener('click', logout);
 
-    /* ─── INIT ─── */
-    async function init() {
-      const { data: { session } } = await sb.auth.getSession();
+    /* ─── INIT ─────────────────────────────────────────────────────
+       Usamos onAuthStateChange en lugar de getSession() porque
+       getSession() puede devolver null antes de que Supabase
+       restaure la sesión desde localStorage en la primera carga.
+       INITIAL_SESSION dispara en cuanto el cliente está listo.
+    ─────────────────────────────────────────────────────────────── */
+    let iniciado = false;
 
-      if (!session) {
+    /* Timeout de seguridad: si en 4 segundos no llega sesión → acceso */
+    const timeout = setTimeout(() => {
+      if (!iniciado) window.location.href = 'acceso.html';
+    }, 4000);
+
+    sb.auth.onAuthStateChange(async (event, session) => {
+      console.log('[Enough] Auth event:', event, session?.user?.email);
+
+      if (event === 'SIGNED_OUT') {
+        clearTimeout(timeout);
         window.location.href = 'acceso.html';
         return;
       }
 
-      poblarUsuario(session.user);
+      /* INITIAL_SESSION o SIGNED_IN con sesión válida */
+      if (session && session.user) {
+        clearTimeout(timeout);
+        if (iniciado) return; /* evitar doble llamada */
+        iniciado = true;
 
-      /* Ocultar loading */
-      const loading = document.getElementById('dash-loading');
-      loading.classList.add('fade');
-      setTimeout(() => loading.remove(), 450);
-    }
+        /* getUser() hace una llamada a la API para datos frescos */
+        const { data: { user }, error } = await sb.auth.getUser();
+        if (error || !user) { window.location.href = 'acceso.html'; return; }
 
-    init();
+        poblarUsuario(user);
+
+        const loading = document.getElementById('dash-loading');
+        if (loading) {
+          loading.classList.add('fade');
+          setTimeout(() => loading.remove(), 450);
+        }
+        return;
+      }
+
+      /* Sin sesión en INITIAL_SESSION → mandar a acceso */
+      if (event === 'INITIAL_SESSION' && !session) {
+        clearTimeout(timeout);
+        window.location.href = 'acceso.html';
+      }
+    });
   </script>
 </body>
 </html>
