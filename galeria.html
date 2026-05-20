@@ -1,315 +1,363 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Galería · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Galería de Enough: una selección fotográfica de espacios, atmósferas y materia desde una mirada curatorial.">
-  <link rel="canonical" href="https://juanesthp.github.io/enough/galeria.html">
+  <meta name="description" content="Galería · Enough. Archivo visual de atmósferas, luz y materia. Bucaramanga.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
   <style>
-    :root {
-      --bg: #06070a;
-      --panel: rgba(255,255,255,.03);
-      --text: #f4ede3;
-      --muted: rgba(244,237,227,.62);
-      --faint: rgba(244,237,227,.3);
-      --line: rgba(244,237,227,.1);
-      --gold: #b69a6a;
-      --shadow-soft: 0 18px 40px rgba(0,0,0,.24);
-      --shadow-deep: 0 36px 80px rgba(0,0,0,.45);
-    }
+    /* ─── Galería — colapsada, tipo archivo / contact-sheet ─── */
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--bg); scroll-padding-top: 8rem; }
-    body {
-      background:
-        radial-gradient(circle at top left, rgba(182,154,106,.1), transparent 24%),
-        linear-gradient(180deg, #0f1114 0%, #08090c 46%, #050608 100%);
-      font-family: Raleway, sans-serif;
-      padding: 40px;
-      max-width: 880px;
+    .filter-strip {
+      max-width: 1480px;
       margin: 0 auto;
-      overflow-x: hidden;
-      color: var(--text);
-    }
-
-
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
+      padding: 18px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
       align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(6,7,10,.94);
-      backdrop-filter: blur(14px);
-    }
-    nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 12px;
-      letter-spacing: 0.12em;
+      border-bottom: 1px solid var(--hair);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      border-bottom: none;
-      transition: opacity .2s;
+      color: var(--muted);
+      position: relative;
+      z-index: 3;
     }
-    nav a:hover { opacity: .55; }
-    nav a[aria-current="page"] { border-bottom: 1px solid rgba(244,237,227,.35); padding-bottom: 2px; }
-    .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; border-bottom: none; margin-right: 40px; }
-
-    .galeria-header { margin-top: 8rem; margin-bottom: 3rem; text-align: center; }
-    .section-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
-    h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; letter-spacing: 8px; text-transform: uppercase; color: var(--text); }
-
-    .grid { columns: 2; column-gap: 2rem; margin-top: 2rem; }
-    .foto {
-      break-inside: avoid;
-      margin-bottom: 2rem;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow-soft);
-      transition: transform .25s ease, border-color .25s ease;
+    .filter-strip .label { grid-column: 1 / span 2; color: var(--faint); }
+    .filter-strip .chips { grid-column: 3 / span 8; display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-strip .right { grid-column: 11 / span 2; text-align: right; color: var(--faint); }
+    .filter-strip .right b { color: var(--text); font-weight: 500; }
+    .chip {
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
     }
-    .foto:hover { transform: translateY(-2px); border-color: rgba(199,167,114,.26); }
-    .foto-wrap { overflow: hidden; }
-    .foto img { width: 100%; height: auto; object-fit: contain; display: block; transition: transform .6s ease; }
-    .foto:hover img { transform: scale(1.03); }
-    .foto-desc { padding: 1rem 1rem 1.2rem; border-top: 1px solid var(--line); }
-    .foto-desc h3 { font-size: 13px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--text); margin-bottom: 6px; }
-    .foto-desc p { font-size: 13px; color: var(--muted); line-height: 1.8; }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
-    .lb-overlay {
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(4,5,7,.97);
-      display: flex; align-items: stretch;
-      opacity: 0; pointer-events: none;
+    /* contact-sheet grid */
+    .sheet {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .frame {
+      background: var(--bg);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: background .25s;
+    }
+    .frame:hover { background: var(--bg-soft); }
+    .frame-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-soft);
+      overflow: hidden;
+      position: relative;
+    }
+    .frame-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(.88) contrast(1.05) saturate(.9);
+      transition: transform .9s ease, filter .6s;
+    }
+    .frame:hover .frame-img img { transform: scale(1.04); filter: brightness(.96) saturate(1); }
+    .frame-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .frame-img.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 60%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .frame-img.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .frame-img.tint-dusk::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 45%, color-mix(in oklch, var(--turrell-c) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .frame-meta {
+      padding: 10px 14px 14px;
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .frame-num { font-family: var(--label-font); font-size: 9px; letter-spacing: .18em; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .frame-title { font-family: var(--display-font); font-style: italic; font-weight: 400; font-size: 15px; color: var(--text); line-height: 1.1; letter-spacing: 0; }
+    .frame-loc { font-family: var(--label-font); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+
+    /* lightbox */
+    .lb {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(8,7,5,.96);
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      opacity: 0;
+      pointer-events: none;
       transition: opacity .35s ease;
     }
-    .lb-overlay.open { opacity: 1; pointer-events: all; }
-    .lb-media { flex: 2; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-    .lb-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .lb-prev, .lb-next {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: none; border: none; color: rgba(244,237,227,.3);
-      font-size: 28px; font-family: Raleway, sans-serif; font-weight: 200;
-      padding: 1rem; transition: color .2s; z-index: 2;
+    .lb.open { opacity: 1; pointer-events: all; }
+    .lb-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      overflow: hidden;
     }
-    .lb-prev { left: 1rem; }
-    .lb-next { right: 1rem; }
-    .lb-prev:hover, .lb-next:hover { color: var(--text); }
-    .lb-info {
-      flex: 1; min-width: 300px; max-width: 380px;
-      padding: 4rem 3rem; display: flex; flex-direction: column;
-      border-left: 1px solid rgba(244,237,227,.06);
-      overflow-y: auto; background: rgba(255,255,255,.018);
+    .lb-stage::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 70%; height: 70%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 65%);
+      filter: blur(80px);
+      pointer-events: none;
     }
-    .lb-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; display: block; }
-    .lb-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: var(--text); margin-bottom: 2rem; line-height: 1.2; }
-    .lb-desc { font-size: 14px; color: var(--muted); line-height: 2; flex: 1; overflow-y: auto; padding-right: .5rem; }
-    .lb-counter { margin-top: 2rem; font-size: 11px; letter-spacing: .15em; color: rgba(244,237,227,.2); flex-shrink: 0; }
-    .lb-close {
-      position: fixed; top: 1.5rem; right: 2rem;
-      background: none; border: none; color: rgba(244,237,227,.4);
-      font-size: 28px; transition: color .2s; font-weight: 200;
-      line-height: 1; font-family: Raleway, sans-serif; z-index: 1001;
+    .lb-stage img { position: relative; max-width: 100%; max-height: 100%; object-fit: contain; }
+    .lb-stage .lb-frame.placeholder {
+      width: min(70vh, 80%);
+      aspect-ratio: 4/5;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border: 1px solid var(--hair);
     }
-    .lb-close:hover { color: var(--text); }
-
-    footer {
-      border-top: 1px solid rgba(244,237,227,.06);
-      color: var(--faint);
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 2rem 4rem; font-size: 12px;
-      width: 100vw; margin-left: calc(-50vw + 50%);
-      margin-top: 4rem; letter-spacing: 2px;
-      background: #050608;
-    }
-    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
+    .lb-info { padding: 88px 36px 36px; border-left: 1px solid var(--hair-2); background: rgba(15,13,10,.5); overflow-y: auto; display: flex; flex-direction: column; gap: 18px; }
+    .lb-eyebrow { font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .lb-title { font-family: var(--display-font); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: 0; color: var(--text); }
+    .lb-desc { font-size: 14px; line-height: 1.85; color: var(--muted); }
+    .lb-cap { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+    .lb-cap div { padding: 12px 0; border-top: 1px solid var(--hair-2); }
+    .lb-cap b { display: block; color: var(--text); font-weight: 500; margin-top: 4px; }
+    .lb-controls { position: fixed; bottom: 28px; left: 28px; display: flex; gap: 8px; z-index: 9100; }
+    .lb-controls button { width: 44px; height: 44px; background: rgba(15,13,10,.7); border: 1px solid var(--hair-2); color: var(--text); font: 300 18px var(--body-font); cursor: pointer; transition: background .2s, border-color .2s; }
+    .lb-controls button:hover { background: var(--bg-soft); border-color: var(--gold); }
+    .lb-close { position: fixed; top: 22px; right: 22px; width: 44px; height: 44px; background: rgba(15,13,10,.7); border: 1px solid var(--hair-2); color: var(--text); font: 300 22px var(--body-font); cursor: pointer; z-index: 9100; transition: background .2s, color .2s; }
+    .lb-close:hover { background: var(--gold); color: var(--bg); }
+    .lb-counter { position: fixed; top: 28px; left: 28px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); z-index: 9100; }
+    .lb-counter b { color: var(--text); font-weight: 500; }
 
     @media (max-width: 920px) {
-      body { padding: 28px; }
-      nav {
-        position: sticky;
-        top: 0;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: .9rem;
-        padding: .95rem 1.2rem;
-        background: linear-gradient(to bottom, rgba(9,9,15,.96) 0%, rgba(9,9,15,.82) 56%, rgba(9,9,15,0) 100%);
-        backdrop-filter: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        box-shadow: none;
-      }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { font-size: 10px; letter-spacing: 0.08em; }
-      nav a { flex: 0 0 auto; position: relative; z-index: 1; }
-      .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
-      .galeria-header { margin-top: 4rem; margin-bottom: 2rem; }
-      .grid { column-gap: 1.25rem; }
-      .lb-overlay { flex-direction: column; overflow-y: auto; }
-      .lb-media { flex: none; min-height: 54vh; }
-      .lb-info {
-        min-width: unset;
-        max-width: unset;
-        padding: 2rem;
-        border-left: none;
-        border-top: 1px solid rgba(244,237,227,.06);
-      }
-      .lb-close { top: 1rem; right: 1rem; }
-      footer {
-        width: auto;
-        margin-left: -28px;
-        margin-right: -28px;
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        padding: 2rem;
-      }
+      .filter-strip { grid-template-columns: 1fr; gap: 10px; padding: 14px var(--gutter); }
+      .filter-strip .label, .filter-strip .chips, .filter-strip .right { grid-column: 1 / span 1; text-align: left; }
+      .sheet { grid-template-columns: repeat(2, 1fr); padding: 20px var(--gutter) 60px; }
+      .lb { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+      .lb-stage { padding: 48px 20px 20px; min-height: 60vh; }
+      .lb-info { border-left: none; border-top: 1px solid var(--hair-2); padding: 24px 20px; }
     }
-
-    @media (max-width: 640px) {
-      body { padding: 20px; }
-      nav { gap: .8rem; padding: .9rem 1rem; }
-      nav a { font-size: 9px; }
-      .grid { columns: 1; }
-      .lb-media { min-height: 46vh; }
-      .lb-info { padding: 1.75rem 1.25rem; }
-      .lb-title { font-size: 1.4rem; }
-      footer {
-        margin-left: -20px;
-        margin-right: -20px;
-      }
-    }
+    @media (max-width: 520px) { .sheet { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-
-  <nav>
-    <a href="index.html" class="logo">Enough</a>
-    <a href="index.html#filosofia">Filosofía</a>
-    <a href="galeria.html" aria-current="page">Galería</a>
-    <a href="blog.html">Blog</a>
-    <a href="fragmentos.html">Fragmentos</a>
-    <a href="sobre.html">Sobre mí</a>
-    <a href="index.html#servicios">Servicios</a>
-    <a href="index.html#contacto">Contacto</a>
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html" aria-current="page">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>02</b> · Galería</div>
   </nav>
 
-  <main>
-    <div class="galeria-header">
-      <span class="section-label">Fotografía</span>
-      <h1>Galería</h1>
+  <header class="page-head">
+    <div class="head-id"><span class="num">02</span>Galería</div>
+    <h1>Luz, materia<br>y <em>atmósfera</em>.</h1>
+    <div class="head-meta">15 piezas<br>2024 — 2026<br>Bucaramanga · CO</div>
+    <p class="head-eyebrow">Una colección en formación. Cada imagen es una observación: el modo en que la luz baja, el peso de una sombra, el desgaste de una superficie que guarda tiempo.</p>
+  </header>
+
+  <div class="filter-strip">
+    <div class="label">Filtrar por</div>
+    <div class="chips" id="chips">
+      <button class="chip on" data-filter="all">Todo · 15</button>
+      <button class="chip" data-filter="luz">Luz</button>
+      <button class="chip" data-filter="materia">Materia</button>
+      <button class="chip" data-filter="umbral">Umbral</button>
+      <button class="chip" data-filter="vacio">Vacío</button>
+      <button class="chip" data-filter="ritmo">Ritmo</button>
     </div>
-    <div class="grid" id="galeria-grid"></div>
+    <div class="right">Vista <b>Contact</b></div>
+  </div>
+
+  <main>
+    <div class="sheet" id="sheet"></div>
   </main>
 
-  <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imágenes de la galería">
-    <button class="lb-close" id="lb-close" aria-label="Cerrar galería">×</button>
-    <div class="lb-media">
-      <img id="lb-img" src="" alt="">
-      <button class="lb-prev" id="lb-prev" aria-label="Imagen anterior">←</button>
-      <button class="lb-next" id="lb-next" aria-label="Siguiente imagen">→</button>
-    </div>
+  <div class="lb" id="lb" role="dialog" aria-modal="true">
+    <div class="lb-counter" id="lb-counter"></div>
+    <button class="lb-close" id="lb-close" aria-label="Cerrar">×</button>
+    <div class="lb-stage" id="lb-stage"></div>
     <div class="lb-info">
-      <span class="lb-label">Enough · Fotografía</span>
+      <div class="lb-eyebrow">Enough · Archivo</div>
       <h2 class="lb-title" id="lb-title"></h2>
-      <div class="lb-desc" id="lb-desc"></div>
-      <p class="lb-counter" id="lb-counter"></p>
+      <p class="lb-desc" id="lb-desc"></p>
+      <div class="lb-cap">
+        <div>Locación<b id="lb-loc"></b></div>
+        <div>Año<b id="lb-year"></b></div>
+        <div>Hora<b id="lb-time"></b></div>
+        <div>Categoría<b id="lb-cat"></b></div>
+      </div>
+    </div>
+    <div class="lb-controls">
+      <button id="lb-prev" aria-label="Anterior">←</button>
+      <button id="lb-next" aria-label="Siguiente">→</button>
     </div>
   </div>
 
-  <footer>
-    <span class="logo">Enough</span>
-    <span>© 2026 Enough. Diseño con intención.</span>
-    <span>Bucaramanga, Colombia</span>
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
 
   <script>
-    const galeriaGrid = document.getElementById('galeria-grid');
-
     const items = [
-      { src: './proyecto3.jpg',  alt: 'Fragmento arquitectónico 1',  title: 'Trama',       desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
-      { src: './proyecto4.jpg',  alt: 'Fragmento arquitectónico 2',  title: 'Presencia',   desc: 'Un estudio visual sobre escala, densidad y tiempo.' },
-      { src: './proyecto5.jpg',  alt: 'Fragmento arquitectónico 3',  title: 'Reposo',      desc: 'La calma como cualidad espacial y no solo como estilo.' },
-      { src: './proyecto6.jpg',  alt: 'Fragmento arquitectónico 4',  title: 'Materia',     desc: 'Observación de acabados, tactilidad y peso visual.' },
-      { src: './proyecto7.jpg',  alt: 'Fragmento arquitectónico 5',  title: 'Umbral',      desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
-      { src: './proyecto8.jpg',  alt: 'Fragmento arquitectónico 6',  title: 'Vacío',       desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
-      { src: './proyecto9.jpg',  alt: 'Fragmento arquitectónico 7',  title: 'Ritmo',       desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
-      { src: './proyecto10.jpg', alt: 'Fragmento arquitectónico 8',  title: 'Calma',       desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
-      { src: './proyecto11.jpg', alt: 'Fragmento arquitectónico 9',  title: 'Tensión',     desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
-      { src: './proyecto12.jpg', alt: 'Fragmento arquitectónico 10', title: 'Silencio',    desc: 'Espacios que no necesitan exceso para sentirse completos.' },
-      { src: './proyecto14.jpg', alt: 'Fragmento arquitectónico 11', title: 'Huella',      desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
-      { src: './proyecto15.jpg', alt: 'Fragmento arquitectónico 12', title: 'Densidad',    desc: 'Capas de materia y sombra que agregan espesor emocional.' },
-      { src: './proyecto16.jpg', alt: 'Fragmento arquitectónico 13', title: 'Temperatura', desc: 'El color del ambiente también construye una forma de habitar.' },
-      { src: './proyecto22.jpg', alt: 'Fragmento arquitectónico 14', title: 'Luz',         desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
-      { src: './proyecto23.jpg', alt: 'Fragmento arquitectónico 15', title: 'Archivo',     desc: 'Cada imagen funciona como una pieza de un archivo en formación.' }
+      { src: 'espacio.jpg', tint: 'tint-warm',   num: '01', title: 'Tarde tendida',   loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
+        desc: 'La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.' },
+      { src: null, tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
+        desc: 'Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.' },
+      { src: null, tint: 'tint-dusk',   num: '03', title: 'Borde de azul',   loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
+        desc: 'La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.' },
+      { src: null, tint: '',            num: '04', title: 'Trama',           loc: 'Muro',        year: 2025, time: '14:22', cat: 'materia',
+        desc: 'Texturas, sombras y superficies que hablan antes de cualquier discurso.' },
+      { src: null, tint: 'tint-warm',   num: '05', title: 'Reposo',          loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
+        desc: 'La calma como cualidad espacial y no solo como estilo.' },
+      { src: null, tint: '',            num: '06', title: 'Materia',         loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
+        desc: 'Observación de acabados, tactilidad y peso visual.' },
+      { src: null, tint: 'tint-violet', num: '07', title: 'Umbral',          loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
+        desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
+      { src: null, tint: '',            num: '08', title: 'Vacío',           loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
+        desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
+      { src: null, tint: 'tint-dusk',   num: '09', title: 'Ritmo',           loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
+        desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
+      { src: null, tint: '',            num: '10', title: 'Calma',           loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
+        desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
+      { src: null, tint: 'tint-warm',   num: '11', title: 'Tensión',         loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
+        desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
+      { src: null, tint: '',            num: '12', title: 'Silencio',        loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
+        desc: 'Espacios que no necesitan exceso para sentirse completos.' },
+      { src: null, tint: 'tint-violet', num: '13', title: 'Huella',          loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
+        desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
+      { src: null, tint: '',            num: '14', title: 'Densidad',        loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
+        desc: 'Capas de materia y sombra que agregan espesor emocional.' },
+      { src: null, tint: 'tint-dusk',   num: '15', title: 'Luz',             loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
+        desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
     ];
 
-    galeriaGrid.innerHTML = items.map((item, index) => `
-      <button class="foto" type="button" data-index="${index}">
-        <div class="foto-wrap"><img src="${item.src}" alt="${item.alt}" loading="lazy" decoding="async"></div>
-        <div class="foto-desc"><h3>${item.title}</h3><p>${item.desc}</p></div>
-      </button>
-    `).join('');
+    const sheet = document.getElementById('sheet');
+    const chips = document.querySelectorAll('.chip');
+    let currentFilter = 'all';
+    let visibleItems = items;
 
-    const fotos = Array.from(document.querySelectorAll('.foto'));
-    const lightbox = document.getElementById('lightbox');
-    const lbImg    = document.getElementById('lb-img');
-    const lbTitle  = document.getElementById('lb-title');
-    const lbDesc   = document.getElementById('lb-desc');
-    const lbCounter= document.getElementById('lb-counter');
-    const lbClose  = document.getElementById('lb-close');
-    const lbPrev   = document.getElementById('lb-prev');
-    const lbNext   = document.getElementById('lb-next');
-    let currentIndex = 0;
-
-    function renderLightbox(index) {
-      const item = items[index];
-      if (!item) return;
-      currentIndex = index;
-      lbImg.src = item.src;
-      lbImg.alt = item.alt;
-      lbTitle.textContent = item.title;
-      lbDesc.textContent = item.desc;
-      lbCounter.textContent = `${index + 1} / ${items.length}`;
-    }
-    function openLightbox(index) {
-      renderLightbox(index);
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeLightbox() {
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function stepLightbox(direction) {
-      currentIndex = (currentIndex + direction + items.length) % items.length;
-      renderLightbox(currentIndex);
+    function render() {
+      visibleItems = currentFilter === 'all' ? items : items.filter(i => i.cat === currentFilter);
+      sheet.innerHTML = visibleItems.map((it, idx) => {
+        const tint = it.tint ? ' ' + it.tint : '';
+        const img = it.src ? `<img src="${it.src}" alt="${it.title}" loading="lazy">` : '';
+        const placeholder = it.src ? '' : ' placeholder';
+        return `
+          <article class="frame" data-i="${idx}">
+            <div class="frame-img${placeholder}${tint}">${img}</div>
+            <div class="frame-meta">
+              <span class="frame-num">${it.num}</span>
+              <span class="frame-title">${it.title}</span>
+              <span class="frame-loc">${it.loc}</span>
+            </div>
+          </article>`;
+      }).join('');
+      sheet.querySelectorAll('.frame').forEach(f => {
+        f.addEventListener('click', () => openLB(Number(f.dataset.i)));
+      });
     }
 
-    fotos.forEach(foto => { foto.addEventListener('click', () => openLightbox(Number(foto.dataset.index))); });
-    lbClose.addEventListener('click', closeLightbox);
-    lbPrev.addEventListener('click', () => stepLightbox(-1));
-    lbNext.addEventListener('click', () => stepLightbox(1));
-    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('on', x === c));
+      currentFilter = c.dataset.filter;
+      render();
+    }));
+
+    const lb = document.getElementById('lb');
+    const lbStage = document.getElementById('lb-stage');
+    const lbTitle = document.getElementById('lb-title');
+    const lbDesc = document.getElementById('lb-desc');
+    const lbLoc = document.getElementById('lb-loc');
+    const lbYear = document.getElementById('lb-year');
+    const lbTime = document.getElementById('lb-time');
+    const lbCat = document.getElementById('lb-cat');
+    const lbCounter = document.getElementById('lb-counter');
+    let lbIndex = 0;
+
+    function paintLB() {
+      const it = visibleItems[lbIndex];
+      if (!it) return;
+      const tint = it.tint ? ' ' + it.tint : '';
+      lbStage.innerHTML = it.src
+        ? `<img src="${it.src}" alt="${it.title}">`
+        : `<div class="lb-frame placeholder${tint}"></div>`;
+      lbTitle.textContent = it.title;
+      lbDesc.textContent = it.desc;
+      lbLoc.textContent = it.loc;
+      lbYear.textContent = it.year;
+      lbTime.textContent = it.time;
+      lbCat.textContent = it.cat;
+      lbCounter.innerHTML = `<b>${String(lbIndex+1).padStart(2,'0')}</b> / ${String(visibleItems.length).padStart(2,'0')}`;
+    }
+    function openLB(i) { lbIndex = i; paintLB(); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    function step(d) { lbIndex = (lbIndex + d + visibleItems.length) % visibleItems.length; paintLB(); }
+
+    document.getElementById('lb-close').addEventListener('click', closeLB);
+    document.getElementById('lb-prev').addEventListener('click', () => step(-1));
+    document.getElementById('lb-next').addEventListener('click', () => step(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
     document.addEventListener('keydown', e => {
-      if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') stepLightbox(-1);
-      if (e.key === 'ArrowRight') stepLightbox(1);
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLB();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
     });
 
+    render();
   </script>
-
 </body>
 </html>

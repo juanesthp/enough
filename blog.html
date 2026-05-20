@@ -1,499 +1,376 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Blog · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Blog de Enough: análisis, opinión y referentes sobre arquitectura y diseño contemporáneo.">
-  <link rel="canonical" href="https://juanesthp.github.io/enough/blog.html">
+  <meta name="description" content="Blog · Enough. Ensayos sobre arquitectura, atmósfera y referentes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
   <style>
-    :root {
-      --bg: #07080a;
-      --bg-soft: #101215;
-      --panel: rgba(255,255,255,.03);
-      --panel-strong: rgba(255,255,255,.045);
-      --text: #efe6d8;
-      --muted: rgba(239,230,216,.72);
-      --faint: rgba(239,230,216,.36);
-      --line: rgba(239,230,216,.1);
-      --gold: #b69a6a;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-padding-top: 8rem; }
+    /* ─── Blog — índice editorial denso ─── */
 
-    body {
-      background:
-        radial-gradient(circle at 16% 12%, rgba(182,154,106,.12), transparent 18%),
-        linear-gradient(180deg, #111315 0%, var(--bg) 40%, #050608 100%);
-      font-family: Raleway, sans-serif;
-      padding: 40px;
-      max-width: 900px;
+    .blog-controls {
+      max-width: 1480px;
       margin: 0 auto;
-      overflow-x: hidden;
-      color: var(--text);
-    }
-
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
+      padding: 18px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
       align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(7,8,10,.92);
-      backdrop-filter: blur(12px);
-    }
-    nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border-bottom: none;
-      transition: opacity .2s;
-    }
-    nav a:hover { opacity: .6; }
-    nav a[aria-current="page"] { border-bottom: 1px solid rgba(239,230,216,.32); padding-bottom: 2px; }
-    .logo {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
-      text-transform: uppercase;
-      border-bottom: none;
-      margin-right: 40px;
-    }
-
-    .blog-header {
-      margin-top: 8rem;
-      margin-bottom: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 1rem;
-    }
-    .blog-header h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      font-weight: 300;
-      letter-spacing: 8px;
-      text-transform: uppercase;
-      color: var(--text);
-    }
-    .blog-header span {
-      font-size: 11px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    /* ── ARTÍCULO DESTACADO ── */
-    .articulo-destacado {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--line);
-    }
-    .articulo-destacado img {
-      width: 100%;
-      height: 320px;
-      object-fit: cover;
-      display: block;
-    }
-    .articulo-destacado-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .articulo-tag {
+      border-bottom: 1px solid var(--hair);
+      font-family: var(--label-font);
       font-size: 10px;
-      letter-spacing: .2em;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .articulo-destacado h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 300;
-      letter-spacing: 2px;
-      color: var(--text);
-      text-align: left;
-      text-transform: none;
-      line-height: 1.3;
-      margin-bottom: 1rem;
-    }
-    .articulo-destacado p {
-      font-size: 13px;
       color: var(--muted);
-      line-height: 1.9;
-      text-align: left;
-      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 3;
     }
-    .articulo-fecha {
-      font-size: 11px;
-      letter-spacing: .1em;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-    .btn-leer {
-      display: inline-block;
-      padding: .7rem 1.8rem;
-      border: 1px solid rgba(182,154,106,.6);
-      color: var(--gold);
-      text-decoration: none;
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      transition: background .25s, color .25s;
-      align-self: flex-start;
+    .blog-controls .label { grid-column: 1 / span 2; color: var(--faint); }
+    .blog-controls .filters { grid-column: 3 / span 7; display: flex; gap: 6px; flex-wrap: wrap; }
+    .blog-controls .right { grid-column: 10 / span 3; text-align: right; color: var(--faint); }
+    .blog-controls .right b { color: var(--text); font-weight: 500; }
+
+    .chip {
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
       cursor: pointer;
-      background: none;
-      font-family: Raleway, sans-serif;
+      transition: border-color .2s, color .2s, background .2s;
     }
-    .btn-leer:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
-    /* ── GRID ── */
-    .articulos-grid {
+    /* FEATURED */
+    .featured {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 36px var(--gutter) 0;
+      position: relative;
+      z-index: 3;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 0;
+      border: 1px solid var(--hair-2);
+      background: var(--bg-soft);
+      overflow: hidden;
     }
-    .articulo:nth-child(1),
-    .articulo:nth-child(4) { grid-column: span 2; }
-
-    .articulo {
-      background: linear-gradient(180deg, var(--panel-strong), var(--panel));
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 1.5rem;
-      margin-bottom: .5rem;
-    }
-    .articulo-img-wrap { overflow: hidden; margin-bottom: 1rem; }
-    .articulo-img-wrap img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-      transition: transform .6s ease;
-    }
-    .articulo:nth-child(1) .articulo-img-wrap img,
-    .articulo:nth-child(4) .articulo-img-wrap img { height: 320px; }
-    .articulo:hover .articulo-img-wrap img { transform: scale(1.03); }
-    .articulo h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 300;
-      letter-spacing: 1px;
-      color: var(--text);
-      margin-bottom: .5rem;
-      line-height: 1.3;
-    }
-    .articulo p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-      text-align: left;
-      margin-bottom: 1rem;
-    }
-    .articulo-meta {
-      font-size: 10px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: .6rem;
-      display: block;
-    }
-
-    /* ── MODAL DE ARTÍCULO ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 500;
-      background: rgba(5,6,8,.97);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .35s ease;
-      overflow-y: auto;
-      padding: 4rem 2rem;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal-content {
-      max-width: 680px;
-      width: 100%;
-      padding: 4rem 3rem;
-      background: linear-gradient(180deg, #111315 0%, #090a0c 100%);
-      border: 1px solid var(--line);
+    .featured-media {
+      aspect-ratio: 5 / 4;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border-right: 1px solid var(--hair-2);
       position: relative;
     }
-    .modal-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: none;
-      border: none;
-      font-size: 1.6rem;
-      color: var(--text);
+    .featured-media::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 20%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .featured-body { padding: 48px; display: flex; flex-direction: column; gap: 18px; justify-content: center; }
+    .featured-meta {
+      display: flex; gap: 14px;
+      font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold);
+    }
+    .featured-meta .sep { color: var(--faint); }
+    .featured-meta .date { color: var(--muted); }
+    .featured h2 {
+      font-family: var(--display-font); font-weight: 400;
+      font-size: clamp(32px, 3.6vw, 52px); line-height: 1;
+      letter-spacing: .005em; text-transform: uppercase; color: var(--text);
+    }
+    .featured h2 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .featured p { font-size: 15px; line-height: 1.8; color: var(--muted); max-width: 48ch; }
+    .featured-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border: 1px solid var(--gold); color: var(--gold);
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; align-self: flex-start;
+    }
+    .featured-tag::before { content: ''; width: 5px; height: 5px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold); }
+
+    /* INDEX LIST */
+    .index-head {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 80px var(--gutter) 22px;
+      position: relative; z-index: 3;
+      display: flex; justify-content: space-between; align-items: baseline;
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .index-head h3 {
+      font-family: var(--display-font); font-weight: 400;
+      font-size: clamp(28px, 3vw, 40px); letter-spacing: .005em; text-transform: uppercase; color: var(--text);
+    }
+    .index-head h3 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .index-head .count { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+    .index-head .count b { color: var(--text); font-weight: 500; }
+
+    .essay-list { max-width: 1480px; margin: 0 auto; padding: 0 var(--gutter) 80px; position: relative; z-index: 3; }
+    .essay-row {
+      display: grid;
+      grid-template-columns: 60px 110px 1fr 220px 70px;
+      gap: 32px;
+      align-items: baseline;
+      padding: 26px 0;
+      border-bottom: 1px solid var(--hair);
       cursor: pointer;
-      font-weight: 200;
-      font-family: Raleway, sans-serif;
-      line-height: 1;
+      transition: background .25s, padding-left .25s;
+      position: relative;
     }
-    .modal-tag {
-      font-size: 10px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 1.5rem;
-    }
-    .modal-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 300;
-      color: var(--text);
-      line-height: 1.2;
-      margin-bottom: 2.5rem;
-      letter-spacing: 1px;
-    }
-    .modal-rule {
-      width: 50px;
-      height: 1px;
-      background: var(--gold);
-      margin-bottom: 2.5rem;
-    }
-    .modal-body {
-      font-size: 15px;
-      color: rgba(239,230,216,.84);
-      line-height: 2.2;
-    }
-    .modal-body p { margin-bottom: 1.8rem; }
-    .modal-body p:last-child { margin-bottom: 0; }
+    .essay-row:hover { background: rgba(255,255,255,.02); padding-left: 10px; }
+    .essay-row:hover .e-arrow { transform: translateX(4px); color: var(--gold); }
+    .essay-row .e-num { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .essay-row .e-date { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--faint); font-variant-numeric: tabular-nums; }
+    .essay-row .e-content { display: flex; flex-direction: column; gap: 8px; }
+    .essay-row h4 { font-family: var(--display-font); font-weight: 400; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.05; letter-spacing: .002em; color: var(--text); }
+    .essay-row h4 em { font-style: italic; color: var(--text-soft); }
+    .essay-row .e-brief { font-size: 13.5px; line-height: 1.65; color: var(--muted); max-width: 60ch; }
+    .essay-row .e-tag { font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+    .essay-row .e-arrow { font-family: var(--label-font); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--faint); text-align: right; transition: transform .2s, color .2s; }
 
-    footer {
-      background: #050608;
-      color: var(--faint);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem 4rem;
-      font-size: 12px;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      margin-top: 4rem;
-      letter-spacing: 2px;
+    /* READER MODAL */
+    .reader {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(7,8,10,.96);
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease;
+      overflow-y: auto;
     }
-    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
-
+    .reader.open { opacity: 1; pointer-events: all; }
+    .reader-stage { max-width: 760px; margin: 0 auto; padding: 120px 32px 80px; position: relative; }
+    .reader-stage::before {
+      content: '';
+      position: fixed; left: 50%; top: 40%; width: 80vw; height: 80vw;
+      max-width: 900px; max-height: 900px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 10%, transparent), transparent 65%);
+      filter: blur(80px); pointer-events: none; z-index: -1;
+    }
+    .reader-meta { display: flex; gap: 14px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+    .reader-meta .sep { color: var(--faint); }
+    .reader-meta .date { color: var(--muted); }
+    .reader-title { font-family: var(--display-font); font-weight: 400; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; letter-spacing: .005em; text-transform: uppercase; color: var(--text); margin-bottom: 32px; }
+    .reader-title em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .reader-rule { width: 60px; height: 1px; background: var(--gold); margin-bottom: 32px; }
+    .reader-body p { font-size: 16px; line-height: 1.95; color: var(--text-soft); margin-bottom: 18px; max-width: 60ch; }
+    .reader-body p:first-of-type::first-letter {
+      font-family: var(--display-font); font-size: 3.6em;
+      float: left; line-height: .9; margin: 4px 14px 0 0;
+      color: var(--gold); font-style: italic;
+    }
+    .reader-close { position: fixed; top: 22px; right: 22px; width: 44px; height: 44px; background: rgba(15,13,10,.8); border: 1px solid var(--hair-2); color: var(--text); font: 300 22px var(--body-font); cursor: pointer; z-index: 9100; transition: background .2s, color .2s; }
+    .reader-close:hover { background: var(--gold); color: var(--bg); }
+    .reader-counter { position: fixed; top: 28px; left: 28px; font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); z-index: 9100; }
+    .reader-counter b { color: var(--text); font-weight: 500; }
 
     @media (max-width: 920px) {
-      body { padding: 28px; }
-      nav {
-        position: sticky;
-        top: 0;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: .9rem;
-        padding: .95rem 1.2rem;
-        background: linear-gradient(to bottom, rgba(7,8,10,.96) 0%, rgba(7,8,10,.82) 56%, rgba(7,8,10,0) 100%);
-        backdrop-filter: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        box-shadow: none;
-      }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { font-size: 10px; letter-spacing: 0.08em; }
-      nav a { flex: 0 0 auto; position: relative; z-index: 1; }
-      .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
-      .blog-header {
-        margin-top: 4rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: .8rem;
-      }
-      .articulo-destacado { grid-template-columns: 1fr; gap: 1.75rem; }
-      .articulos-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .articulo:nth-child(1), .articulo:nth-child(4) { grid-column: span 1; }
-      .modal-overlay { padding: 2rem 1rem; }
-      .modal-content { padding: 3rem 2rem; }
-      footer {
-        width: auto;
-        margin-left: -28px;
-        margin-right: -28px;
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        padding: 2rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      body { padding: 20px; }
-      nav { gap: .8rem; padding: .9rem 1rem; }
-      nav a { font-size: 9px; }
-      .blog-header h1 { font-size: 2rem; }
-      .articulos-grid { grid-template-columns: 1fr; }
-      .modal-content { padding: 2.75rem 1.5rem; }
-      footer {
-        margin-left: -20px;
-        margin-right: -20px;
-      }
+      .blog-controls { grid-template-columns: 1fr; gap: 10px; }
+      .blog-controls .label, .blog-controls .filters, .blog-controls .right { grid-column: 1; text-align: left; }
+      .featured { grid-template-columns: 1fr; }
+      .featured-media { border-right: none; border-bottom: 1px solid var(--hair-2); aspect-ratio: 16 / 9; }
+      .featured-body { padding: 32px; }
+      .essay-row { grid-template-columns: 40px 1fr; gap: 16px; }
+      .essay-row .e-date, .essay-row .e-tag, .essay-row .e-arrow { display: none; }
+      .reader-stage { padding: 96px 22px 60px; }
+      .reader-body p:first-of-type::first-letter { font-size: 2.8em; }
     }
   </style>
 </head>
 <body>
 
-
-  <nav>
-    <a href="index.html" class="logo">Enough</a>
-    <a href="index.html#filosofia">Filosofía</a>
-    <a href="galeria.html">Galería</a>
-    <a href="blog.html" aria-current="page">Blog</a>
-    <a href="fragmentos.html">Fragmentos</a>
-    <a href="sobre.html">Sobre mí</a>
-    <a href="index.html#servicios">Servicios</a>
-    <a href="index.html#contacto">Contacto</a>
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html" aria-current="page">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>06</b> · Blog</div>
   </nav>
 
+  <header class="page-head">
+    <div class="head-id"><span class="num">06</span>Blog<br>Ensayos</div>
+    <h1>Mirada y <em>criterio</em>.</h1>
+    <div class="head-meta">3 ensayos<br>2024 — 2026<br>Bucaramanga · CO</div>
+    <p class="head-eyebrow">Textos largos sobre arquitectura, atmósfera y referentes. No frecuente: cuando hay algo verdadero que decir.</p>
+  </header>
+
+  <div class="blog-controls">
+    <div class="label">Filtrar por</div>
+    <div class="filters" id="filters">
+      <button class="chip on" data-filter="all">Todo · 3</button>
+      <button class="chip" data-filter="ensayo">Ensayos</button>
+      <button class="chip" data-filter="referente">Referentes</button>
+      <button class="chip" data-filter="proceso">Proceso</button>
+    </div>
+    <div class="right">Orden · <b>Recientes</b></div>
+  </div>
+
   <main>
-  <div class="blog-header">
-    <h1>Blog</h1>
-    <span>Ensayos · Mirada · Criterio</span>
-  </div>
-
-  <!-- Artículo destacado -->
-  <div class="articulo-destacado">
-    <img src="" alt="La atmósfera como material">
-    <div class="articulo-destacado-info">
-      <span class="articulo-tag">Ensayo · Filosofía del espacio</span>
-      <span class="articulo-fecha">2026</span>
-      <h2>La atmósfera precede a la forma</h2>
-      <p>Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. No es el precio del material ni la marca del arquitecto. Es otra cosa, más difícil de nombrar.</p>
-      <button class="btn-leer" data-article="atmosfera">Leer ensayo</button>
-    </div>
-  </div>
-
-  <!-- Grid de artículos -->
-  <div class="articulos-grid">
-
-    <div class="articulo">
-      <div class="articulo-img-wrap">
-        <img src="" alt="El elogio de la sombra" loading="lazy">
+    <article class="featured" data-id="atmosfera">
+      <div class="featured-media" aria-hidden="true"></div>
+      <div class="featured-body">
+        <span class="featured-tag">Destacado · Ensayo</span>
+        <div class="featured-meta">
+          <span>N.º 03</span><span class="sep">·</span>
+          <span>Filosofía del espacio</span><span class="sep">·</span>
+          <span class="date">Abril 2026</span>
+        </div>
+        <h2>La <em>atmósfera</em><br>precede a la forma.</h2>
+        <p>Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. No es el precio del material ni la marca del arquitecto. Es otra cosa, más difícil de nombrar.</p>
+        <div style="display:flex; gap:12px; margin-top:8px;">
+          <button class="btn btn-solid" data-id="atmosfera">Leer ensayo</button>
+          <span class="btn-link" style="border-bottom:none; padding-bottom:0;">12 min · 1.860 palabras</span>
+        </div>
       </div>
-      <span class="articulo-meta">Referentes · Tanizaki</span>
-      <h3>El elogio de la sombra</h3>
-      <p>En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.</p>
-      <button class="btn-leer" data-article="sombra">Leer</button>
+    </article>
+
+    <div class="index-head">
+      <h3>Todos los <em>ensayos</em>.</h3>
+      <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
     </div>
 
-    <div class="articulo">
-      <div class="articulo-img-wrap">
-        <img src="" alt="Vacío como decisión" loading="lazy">
-      </div>
-      <span class="articulo-meta">Proceso · Mirada</span>
-      <h3>Vacío como decisión</h3>
-      <p>La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar.</p>
-      <button class="btn-leer" data-article="vacio">Leer</button>
-    </div>
-
-  </div>
+    <section class="essay-list" id="list"></section>
   </main>
 
-  <!-- Modal de artículos -->
-  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Artículo">
-    <div class="modal-content">
-      <button class="modal-close" id="modal-close" aria-label="Cerrar artículo">×</button>
-      <span class="modal-tag" id="modal-tag"></span>
-      <h2 class="modal-title" id="modal-title"></h2>
-      <div class="modal-rule"></div>
-      <div class="modal-body" id="modal-body"></div>
-    </div>
+  <div class="reader" id="reader" role="dialog" aria-modal="true">
+    <div class="reader-counter" id="r-counter"></div>
+    <button class="reader-close" id="r-close" aria-label="Cerrar">×</button>
+    <article class="reader-stage">
+      <div class="reader-meta" id="r-meta"></div>
+      <h1 class="reader-title" id="r-title"></h1>
+      <div class="reader-rule"></div>
+      <div class="reader-body" id="r-body"></div>
+    </article>
   </div>
 
-  <footer>
-    <span class="logo">Enough</span>
-    <span>© 2026 Enough. Diseño con intención.</span>
-    <span>Bucaramanga, Colombia</span>
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
 
   <script>
-    const articulos = {
-      atmosfera: {
-        tag: "Ensayo · Filosofía del espacio",
-        title: "La atmósfera precede a la forma",
-        body: `<p>Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. No es el precio del material ni la marca del arquitecto. Es otra cosa, más difícil de nombrar.</p>
-<p>Peter Zumthor la llamó atmósfera. La definió como esa cualidad de un espacio que te alcanza antes de que lo proceses racionalmente. No la planta arquitectónica, no el concepto detrás. La luz que entra oblicua por una ventana a una hora específica del día. El sonido que absorbe el concreto. La temperatura del aire cuando cruzas el umbral. Algo que el cuerpo registra antes que la mente.</p>
-<p>Lo que me parece revolucionario de esa idea no es la idea en sí — cualquier persona sensible a los espacios lo ha sentido. Lo revolucionario es que Zumthor la tomó en serio como material de trabajo. Igual que un arquitecto piensa en la resistencia del concreto o las propiedades del vidrio, él pensaba en cómo producir una atmósfera específica. Cómo hacer que alguien que entra a ese espacio quede solo consigo mismo.</p>
-<p>Creo que esa es la diferencia entre un espacio que impresiona y un espacio que toca. El primero está pensado para ser visto. El segundo está pensado para ser habitado. Y cuando un espacio está pensado para ser habitado de verdad, no necesita anunciarse. Se siente antes de que lo leas.</p>
-<p>Eso es lo que Enough trata de capturar. No la imagen del espacio, sino lo que el espacio hace cuando estás dentro de él. Esa diferencia puede parecer pequeña. No lo es.</p>`
+    const essays = [
+      {
+        id: 'atmosfera', num: '03', title: 'La atmósfera precede a la forma', em: 'atmósfera',
+        cat: 'ensayo', tag: 'Filosofía del espacio', date: 'Abril 2026', words: 1860, min: 12,
+        brief: 'Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. Una observación sobre lo que Peter Zumthor llamó atmósfera — y por qué tomarla en serio como material de trabajo cambia todo.',
+        body: [
+          'Hay algo que ocurre cuando entras a ciertos espacios que no puedes explicar con datos. No es el precio del material ni la marca del arquitecto. Es otra cosa, más difícil de nombrar.',
+          'Peter Zumthor la llamó atmósfera. La definió como esa cualidad de un espacio que te alcanza antes de que lo proceses racionalmente. No la planta arquitectónica, no el concepto detrás. La luz que entra oblicua por una ventana a una hora específica del día. El sonido que absorbe el concreto. La temperatura del aire cuando cruzas el umbral. Algo que el cuerpo registra antes que la mente.',
+          'Lo que me parece revolucionario de esa idea no es la idea en sí — cualquier persona sensible a los espacios lo ha sentido. Lo revolucionario es que Zumthor la tomó en serio como material de trabajo. Igual que un arquitecto piensa en la resistencia del concreto o las propiedades del vidrio, él pensaba en cómo producir una atmósfera específica. Cómo hacer que alguien que entra a ese espacio quede solo consigo mismo.',
+          'Creo que esa es la diferencia entre un espacio que impresiona y un espacio que toca. El primero está pensado para ser visto. El segundo está pensado para ser habitado. Y cuando un espacio está pensado para ser habitado de verdad, no necesita anunciarse. Se siente antes de que lo leas.',
+          'Eso es lo que Enough trata de capturar. No la imagen del espacio, sino lo que el espacio hace cuando estás dentro de él. Esa diferencia puede parecer pequeña. No lo es.'
+        ]
       },
-      sombra: {
-        tag: "Referentes · Tanizaki",
-        title: "El elogio de la sombra",
-        body: `<p>En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.</p>
-<p>Su argumento central es simple y profundo al mismo tiempo: la belleza japonesa tradicional nace de la penumbra, no de la luz. El oro de un biombo lacado solo brilla de verdad cuando está en una habitación oscura. Bajo luz eléctrica fuerte, el oro se ve barato. La pátina de la madera vieja, el hollín acumulado en las paredes de un templo, la opacidad de la cerámica sin barniz — todo lo que Occidente clasificaría como suciedad o vejez, para él es exactamente donde vive la belleza.</p>
-<p>Leí ese libro por primera vez en un momento difícil, cuando todo lo que me rodeaba parecía demasiado brillante, demasiado ruidoso, demasiado insistente. Y Tanizaki me ofreció algo que no esperaba: la validación de que la sombra es un material, no una carencia. Que los espacios oscuros tienen densidad y protección que los espacios luminosos no pueden tener.</p>
-<p>Desde entonces miro diferente. Busco las sombras dentro de los espacios, los rincones donde la luz no llega, las superficies que han acumulado tiempo. Ahí es donde los espacios tienen carácter. Ahí es donde se sienten vivos.</p>
-<p>El libro se llama "El elogio de la sombra". Cabe en un bolsillo. Vale más que la mayoría de los libros de arquitectura que he intentado leer.</p>`
+      {
+        id: 'sombra', num: '02', title: 'El elogio de la sombra', em: 'sombra',
+        cat: 'referente', tag: 'Referentes · Tanizaki', date: 'Marzo 2026', words: 1240, min: 8,
+        brief: 'En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.',
+        body: [
+          'En 1933, Junichirō Tanizaki publicó un texto breve que cambió la forma en que veo el mundo. No habla de arquitectura directamente, pero habla de todo lo que la arquitectura debería ser.',
+          'Su argumento central es simple y profundo al mismo tiempo: la belleza japonesa tradicional nace de la penumbra, no de la luz. El oro de un biombo lacado solo brilla de verdad cuando está en una habitación oscura. Bajo luz eléctrica fuerte, el oro se ve barato. La pátina de la madera vieja, el hollín acumulado en las paredes de un templo, la opacidad de la cerámica sin barniz — todo lo que Occidente clasificaría como suciedad o vejez, para él es exactamente donde vive la belleza.',
+          'Leí ese libro por primera vez en un momento difícil, cuando todo lo que me rodeaba parecía demasiado brillante, demasiado ruidoso, demasiado insistente. Y Tanizaki me ofreció algo que no esperaba: la validación de que la sombra es un material, no una carencia. Que los espacios oscuros tienen densidad y protección que los espacios luminosos no pueden tener.',
+          'Desde entonces miro diferente. Busco las sombras dentro de los espacios, los rincones donde la luz no llega, las superficies que han acumulado tiempo. Ahí es donde los espacios tienen carácter. Ahí es donde se sienten vivos.',
+          'El libro se llama "El elogio de la sombra". Cabe en un bolsillo. Vale más que la mayoría de los libros de arquitectura que he intentado leer.'
+        ]
       },
-      vacio: {
-        tag: "Proceso · Mirada",
-        title: "Vacío como decisión",
-        body: `<p>La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar.</p>
-<p>Hay un término en arquitectura que me interesa especialmente: void. No es solo "espacio vacío" en el sentido de lugar sin contenido. Es el hueco que le da forma a lo sólido. El patio interior de un edificio que hace que las habitaciones respiren. El doble alto que cambia la escala de todo lo que lo rodea. El pasillo estrecho que hace que el cuarto al final parezca enorme.</p>
-<p>Sin el void, la arquitectura es un bloque macizo. Es el hueco el que la convierte en espacio habitable.</p>
-<p>Pienso en esto cuando miro espacios que me parecen fallidos. La mayoría no fallan por lo que tienen, sino por lo que no se atrevieron a quitar. Hay un miedo enorme al vacío en el diseño contemporáneo. Miedo a que el cliente diga que falta algo. Miedo a que parezca poco terminado. Miedo a que el presupuesto no se justifique si no hay suficiente.</p>
-<p>Pero los espacios que más me afectan son siempre los que tienen menos. Menos muebles, menos objetos, menos intervención. Y paradójicamente, son los que se sienten más llenos — de silencio, de posibilidad, de presencia.</p>
-<p>El vacío no es ausencia. Es una decisión. Y tomar esa decisión requiere más convicción que cualquier elemento que se podría poner en su lugar.</p>`
+      {
+        id: 'vacio', num: '01', title: 'Vacío como decisión', em: 'Vacío',
+        cat: 'proceso', tag: 'Proceso · Mirada', date: 'Febrero 2026', words: 1410, min: 10,
+        brief: 'La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar. Un texto sobre el void como material primario.',
+        body: [
+          'La mayoría de las personas cree que el diseño consiste en agregar. En realidad, el gesto más difícil — y más poderoso — es quitar.',
+          'Hay un término en arquitectura que me interesa especialmente: void. No es solo "espacio vacío" en el sentido de lugar sin contenido. Es el hueco que le da forma a lo sólido. El patio interior de un edificio que hace que las habitaciones respiren. El doble alto que cambia la escala de todo lo que lo rodea. El pasillo estrecho que hace que el cuarto al final parezca enorme.',
+          'Sin el void, la arquitectura es un bloque macizo. Es el hueco el que la convierte en espacio habitable.',
+          'Pienso en esto cuando miro espacios que me parecen fallidos. La mayoría no fallan por lo que tienen, sino por lo que no se atrevieron a quitar. Hay un miedo enorme al vacío en el diseño contemporáneo. Miedo a que el cliente diga que falta algo. Miedo a que parezca poco terminado. Miedo a que el presupuesto no se justifique si no hay suficiente.',
+          'Pero los espacios que más me afectan son siempre los que tienen menos. Menos muebles, menos objetos, menos intervención. Y paradójicamente, son los que se sienten más llenos — de silencio, de posibilidad, de presencia.',
+          'El vacío no es ausencia. Es una decisión. Y tomar esa decisión requiere más convicción que cualquier elemento que se podría poner en su lugar.'
+        ]
+      },
+    ];
+
+    const list = document.getElementById('list');
+    const chips = document.querySelectorAll('.chip');
+    let filter = 'all';
+
+    function visible() { return filter === 'all' ? essays : essays.filter(e => e.cat === filter); }
+
+    function render() {
+      const items = visible();
+      list.innerHTML = items.map(e => {
+        const titleHtml = e.em ? e.title.replace(e.em, `<em>${e.em}</em>`) : e.title;
+        return `
+        <article class="essay-row" data-id="${e.id}">
+          <span class="e-num">${e.num}</span>
+          <span class="e-date">${e.date}</span>
+          <div class="e-content">
+            <h4>${titleHtml}</h4>
+            <p class="e-brief">${e.brief}</p>
+          </div>
+          <span class="e-tag">${e.tag}</span>
+          <span class="e-arrow">Leer →</span>
+        </article>`;
+      }).join('');
+      list.querySelectorAll('.essay-row').forEach(r => {
+        r.addEventListener('click', () => openReader(r.dataset.id));
+      });
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('on', x === c));
+      filter = c.dataset.filter;
+      render();
+    }));
+
+    document.querySelectorAll('[data-id]').forEach(el => {
+      if (el.classList.contains('btn') || el.classList.contains('featured')) {
+        el.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          openReader(el.dataset.id);
+        });
       }
-    };
-
-    const modal = document.getElementById('modal');
-    const modalClose = document.getElementById('modal-close');
-    const modalTag = document.getElementById('modal-tag');
-    const modalTitle = document.getElementById('modal-title');
-    const modalBody = document.getElementById('modal-body');
-
-    function openArticle(key) {
-      const a = articulos[key];
-      if (!a) return;
-      modalTag.textContent = a.tag;
-      modalTitle.textContent = a.title;
-      modalBody.innerHTML = a.body;
-      modal.classList.add('open');
-      modal.scrollTop = 0;
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modal.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    document.querySelectorAll('.btn-leer[data-article]').forEach(btn => {
-      btn.addEventListener('click', () => openArticle(btn.dataset.article));
     });
 
-    modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    const reader = document.getElementById('reader');
+    function openReader(id) {
+      const e = essays.find(x => x.id === id);
+      if (!e) return;
+      const titleHtml = e.em ? e.title.replace(e.em, `<em>${e.em}</em>`) : e.title;
+      document.getElementById('r-meta').innerHTML = `
+        <span>N.º ${e.num}</span><span class="sep">·</span>
+        <span>${e.tag}</span><span class="sep">·</span>
+        <span class="date">${e.date} · ${e.min} min</span>`;
+      document.getElementById('r-title').innerHTML = titleHtml;
+      document.getElementById('r-body').innerHTML = e.body.map(p => `<p>${p}</p>`).join('');
+      document.getElementById('r-counter').innerHTML = `<b>06.${e.num}</b> · Ensayo`;
+      reader.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      reader.scrollTop = 0;
+    }
+    function closeReader() { reader.classList.remove('open'); document.body.style.overflow = ''; }
+    document.getElementById('r-close').addEventListener('click', closeReader);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && reader.classList.contains('open')) closeReader(); });
 
+    render();
   </script>
-
 </body>
 </html>

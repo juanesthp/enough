@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Enough</title>
+  <title>Enough — Editorial</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Enough — Editorial. Un archivo sobre atmósferas, materia y la forma de habitar el mundo.">
+  <meta name="description" content="Enough — Editorial. Un archivo sobre atmósferas, materia y la forma de habitar el mundo. Desde Bucaramanga.">
   <link rel="canonical" href="https://juanesthp.github.io/enough/">
 
   <meta property="og:title" content="Enough — Editorial">
@@ -13,7 +13,6 @@
   <meta property="og:image" content="https://juanesthp.github.io/enough/espacio.jpg">
   <meta property="og:url" content="https://juanesthp.github.io/enough/">
   <meta property="og:type" content="website">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Enough — Editorial">
   <meta name="twitter:description" content="Un archivo sobre atmósferas, materia y la forma de habitar el mundo.">
@@ -21,719 +20,1056 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #07080a;
-      --bg-soft: #0d0f12;
-      --panel: rgba(255,255,255,.03);
-      --panel-strong: rgba(255,255,255,.05);
-      --text: #efe6d8;
-      --muted: rgba(239,230,216,.68);
-      --faint: rgba(239,230,216,.36);
-      --line: rgba(239,230,216,.1);
-      --gold: #b69a6a;
-      --gold-soft: #8f7750;
-      --shadow: 0 28px 70px rgba(0,0,0,.34);
+      --bg:       #1a1815;
+      --bg-soft:  #22201c;
+      --panel:    #2a2723;
+      --text:     #efe6d4;
+      --text-soft:#e2d8c2;
+      --muted:    rgba(239,230,212,.62);
+      --faint:    rgba(239,230,212,.30);
+      --hair:     rgba(239,230,212,.10);
+      --hair-2:   rgba(239,230,212,.18);
+      --gold:        #b69a6a;
+      --gold-soft:   #8f7750;
+      --gold-bright: #cab086;
+      --turrell-a: oklch(70% 0.13 320);
+      --turrell-b: oklch(82% 0.12 35);
+      --turrell-c: oklch(78% 0.10 280);
+      --moire-opacity: 0;
+      --gutter: clamp(22px, 4vw, 80px);
+      --label-font: 'DM Sans', sans-serif;
+      --display-font: 'Cormorant Garamond', serif;
+      --body-font: 'DM Sans', sans-serif;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-padding-top: 8rem; }
+    html, body { background: var(--bg); }
+    html { scroll-behavior: smooth; }
 
     body {
-      background:
-        radial-gradient(circle at top left, rgba(182,154,106,.12), transparent 22%),
-        radial-gradient(circle at 82% 18%, rgba(70,58,42,.18), transparent 28%),
-        linear-gradient(180deg, #111315 0%, var(--bg) 38%, #050608 100%);
-      font-family: 'DM Sans', sans-serif;
-      padding: 40px;
-      max-width: 800px;
-      margin: 0 auto;
-      overflow-x: hidden;
+      font-family: var(--body-font);
       color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+      font-weight: 300;
+      letter-spacing: .005em;
     }
 
+    body::before {
+      content: '';
+      position: fixed; inset: -2px;
+      pointer-events: none;
+      z-index: 1;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .92  0 0 0 0 .78  0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: .45;
+      mix-blend-mode: overlay;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(1200px 700px at 18% 0%, rgba(182,154,106,.07), transparent 60%),
+        radial-gradient(900px 600px at 88% 12%, rgba(182,154,106,.04), transparent 70%),
+        radial-gradient(1400px 900px at 50% 110%, rgba(0,0,0,.45), transparent 65%);
+    }
+
+    main {
+      position: relative;
+      z-index: 3;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* ───── NAV ───── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 4rem;
-      background: rgba(7,8,10,.2);
-      transition: background .4s;
-    }
-    nav.scrolled {
-      background: rgba(7,8,10,.92);
-      backdrop-filter: blur(10px);
-    }
-    nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color .25s;
-      border-bottom: none;
-    }
-    nav.scrolled a { color: var(--text); }
-    nav a:hover { opacity: .6; }
-    .logo {
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 200;
-      text-transform: uppercase;
-      border-bottom: none;
-      margin-right: 40px;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: geometricPrecision;
-    }
-    nav .logo { font-weight: 300; }
-
-    .hero {
-      position: relative;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      margin-top: -40px;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 200px;
-      background: linear-gradient(to bottom, rgba(0,0,0,.9) 0%, rgba(0,0,0,.34) 58%, transparent 100%);
-    }
-    .hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: blur(8px);
-      transform: scale(1.05);
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-    .hero-content {
-      position: absolute;
-      bottom: 4rem;
-      left: 4rem;
-      z-index: 2;
-    }
-    .hero-label {
-      font-size: 13px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-    }
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      color: var(--text);
-      text-align: left;
-      margin-bottom: 1rem;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      letter-spacing: 12px;
-      font-weight: 300;
-      text-transform: uppercase;
-    }
-    .hero-sub {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 2rem;
-      text-align: left;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      padding: .85rem 2.2rem;
-      border: 1px solid rgba(239,230,216,.72);
-      color: var(--text);
-      background: transparent;
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      font-family: inherit;
-      cursor: pointer;
-      transition: background .25s, color .25s;
-    }
-    .btn-primary:hover { background: var(--text); color: var(--bg); }
-    .btn-dark {
-      display: inline-block;
-      padding: .85rem 2.2rem;
-      border: 1px solid var(--line);
-      color: var(--text);
-      background: var(--panel);
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      transition: background .25s, color .25s;
-    }
-    .btn-dark:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-
-    section {
-      margin-top: 60px;
-      border-top: 1px solid var(--line);
-      padding-top: 40px;
-    }
-    h2 {
-      text-align: center;
-      font-weight: 300;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 1rem;
-    }
-    p { color: var(--muted); font-size: 15px; text-align: center; line-height: 1.9; }
-    a { color: var(--text); text-decoration: none; border-bottom: 1px solid rgba(239,230,216,.22); }
-    .section-label {
-      font-size: 11px;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1rem;
-      display: block;
-      text-align: center;
-    }
-
-    .acceso-section {
-      border-top: none;
-      margin-top: -1.4rem;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    .acceso-panel {
+      z-index: 50;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 2rem;
-      align-items: stretch;
-      background:
-        linear-gradient(180deg, rgba(15,16,19,.94), rgba(9,10,12,.98)),
-        radial-gradient(circle at top left, rgba(182,154,106,.12), transparent 30%);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px var(--gutter);
+      background: linear-gradient(180deg, rgba(26,24,21,.78), rgba(26,24,21,0));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
-    .acceso-copy,
-    .acceso-card {
-      padding: 2.5rem;
+    nav .mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
     }
-    .acceso-copy {
+    nav .mark .dot { color: var(--gold); }
+    nav .mark::before {
+      content:'';
+      width: 38px;
+      height: 1.5px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    nav ul {
+      list-style: none;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: left;
-      min-height: 100%;
-    }
-    .acceso-copy .section-label,
-    .acceso-copy h2,
-    .acceso-copy p {
-      text-align: left;
-    }
-    .acceso-copy h2 {
-      margin-bottom: 1.25rem;
-      max-width: 18rem;
-    }
-    .acceso-copy p { max-width: 28rem; }
-    .acceso-note {
-      margin-top: 2rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid var(--line);
-      font-size: 12px;
+      justify-content: flex-end;
+      gap: 36px;
+      font-family: var(--label-font);
+      font-size: 11px;
+      font-weight: 400;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--faint);
     }
-    .acceso-card {
-      background: rgba(255,255,255,.025);
-      border-left: 1px solid var(--line);
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .25s;
+      position: relative;
     }
-    .acceso-card h3 {
-      font-size: 12px;
+    nav ul a:hover { color: var(--text); }
+    nav ul a.active { color: var(--text); }
+    nav ul a.active::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      bottom: -10px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* ───── EDITORIAL META STRIP ───── */
+    .issue-strip {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 110px var(--gutter) 0;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .issue-strip > div {
+      padding: 14px 0;
+      border-top: 1px solid var(--hair);
+      display: flex;
+      justify-content: space-between;
+    }
+    .issue-strip > div:last-child { border-bottom: 1px solid var(--hair); }
+    .issue-strip > .s1 { grid-column: 1 / span 3; }
+    .issue-strip > .s2 { grid-column: 4 / span 3; }
+    .issue-strip > .s3 { grid-column: 7 / span 3; }
+    .issue-strip > .s4 { grid-column: 10 / span 3; }
+    .issue-strip b { color: var(--text); font-weight: 500; }
+
+    /* ───── HERO ───── */
+    .hero {
+      min-height: calc(100vh - 200px);
+      padding: 64px 0 80px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    .hero-eyebrow {
+      grid-column: 1 / span 12;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: var(--label-font);
+      font-size: 11px;
       letter-spacing: .22em;
       text-transform: uppercase;
       color: var(--gold);
+    }
+    .hero-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--hair-2);
+      max-width: 40%;
+    }
+
+    .hero-title {
+      grid-column: 1 / span 12;
+      font-family: var(--display-font);
       font-weight: 400;
-      margin-bottom: 1.5rem;
-    }
-    .acceso-form {
-      display: grid;
-      gap: 1rem;
-    }
-    .acceso-form label {
-      display: grid;
-      gap: .55rem;
+      font-size: clamp(68px, 12vw, 200px);
+      line-height: .9;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 32px;
       text-align: left;
-      font-size: 11px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--faint);
     }
-    .acceso-form input {
-      width: 100%;
-      padding: 1rem 1.1rem;
-      border: 1px solid rgba(239,230,216,.12);
-      background: rgba(255,255,255,.02);
-      color: var(--text);
-      font: inherit;
-      outline: none;
-      transition: border-color .25s, background .25s;
+    .hero-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text-soft);
+      letter-spacing: 0;
     }
-    .acceso-form input:focus {
-      border-color: rgba(182,154,106,.72);
-      background: rgba(255,255,255,.035);
-    }
-    .acceso-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .8rem;
-      margin-top: .5rem;
-    }
-    .btn-ghost {
-      display: inline-block;
-      padding: .85rem 1.8rem;
-      border: 1px solid rgba(239,230,216,.18);
-      color: var(--muted);
+    .hero-title .dot { color: var(--gold); }
+
+    .aperture {
+      grid-column: 1 / span 12;
+      justify-self: center;
+      width: clamp(280px, 32vw, 440px);
+      aspect-ratio: 4 / 5;
+      border-radius: 50%;
       background: transparent;
-      text-decoration: none;
-      font-size: 12px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      transition: border-color .25s, color .25s, background .25s;
+      border: none;
+      position: relative;
+      overflow: visible;
+      margin: 24px 0 64px;
+      isolation: isolate;
     }
-    .btn-ghost:hover {
-      border-color: var(--text);
-      color: var(--text);
-      background: rgba(255,255,255,.03);
-    }
-    .form-msg {
-      font-size: 11px;
-      letter-spacing: .08em;
-      min-height: 1.2em;
-      color: var(--muted);
-    }
-    .form-msg.error { color: #e05b5b; }
-    .form-msg.ok    { color: #6aad72; }
-    .acceso-links {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-top: 1rem;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .acceso-links a {
-      color: rgba(239,230,216,.76);
-      border-bottom-color: rgba(239,230,216,.12);
-    }
-
-    .filosofia-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 4rem;
-      align-items: start;
-      margin-top: 3rem;
-    }
-    .filosofia-left { position: sticky; top: 6rem; }
-    .filosofia-numero {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 6rem;
-      font-weight: 300;
-      color: rgba(239,230,216,.18);
-      line-height: 1;
-      display: block;
-      margin-bottom: 1rem;
-    }
-    .filosofia-anchor { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); line-height: 2; }
-    .filosofia-right p { font-size: 15px; color: rgba(239,230,216,.82); line-height: 2.1; text-align: left; margin-bottom: 1.8rem; }
-
-    .servicios-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-top: 2rem;
-      background: var(--line);
-    }
-    .servicio { background: linear-gradient(180deg, var(--panel-strong), var(--panel)); padding: 2rem; border-left: 2px solid transparent; transition: border-color .25s, transform .25s; }
-    .servicio:hover { border-left-color: var(--gold); transform: translateY(-2px); }
-    .servicio h3 { font-size: 14px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; text-align: left; color: var(--text); }
-    .servicio p { font-size: 13px; color: var(--muted); line-height: 1.8; text-align: left; }
-
-    .contacto-dark {
+    .aperture::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
       background:
-        linear-gradient(180deg, rgba(18,19,22,.96), rgba(8,9,11,.98)),
-        radial-gradient(circle at top right, rgba(182,154,106,.12), transparent 24%);
-      color: var(--text);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-top: 60px;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      padding: 5rem 4rem;
-      border-top: none;
+        radial-gradient(ellipse at 50% 42%,
+          var(--turrell-b) 0%,
+          var(--turrell-a) 38%,
+          var(--turrell-c) 72%,
+          color-mix(in oklch, var(--turrell-c) 30%, transparent) 92%,
+          transparent 100%);
+      filter: blur(2px);
+      box-shadow:
+        0 0 100px 30px color-mix(in oklch, var(--turrell-a) 32%, transparent),
+        0 0 220px 80px color-mix(in oklch, var(--turrell-b) 14%, transparent);
+      z-index: -1;
     }
-    .contacto-dark h2 { color: var(--text); text-align: left; }
-    .contacto-dark .section-label { text-align: left; }
-    .contacto-intro { color: rgba(239,230,216,.62); text-align: left; margin-top: 1rem; font-size: 14px; line-height: 2; }
-    .contacto-info { margin-top: 2rem; }
-    .contacto-info a {
-      color: rgba(239,230,216,.78);
-      border-bottom: 1px solid rgba(239,230,216,.12);
-      padding-bottom: 1rem;
-      display: block;
-      font-size: 14px;
-      letter-spacing: 2px;
+    .aperture::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .3 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: overlay;
+      opacity: .5;
+      pointer-events: none;
     }
-    .contacto-info a:hover { color: var(--text); }
-
-    footer {
-      background: #050608;
+    .aperture-cap {
+      position: absolute;
+      left: 50%;
+      bottom: -36px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 28px;
+      white-space: nowrap;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
       color: var(--faint);
+    }
+    .aperture-cap span:first-child::after {
+      content: '·';
+      margin-left: 28px;
+      opacity: .6;
+    }
+
+    .hero-lede {
+      grid-column: 1 / span 6;
+      margin-top: 60px;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(22px, 2.3vw, 32px);
+      line-height: 1.4;
+      color: var(--text);
+      max-width: 30ch;
+      text-align: left;
+      text-wrap: pretty;
+    }
+    .hero-cta-row {
+      grid-column: 1 / span 12;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 26px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--hair-2);
+      font-family: var(--label-font);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color .3s, background .3s, color .3s;
+    }
+    .btn::after {
+      content: '→';
+      font-family: var(--body-font);
+      letter-spacing: 0;
+    }
+    .btn:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-solid {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+    .btn-solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--bg); }
+    .btn-link {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 4px;
+      transition: color .2s, border-color .2s;
+    }
+    .btn-link:hover { color: var(--text); border-color: var(--gold); }
+
+    /* ───── SECTION CHROME ───── */
+    section.spread {
+      position: relative;
+      padding: clamp(80px, 14vh, 160px) 0;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      border-top: 1px solid var(--hair);
+    }
+    .sec-id {
+      grid-column: 1 / span 2;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--faint);
+      align-self: start;
+      position: sticky;
+      top: 110px;
+    }
+    .sec-id .num {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 56px;
+      line-height: 1;
+      color: var(--text);
+      letter-spacing: 0;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .sec-eyebrow {
+      grid-column: 3 / span 9;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 36px;
+    }
+
+    /* ───── 01 — Manifiesto ───── */
+    .manifiesto-h {
+      grid-column: 3 / span 9;
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(44px, 5.8vw, 88px);
+      line-height: .98;
+      letter-spacing: -.015em;
+      color: var(--text);
+      text-wrap: balance;
+      margin-bottom: 60px;
+      max-width: 18ch;
+    }
+    .manifiesto-h em { font-style: italic; font-weight: 400; color: var(--text-soft); }
+    .manifiesto-body {
+      grid-column: 3 / span 5;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .manifiesto-body p {
+      font-size: 15.5px;
+      line-height: 1.95;
+      color: var(--muted);
+      max-width: 54ch;
+    }
+    .manifiesto-pull {
+      grid-column: 9 / span 4;
+      align-self: start;
+      padding: 36px 28px 36px 32px;
+      border-left: 1px solid var(--gold);
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 22px;
+      line-height: 1.55;
+      color: var(--text);
+      text-wrap: pretty;
+    }
+    .manifiesto-pull .cap {
+      display: block;
+      margin-top: 20px;
+      font-family: var(--label-font);
+      font-style: normal;
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ───── 02 — Espacios ───── */
+    .spaces-head {
+      grid-column: 3 / span 9;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 64px;
+    }
+    .spaces-head h2 {
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: .95;
+      letter-spacing: -.01em;
+      max-width: 16ch;
+    }
+    .spaces-head h2 em { font-style: italic; color: var(--text-soft); }
+    .spaces-head .right {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      min-width: 180px;
+      line-height: 1.7;
+    }
+
+    .spaces-grid {
+      grid-column: 3 / span 10;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 48px 24px;
+    }
+    .project { display: flex; flex-direction: column; gap: 18px; }
+    .project-large { grid-column: span 7; }
+    .project-small { grid-column: span 5; }
+    .project-wide  { grid-column: span 12; }
+    .project-offset { padding-top: 80px; }
+
+    .project-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      overflow: hidden;
+      position: relative;
+    }
+    .project-wide .project-img { aspect-ratio: 16 / 9; }
+    .project-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.88) contrast(1.05) saturate(.92);
+      transition: transform .9s ease, filter .6s;
+    }
+    .project:hover .project-img img { transform: scale(1.025); filter: brightness(.95) contrast(1.05) saturate(.95); }
+    .project-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .project-img.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 60%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light; pointer-events: none;
+    }
+    .project-img.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light; pointer-events: none;
+    }
+
+    .project-meta {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 2rem 4rem;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .project-meta .year { color: var(--faint); }
+    .project-title {
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(26px, 2.4vw, 36px);
+      line-height: 1.05;
+      letter-spacing: -.005em;
+      color: var(--text);
+    }
+    .project-title em { font-style: italic; color: var(--text-soft); }
+    .project-brief {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 44ch;
+    }
+    .project-link {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 4px;
+      align-self: flex-start;
+      transition: color .2s, border-color .2s;
+    }
+    .project-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* ───── 03 — Fragmento ───── */
+    .fragmento {
+      position: relative;
+      padding: clamp(100px, 16vh, 200px) 0;
+      border-top: 1px solid var(--hair);
+      overflow: hidden;
+    }
+    .fragmento::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 60vw; height: 60vw;
+      max-width: 800px; max-height: 800px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 14%, transparent), transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .fragmento-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+    .fragmento-eyebrow {
+      grid-column: 3 / span 9;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 36px;
+    }
+    .fragmento-q {
+      grid-column: 3 / span 9;
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(34px, 4.6vw, 68px);
+      line-height: 1.12;
+      letter-spacing: -.005em;
+      color: var(--text);
+      text-wrap: balance;
+      max-width: 24ch;
+    }
+    .fragmento-q .first { font-size: 1.4em; color: var(--gold); font-style: normal; margin-right: .08em; vertical-align: -.04em; }
+    .fragmento-cap {
+      grid-column: 3 / span 9;
+      margin-top: 56px;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      gap: 32px;
+    }
+    .fragmento-cap span b { color: var(--text); font-weight: 500; margin-left: 8px; }
+
+    /* ───── 04 — Acceso ───── */
+    .acceso-body {
+      grid-column: 3 / span 9;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--hair-2);
+      background: var(--bg-soft);
+    }
+    .acceso-copy {
+      padding: 48px 52px;
+      border-right: 1px solid var(--hair-2);
+      position: relative;
+      min-height: 360px;
+    }
+    .acceso-copy h3 {
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(28px, 3vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -.01em;
+      margin-bottom: 22px;
+      max-width: 16ch;
+      text-wrap: balance;
+    }
+    .acceso-copy h3 em { font-style: italic; color: var(--text-soft); }
+    .acceso-copy p {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 36ch;
+    }
+    .acceso-copy .corner {
+      position: absolute;
+      bottom: 36px; left: 52px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .acceso-cta {
+      padding: 48px 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: var(--panel);
+      justify-content: center;
+    }
+    .acceso-cta h4 {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .acceso-cta p {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+    .acceso-cta .btn { justify-content: center; margin-top: 8px; }
+
+    /* ───── 05 — Contacto ───── */
+    .colophon {
+      grid-column: 3 / span 9;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .colophon h2 {
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: -.01em;
+      max-width: 14ch;
+    }
+    .colophon h2 em { font-style: italic; color: var(--text-soft); }
+    .colophon-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 8px;
+    }
+    .colo-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 24px;
+      padding: 18px 0;
+      border-top: 1px solid var(--hair-2);
+      font-family: var(--label-font);
       font-size: 12px;
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      margin-top: 0;
-      letter-spacing: 2px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
     }
-    footer .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; color: var(--faint); }
-
-    .aparece { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
-    .aparece.visible { opacity: 1; transform: translateY(0); }
-    .hero-content * { opacity: 0; }
-    @keyframes subir {
-      from { opacity: 0; transform: translateY(40px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .colo-row:last-child { border-bottom: 1px solid var(--hair-2); }
+    .colo-row .k { color: var(--faint); }
+    .colo-row .v { color: var(--text); }
+    .colo-row .v a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
     }
-    .hero-label        { animation: subir .8s ease forwards; animation-delay: .3s; }
-    .hero h1           { animation: subir 1s  ease forwards; animation-delay: .6s; }
-    .hero-sub          { animation: subir .8s ease forwards; animation-delay: 1s; }
-    .hero .btn-primary { animation: subir .8s ease forwards; animation-delay: 1.3s; }
+    .colo-row .v a:hover { color: var(--gold); border-color: var(--gold); }
 
+    /* ───── FOOTER ───── */
+    footer {
+      position: relative;
+      z-index: 3;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 80px var(--gutter) 40px;
+      border-top: 1px solid var(--hair-2);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .ft-mark {
+      grid-column: 1 / span 3;
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 28px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .ft-mark .dot { color: var(--gold); }
+    .ft-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ft-col b { color: var(--text); font-weight: 500; }
+    .ft-col a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .ft-col a:hover { color: var(--text); }
+    .ft-c1 { grid-column: 5 / span 2; }
+    .ft-c2 { grid-column: 7 / span 2; }
+    .ft-c3 { grid-column: 9 / span 2; }
+    .ft-c4 { grid-column: 11 / span 2; text-align: right; }
 
+    .ft-huge {
+      grid-column: 1 / span 12;
+      margin-top: 100px;
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 300;
+      font-size: clamp(80px, 22vw, 360px);
+      line-height: .82;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px color-mix(in oklch, var(--text) 35%, transparent);
+      text-align: center;
+      position: relative;
+      isolation: isolate;
+      padding: 6vw 0 4vw;
+    }
+    .ft-huge::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 86%; height: 110%;
+      transform: translate(-50%, -50%);
+      background:
+        radial-gradient(ellipse 32% 60% at 18% 50%, color-mix(in oklch, var(--turrell-a) 78%, transparent), transparent 70%),
+        radial-gradient(ellipse 28% 55% at 50% 55%, color-mix(in oklch, var(--turrell-b) 70%, transparent), transparent 70%),
+        radial-gradient(ellipse 32% 60% at 82% 50%, color-mix(in oklch, var(--turrell-c) 78%, transparent), transparent 70%);
+      filter: blur(72px) saturate(1.15);
+      opacity: .55;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .ft-huge::after {
+      content: 'ENOUGH.';
+      position: absolute;
+      left: 0; right: 0; top: 6vw;
+      color: transparent;
+      -webkit-text-stroke: 1px color-mix(in oklch, var(--turrell-a) 60%, transparent);
+      filter: blur(.6px);
+      transform: translate(-.012em, .004em);
+      z-index: -1;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .ft-huge .dot {
+      -webkit-text-stroke: 1px var(--gold);
+      color: color-mix(in oklch, var(--gold) 30%, transparent);
+      text-shadow:
+        0 0 24px color-mix(in oklch, var(--gold) 70%, transparent),
+        0 0 60px color-mix(in oklch, var(--gold-bright) 45%, transparent);
+    }
+
+    /* ───── REVEAL ───── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ───── RESPONSIVE ───── */
     @media (max-width: 920px) {
-      body { padding: 28px; overflow-x: hidden; }
-      nav {
-        position: sticky;
-        top: 0;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: .9rem;
-        padding: .95rem 1.2rem;
-        background: linear-gradient(to bottom, rgba(7,8,10,.96) 0%, rgba(7,8,10,.82) 56%, rgba(7,8,10,0) 100%);
-        backdrop-filter: none;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        box-shadow: none;
-      }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { color: var(--text); font-size: 10px; letter-spacing: 0.08em; }
-      nav a { flex: 0 0 auto; position: relative; z-index: 1; }
-      .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
-      .hero {
-        width: auto;
-        margin-left: -28px;
-        margin-right: -28px;
-        margin-top: 0;
-        height: 72vh;
-      }
-      .hero-content {
-        left: 2rem;
-        right: 2rem;
-        bottom: 2rem;
-        max-width: 30rem;
-      }
-      .hero h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); letter-spacing: 8px; }
-      .hero-sub { max-width: 28rem; }
-      section { margin-top: 48px; padding-top: 32px; }
-      .acceso-panel,
-      .filosofia-grid,
-      .servicios-grid,
-      .contacto-dark { grid-template-columns: 1fr; }
-      .filosofia-grid { gap: 2.25rem; }
-      .filosofia-left { position: static; }
-      .acceso-copy,
-      .acceso-card { padding: 2rem; }
-      .acceso-card { border-left: none; border-top: 1px solid var(--line); }
-      .contacto-dark {
-        width: auto;
-        margin-left: -28px;
-        margin-right: -28px;
-        padding: 3.5rem 2rem;
-        gap: 2rem;
-      }
-      footer {
-        width: auto;
-        margin-left: -28px;
-        margin-right: -28px;
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-        padding: 2rem;
-      }
-    }
-
-    @media (max-width: 640px) {
-      body { padding: 20px; }
-      nav { gap: .8rem; padding: .9rem 1rem; }
-      nav a { font-size: 9px; }
-      .hero {
-        margin-left: -20px;
-        margin-right: -20px;
-        height: 62vh;
-      }
-      .hero-content { left: 1.5rem; right: 1.5rem; bottom: 1.5rem; }
-      .hero h1 { font-size: 2.5rem; letter-spacing: 6px; }
-      .filosofia-numero { font-size: 4rem; }
-      .acceso-actions,
-      .acceso-links { flex-direction: column; }
-      .contacto-dark {
-        margin-left: -20px;
-        margin-right: -20px;
-        padding: 3rem 1.5rem;
-      }
-      footer {
-        margin-left: -20px;
-        margin-right: -20px;
-      }
+      :root { --gutter: 20px; }
+      nav { padding: 16px var(--gutter); grid-template-columns: auto 1fr; }
+      nav ul { display: none; }
+      .issue-strip { padding: 96px var(--gutter) 0; }
+      .issue-strip > div { grid-column: 1 / span 12 !important; }
+      .hero { padding: 40px 0 56px; min-height: auto; }
+      .hero-title { grid-column: 1 / span 12; font-size: clamp(60px, 18vw, 110px); }
+      .aperture { grid-column: 1 / span 12; width: min(78%, 360px); margin: 32px auto 56px; }
+      .hero-lede { grid-column: 1 / span 12; }
+      section.spread { padding: 72px 0; }
+      .sec-id { grid-column: 1 / span 12; position: static; margin-bottom: 18px; }
+      .sec-id .num { font-size: 44px; margin-bottom: 6px; }
+      .sec-eyebrow, .manifiesto-h, .manifiesto-body, .manifiesto-pull,
+      .spaces-head, .spaces-grid, .fragmento-eyebrow, .fragmento-q, .fragmento-cap,
+      .acceso-body, .colophon { grid-column: 1 / span 12; }
+      .manifiesto-pull { margin-top: 28px; padding: 28px 22px; }
+      .spaces-head { flex-direction: column; align-items: start; gap: 18px; }
+      .spaces-grid { grid-template-columns: 1fr; gap: 56px; }
+      .project-large, .project-small, .project-wide { grid-column: span 1; }
+      .project-offset { padding-top: 0; }
+      .acceso-body { grid-template-columns: 1fr; }
+      .acceso-copy { border-right: none; border-bottom: 1px solid var(--hair-2); padding: 36px; min-height: auto; }
+      .acceso-copy .corner { position: static; margin-top: 22px; }
+      .acceso-cta { padding: 36px; }
+      .colophon { grid-template-columns: 1fr; gap: 32px; }
+      footer { padding: 56px var(--gutter) 28px; }
+      .ft-mark, .ft-c1, .ft-c2, .ft-c3, .ft-c4 { grid-column: 1 / span 12; text-align: left; }
+      .ft-huge { font-size: 22vw; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html:focus-within { scroll-behavior: auto; }
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 <body>
 
-
   <nav id="nav">
-    <a href="#" class="logo">Enough</a>
-    <a href="#filosofia">Filosofía</a>
-    <a href="#acceso">Acceso</a>
-    <a href="galeria.html">Galería</a>
-    <a href="blog.html">Blog</a>
-    <a href="fragmentos.html">Fragmentos</a>
-    <a href="sobre.html">Sobre mí</a>
-    <a href="tienda.html">Tienda</a>
-    <a href="#contacto">Contacto</a>
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="#manifiesto" class="active">Manifiesto</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
   </nav>
 
-  <main>
-  <div class="hero">
-    <img src="./espacio.jpg" alt="Enough" fetchpriority="high" draggable="false">
-    <div class="hero-content">
-      <span class="hero-label">Editorial · Archivo · Inercia</span>
-      <h1>Enough</h1>
-      <p class="hero-sub">...</p>
-      <a href="#filosofia" class="btn-primary">Explorar visión</a>
-    </div>
+  <!-- Issue metadata strip -->
+  <div class="issue-strip">
+    <div class="s1"><span>Editorial</span><b>Vol. I</b></div>
+    <div class="s2"><span>Edición</span><b>00 — Apertura</b></div>
+    <div class="s3"><span>Año</span><b>2026</b></div>
+    <div class="s4"><span>Origen</span><b>Bucaramanga, CO</b></div>
   </div>
 
-  <section id="acceso" class="acceso-section">
-    <div class="acceso-panel">
-      <div class="acceso-copy">
-        <div>
-          <span class="section-label">Acceso</span>
-          <h2>Un punto de entrada para volver al archivo</h2>
-          <p>Hecho para lectores, colaboradores y usuarios que quieran seguir el rastro de Enough con una entrada clara, sobria y directa.</p>
+  <main>
+
+    <!-- ── HERO ── -->
+    <section class="hero" id="hero">
+      <div class="hero-eyebrow">— Un archivo sobre atmósferas, materia y la forma de habitar.</div>
+
+      <h1 class="hero-title">ENO<em>UGH</em><span class="dot">.</span></h1>
+
+      <div class="aperture" aria-hidden="true">
+        <div class="aperture-cap">
+          <span>Atmósfera</span>
+          <span>Bucaramanga</span>
         </div>
-        <span class="acceso-note">Acceso privado · seguimiento editorial · actualizaciones del archivo</span>
       </div>
-      <div class="acceso-card">
-        <h3>Entrar</h3>
-        <form class="acceso-form" id="form-acceso" onsubmit="handleLogin(event)">
-          <label for="user-email">
-            Correo
-            <input id="user-email" type="email" name="email" placeholder="tu@correo.com" autocomplete="email" required>
-          </label>
-          <label for="user-password">
-            Contraseña
-            <input id="user-password" type="password" name="password" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
-          </label>
-          <div id="msg-acceso" class="form-msg"></div>
-          <div class="acceso-actions">
-            <button type="submit" class="btn-primary">Ingresar</button>
-            <a href="acceso.html" class="btn-ghost">Crear cuenta</a>
+
+      <p class="hero-lede">
+        Atención que precede a la imagen — donde la materia, el silencio y la luz vuelven a sostener el espacio entre quien mira y la pared.
+      </p>
+
+      <div class="hero-cta-row">
+        <a href="#manifiesto" class="btn btn-solid">Leer el manifiesto</a>
+        <a href="galeria.html" class="btn-link">Ver el archivo visual</a>
+      </div>
+    </section>
+
+    <!-- ── 01 — MANIFIESTO ── -->
+    <section class="spread reveal" id="manifiesto">
+      <div class="sec-id">
+        <span class="num">01</span>
+        Manifiesto<br>Lectura
+      </div>
+      <div class="sec-eyebrow">— Sobre la perfección ↔ la intención</div>
+      <h2 class="manifiesto-h">No es <em>perfección.</em><br>Es intención.</h2>
+
+      <div class="manifiesto-body">
+        <p>La arquitectura contemporánea desarrolló una obsesión por verse bien antes que por sentirse real. Espacios diseñados para sobrevivir como imagen — impecables, costosos, controlados. Y aun así, cuando entras en ellos, algo falta. El cuerpo lo percibe antes de entenderlo.</p>
+        <p>Enough nace en dirección contraria. No desde la idea de perfección, sino desde una atención casi obsesiva a la experiencia del espacio cuando todo se vuelve quieto. Cuando el ruido baja, los sentidos cambian.</p>
+        <p>La arquitectura deja de percibirse únicamente con la mirada y empieza a sentirse en el cuerpo. Este archivo no es un portafolio. Es un registro: una documentación de cómo la materia, la sombra y los objetos inmóviles transforman la forma en que habitamos el tiempo y el vacío.</p>
+      </div>
+
+      <aside class="manifiesto-pull">
+        "La sombra pesa. El aire cambia de temperatura. El concreto deja de ser un acabado y se vuelve presencia. El vacío entre los objetos deja de verse vacío."
+        <span class="cap">— Enough, Vol. I</span>
+      </aside>
+    </section>
+
+    <!-- ── 02 — ESPACIOS ── -->
+    <section class="spread reveal" id="espacios">
+      <div class="sec-id">
+        <span class="num">02</span>
+        Espacios<br>Archivo visual
+      </div>
+
+      <div class="spaces-head">
+        <h2>Imágenes propias sobre <em>luz, materia y atmósfera</em>.</h2>
+        <div class="right">Selección — 2026<br>Bucaramanga · CO</div>
+      </div>
+
+      <div class="spaces-grid">
+
+        <article class="project project-large">
+          <div class="project-img tint-warm">
+            <img src="espacio.jpg" alt="Estudio interior, luz oblicua sobre muro">
           </div>
-          <div class="acceso-links">
-            <a href="acceso.html">Recuperar contraseña</a>
-            <a href="acceso.html">Crear usuario</a>
-          </div>
-        </form>
+          <div class="project-meta"><span class="loc">I — Bucaramanga</span><span class="year">2026</span></div>
+          <h3 class="project-title">Tarde tendida</h3>
+          <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.</p>
+          <a href="galeria.html" class="project-link">Ver galería →</a>
+        </article>
+
+        <article class="project project-small project-offset">
+          <div class="project-img placeholder tint-violet"></div>
+          <div class="project-meta"><span class="loc">II — Patio</span><span class="year">2026</span></div>
+          <h3 class="project-title"><em>Aire</em> suspendido</h3>
+          <p class="project-brief">Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.</p>
+          <a href="galeria.html" class="project-link">Ver fragmento →</a>
+        </article>
+
+        <article class="project project-wide">
+          <div class="project-img placeholder"></div>
+          <div class="project-meta"><span class="loc">III — Umbral</span><span class="year">2026</span></div>
+          <h3 class="project-title">Borde de <em>azul</em></h3>
+          <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto. Una observación sobre cómo el crepúsculo reorganiza la presencia.</p>
+          <a href="galeria.html" class="project-link">Ver fragmento →</a>
+        </article>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="filosofia">
-    <span class="section-label">Filosofía</span>
-    <h2>No es perfección.<br>Es intención.</h2>
-    <div class="filosofia-grid">
-      <div class="filosofia-left">
-        <span class="filosofia-numero">01</span>
-        <span class="filosofia-anchor">Editorial · Archivo<br>Atmósfera</span>
+    <!-- ── 03 — FRAGMENTO ── -->
+    <section class="fragmento reveal" id="fragmento">
+      <div class="fragmento-inner">
+        <div class="fragmento-eyebrow">— Fragmento · cuaderno</div>
+        <blockquote class="fragmento-q">
+          <span class="first">"</span>Hay lugares que no necesitan imponerse para permanecer. Un muro atravesado por luz tenue. La densidad de una habitación en penumbra. El desgaste de una superficie que guarda tiempo."
+        </blockquote>
+        <div class="fragmento-cap">
+          <span>Año<b>2026</b></span>
+          <span>Lugar<b>Bucaramanga</b></span>
+        </div>
       </div>
-      <div class="filosofia-right">
-        <p>La arquitectura contemporánea desarrolló una obsesión por verse bien antes que por sentirse real. Espacios diseñados para sobrevivir como imagen: impecables, costosos, perfectamente controlados. Y aun así, cuando entras en ellos, algo falta. El cuerpo lo percibe antes de entenderlo. Hay una frialdad difícil de nombrar.</p>
-        <p>Enough nace en dirección contraria.</p>
-        <p>No desde la idea de perfección, sino desde una atención casi obsesiva a la experiencia del espacio cuando todo se vuelve quieto. Cuando el ruido baja, los sentidos cambian. La arquitectura deja de percibirse únicamente con la mirada y empieza a sentirse en el cuerpo.</p>
-        <p>La sombra pesa.<br>El aire cambia de temperatura.<br>El concreto deja de ser un acabado y se vuelve presencia.<br>El vacío entre los objetos deja de verse vacío.</p>
-        <p>Ahí aparece algo que gran parte de la arquitectura actual ignora: la relación íntima entre el espacio y el estado de quien lo habita.</p>
-        <p>Enough no busca belleza en el sentido ornamental. Busca correspondencia. Honestidad. Espacios donde la materia no distraiga del silencio, sino que lo sostenga.</p>
-        <p>Hay lugares que no necesitan imponerse para permanecer. Un muro atravesado por luz tenue al final de la tarde. La densidad de una habitación en penumbra. El desgaste de una superficie que guarda tiempo. La quietud de un rincón donde la mirada finalmente puede descansar.</p>
-        <p>Este archivo nace desde ahí: no como un portafolio, sino como un registro. Una documentación de cómo la materia, la sombra y los objetos inmóviles pueden transformar la forma en que habitamos el tiempo y el vacío.</p>
-        <p>En esencia, Enough existe para observar aquello que permanece en el espacio entre la pared y el cuerpo que la mira.</p>
+    </section>
+
+    <!-- ── 04 — ACCESO ── -->
+    <section class="spread reveal" id="acceso">
+      <div class="sec-id">
+        <span class="num">04</span>
+        Acceso<br>Entrada privada
       </div>
-    </div>
-  </section>
-
-  <section id="proyectos">
-    <span class="section-label">Archivo visual</span>
-    <h2>Espacios</h2>
-    <p>Un archivo en desarrollo con imágenes propias sobre luz, materia y atmósfera.</p>
-    <div style="text-align: center; margin-top: 2rem;">
-      <a href="galeria.html" class="btn-dark">Ver galería</a>
-    </div>
-  </section>
-
-  <section id="blog">
-    <span class="section-label">Diario</span>
-    <h2>Opiniones</h2>
-    <p>Opiniones y reflexiones originales sobre espacio, identidad y la forma de habitar.</p>
-    <div style="text-align: center; margin-top: 2rem;">
-      <a href="blog.html" class="btn-dark">Ir al blog</a>
-    </div>
-  </section>
-
-  <section id="fragmentos-preview">
-    <span class="section-label">Cuaderno</span>
-    <h2>Fragmentos</h2>
-    <p>Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.</p>
-    <div style="text-align: center; margin-top: 2rem;">
-      <a href="fragmentos.html" class="btn-dark">Leer fragmentos</a>
-    </div>
-  </section>
-
-  <section id="mirada">
-    <span class="section-label">Mirada</span>
-    <h2>Cuatro formas de ver</h2>
-    <div class="servicios-grid">
-      <div class="servicio"><h3>Observación</h3><p>Mirar antes de intervenir. Leer la atmósfera, la luz y el ritmo del espacio.</p></div>
-      <div class="servicio"><h3>Criterio</h3><p>Filtrar referencias y decisiones desde una mirada honesta, sin seguir tendencias vacías.</p></div>
-      <div class="servicio"><h3>Lenguaje</h3><p>Convertir ideas en imagen, texto y composición para que cada pieza tenga coherencia.</p></div>
-      <div class="servicio"><h3>Archivo</h3><p>Construir un cuerpo de trabajo propio que evoluciona con el tiempo, no con la prisa.</p></div>
-    </div>
-  </section>
-
-  <section id="contacto" class="contacto-dark">
-    <div class="contacto-left">
-      <span class="section-label">Contacto</span>
-      <h2>Enough es un editorial<br>en construcción.</h2>
-      <p class="contacto-intro">Escríbeme.</p>
-      <div class="contacto-info">
-        <a href="https://www.instagram.com/juanes.thp/" target="_blank" rel="noopener noreferrer">Instagram · @juanes.thp</a>
+      <div class="acceso-body">
+        <div class="acceso-copy">
+          <h3>Un punto de entrada para <em>volver</em> al archivo.</h3>
+          <p>Hecho para lectores, colaboradores y usuarios que quieran seguir el rastro de Enough con una entrada clara, sobria y directa.</p>
+          <div class="corner">Acceso privado · Editorial · Actualizaciones</div>
+        </div>
+        <div class="acceso-cta">
+          <h4>— Entrar al archivo</h4>
+          <p>Inicia sesión o crea tu cuenta para acceder al espacio privado de Enough.</p>
+          <a href="acceso.html" class="btn btn-solid">Ingresar</a>
+          <a href="acceso.html#registro" class="btn">Crear cuenta</a>
+        </div>
       </div>
-    </div>
-    <div class="contacto-right">
-      <p class="contacto-intro">El proceso es abierto.</p>
-    </div>
-  </section>
+    </section>
+
+    <!-- ── 05 — CONTACTO ── -->
+    <section class="spread reveal" id="contacto">
+      <div class="sec-id">
+        <span class="num">05</span>
+        Contacto<br>Correspondencia
+      </div>
+      <div class="colophon">
+        <div>
+          <h2>Enough es un editorial <em>en construcción</em>.</h2>
+        </div>
+        <div class="colophon-right">
+          <div class="colo-row"><span class="k">Instagram</span><span class="v"><a href="https://www.instagram.com/enough_void/" target="_blank" rel="noopener noreferrer">@enough_void</a></span></div>
+          <div class="colo-row"><span class="k">Origen</span><span class="v">Bucaramanga, CO</span></div>
+          <div class="colo-row"><span class="k">Ritmo</span><span class="v">Lento. Sin frecuencia.</span></div>
+          <div class="colo-row"><span class="k">Vol.</span><span class="v">I · MMXXVI</span></div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
-    <span class="logo">Enough</span>
-    <span>© 2026 Enough. Editorial.</span>
-    <span>Bucaramanga, Colombia</span>
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const { createClient } = supabase;
-    const sb = createClient(
-      'https://xwoqinouwnpzqiyqbpup.supabase.co',
-      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
-    );
-  </script>
-
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-      });
-    });
-
-    const elementos = document.querySelectorAll('section, .servicio');
-    elementos.forEach(el => el.classList.add('aparece'));
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-        else entry.target.classList.remove('visible');
-      });
-    }, { threshold: 0.1 });
-    elementos.forEach(el => observer.observe(el));
-
-
-    const heroImage = document.querySelector('.hero img');
-    if (heroImage) {
-      heroImage.addEventListener('contextmenu', e => e.preventDefault());
-      heroImage.addEventListener('dragstart', e => e.preventDefault());
-    }
-    async function handleLogin(e) {
-      e.preventDefault();
-      const msg = document.getElementById('msg-acceso');
-      msg.textContent = '— Verificando...';
-      msg.className = 'form-msg';
-      const { error } = await sb.auth.signInWithPassword({
-        email: document.getElementById('user-email').value,
-        password: document.getElementById('user-password').value,
-      });
-      if (error) {
-        const texto = error.message.includes('Invalid login credentials')
-          ? 'Correo o contraseña incorrectos'
-          : error.message.includes('Email not confirmed')
-          ? 'Confirma tu correo antes de entrar'
-          : error.message;
-        msg.textContent = '— ' + texto;
-        msg.className = 'form-msg error';
-      } else {
-        msg.textContent = '— Acceso concedido';
-        msg.className = 'form-msg ok';
-        setTimeout(() => window.location.href = 'dashboard.html', 800);
-      }
-    }
-
-    sb.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN') {
-        window.location.href = 'dashboard.html';
-      }
-      if (event === 'PASSWORD_RECOVERY') {
-        const newPassword = prompt('Nueva contraseña:');
-        if (newPassword) {
-          const { error } = await sb.auth.updateUser({ password: newPassword });
-          if (!error) window.location.href = 'acceso.html';
+    // Active nav link on scroll
+    const navLinks = document.querySelectorAll('nav ul a[href^="#"]');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
         }
-      }
+      });
+    }, { rootMargin: '-40% 0px -50% 0px' });
+    ['manifiesto','espacios','fragmento','acceso','contacto'].forEach(id => {
+      const el = document.getElementById(id); if (el) obs.observe(el);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => ro.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (id.length > 1) {
+          const t = document.querySelector(id);
+          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        }
+      });
     });
   </script>
-
 </body>
 </html>

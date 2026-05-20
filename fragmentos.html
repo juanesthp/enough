@@ -1,478 +1,371 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragmentos — Enough</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Fragmentos · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fragmentos · Enough. Cuaderno de notas sobre ausencias, sombras y atmósferas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
 
-    <style>
-        :root {
-            --cream: #06070a;
-            --dark: #f4ede3;
-            --gold: #b69a6a;
-            --dark-soft: rgba(244, 237, 227, 0.68);
-            --dark-faint: rgba(244, 237, 227, 0.2);
-            --hairline: rgba(244, 237, 227, 0.12);
-            --panel: rgba(19, 19, 28, 0.78);
-            --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.28);
-            --shadow-deep: 0 40px 100px rgba(0, 0, 0, 0.48);
-        }
+  <style>
+    /* ─── Fragmentos — cuaderno editorial, scroll vertical denso ─── */
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-padding-top: 8rem; }
+    .cuaderno {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 32px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 60px;
+      align-items: start;
+    }
 
-        html, body {
-            background-color: var(--cream);
-            color: var(--dark);
-            font-family: 'Raleway', sans-serif;
-            font-weight: 300;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    .frag-index {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .frag-index .label { color: var(--faint); padding-bottom: 14px; border-bottom: 1px solid var(--hair-2); margin-bottom: 14px; }
+    .frag-index a {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s, padding-left .2s;
+    }
+    .frag-index a:hover { color: var(--text); padding-left: 4px; }
+    .frag-index a.active { color: var(--text); }
+    .frag-index a.active::before {
+      content: '';
+      position: absolute;
+      margin-left: -16px;
+      margin-top: 7px;
+      width: 8px; height: 1.5px;
+      background: var(--gold);
+    }
+    .frag-index .i-num { font-family: var(--display-font); font-style: italic; font-size: 14px; color: var(--gold); letter-spacing: 0; text-transform: none; }
+    .frag-index .i-ancla { font-family: var(--display-font); font-style: italic; font-size: 14px; color: inherit; letter-spacing: 0; text-transform: none; line-height: 1.1; }
+    .frag-index .toc-meta {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 9px;
+      letter-spacing: .25em;
+      color: var(--faint);
+    }
+    .frag-index .toc-meta div { display: flex; justify-content: space-between; }
+    .frag-index .toc-meta b { color: var(--text); font-weight: 500; }
 
-        body {
-            background:
-                radial-gradient(circle at 20% 18%, rgba(182, 154, 106, 0.12), transparent 24%),
-                radial-gradient(circle at 82% 28%, rgba(63, 63, 82, 0.18), transparent 28%),
-                radial-gradient(circle at 50% 100%, rgba(182, 154, 106, 0.07), transparent 32%),
-                linear-gradient(180deg, #0f1114 0%, #08090c 45%, #050608 100%);
-        }
+    .frag-stream { display: flex; flex-direction: column; gap: 0; }
 
-        body::before, body::after {
-            content: '';
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(70px);
-            opacity: 0.65;
-        }
-        body::before { top: 10vh; left: -80px; width: 240px; height: 240px; background: rgba(182, 154, 106, 0.08); }
-        body::after  { right: -80px; bottom: 10vh; width: 280px; height: 280px; background: rgba(70, 70, 94, 0.12); }
+    .fragmento {
+      padding: 80px 0;
+      border-top: 1px solid var(--hair);
+      position: relative;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 48px;
+      scroll-margin-top: 96px;
+    }
+    .fragmento:first-of-type { border-top: none; padding-top: 24px; }
 
+    .frag-meta { position: relative; display: flex; flex-direction: column; gap: 12px; }
+    .frag-num {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(72px, 8vw, 120px);
+      line-height: .9;
+      color: var(--text);
+      letter-spacing: -.02em;
+    }
+    .frag-label { font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .frag-date { font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); }
 
-        /* ── NAV — mismo patrón que todas las otras páginas ── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 4rem;
-            background: rgba(9, 9, 15, 0.94);
-            backdrop-filter: blur(14px);
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--dark);
-            font-size: 12px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            border-bottom: none;
-            transition: opacity .2s;
-        }
-        nav a:hover { opacity: .55; }
-        nav a[aria-current="page"] { border-bottom: 1px solid rgba(244, 237, 227, .35); padding-bottom: 2px; }
-        .logo { font-size: 14px; letter-spacing: 6px; font-weight: 200; text-transform: uppercase; border-bottom: none; margin-right: 40px; }
+    .frag-body { display: flex; flex-direction: column; gap: 24px; }
 
-        @media (max-width: 920px) {
-            nav {
-                position: sticky;
-                top: 0;
-                flex-wrap: nowrap;
-                justify-content: flex-start;
-                gap: .9rem;
-                padding: .95rem 1.2rem;
-                background: linear-gradient(to bottom, rgba(9,9,15,.96) 0%, rgba(9,9,15,.82) 56%, rgba(9,9,15,0) 100%);
-                backdrop-filter: none;
-                overflow-x: auto;
-                overflow-y: hidden;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                box-shadow: none;
-            }
-            nav::-webkit-scrollbar { display: none; }
-            nav a { font-size: 0.65rem; letter-spacing: 0.10em; }
-            nav a { flex: 0 0 auto; position: relative; z-index: 1; }
-            .logo { flex: 0 0 auto; margin-right: .85rem; text-align: left; }
-            .index-view,
-            .detail-view { padding-top: 8rem; }
-            .index-header {
-                margin-bottom: 4.5rem;
-                padding: 2.5rem 2rem;
-            }
-            .index-rule { margin-bottom: 3.5rem; }
-            .fragmento-item { padding: 2.4rem 1.8rem; }
-            .detail-container { padding: 2.75rem 2rem; }
-        }
+    .frag-ancla {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .frag-ancla em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
 
-        @media (max-width: 640px) {
-            nav { gap: .8rem; padding: .9rem 1rem; }
-            nav a { font-size: 0.58rem; letter-spacing: 0.08em; }
-            .index-view,
-            .detail-view { padding: 7rem 1rem 4rem; }
-            .index-header,
-            .detail-container { padding: 2rem 1.25rem; }
-            .fragmento-item { padding: 2rem 1.2rem; }
-        }
+    .frag-text {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(20px, 1.8vw, 26px);
+      line-height: 1.55;
+      color: var(--text);
+      max-width: 56ch;
+      text-wrap: pretty;
+    }
+    .frag-text::first-letter {
+      font-style: normal;
+      color: var(--gold);
+      font-size: 1.4em;
+      margin-right: .05em;
+      vertical-align: -.04em;
+    }
 
-        /* ── INDEX VIEW ── */
-        .index-view {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-            padding: 12rem 2rem 8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            animation: fadeIn 1.6s ease forwards;
-        }
-        .index-view.hidden { display: none; }
+    .frag-foot {
+      margin-top: 12px;
+      display: flex;
+      gap: 24px;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .frag-foot .tag { color: var(--muted); border: 1px solid var(--hair-2); padding: 5px 10px; }
+    .frag-foot .share {
+      margin-left: auto;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: border-color .2s, color .2s;
+    }
+    .frag-foot .share:hover { color: var(--text); border-color: var(--gold); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+    .fragmento.glow::before {
+      content: '';
+      position: absolute;
+      right: 4%; top: 30%;
+      width: 280px; height: 280px;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .fragmento.glow-warm::before {
+      content: '';
+      position: absolute;
+      left: 6%; bottom: 20%;
+      width: 320px; height: 320px;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 20%, transparent), transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -1;
+    }
 
-        .index-header {
-            text-align: center;
-            margin-bottom: 8rem;
-            max-width: 580px;
-            padding: 3rem 2.75rem;
-            border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-            box-shadow: var(--shadow-soft);
-            backdrop-filter: blur(12px);
-        }
-        .index-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            letter-spacing: 0.02em;
-            margin-bottom: 2rem;
-            line-height: 1;
-            text-shadow: 0 18px 36px rgba(0,0,0,.34);
-        }
-        .index-epigraph {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: 1.05rem;
-            font-style: italic;
-            color: var(--dark-soft);
-            letter-spacing: 0.03em;
-            line-height: 1.7;
-        }
-        .index-rule {
-            width: 1px;
-            height: 80px;
-            background-color: var(--hairline);
-            margin: 0 auto 6rem;
-            box-shadow: 0 0 22px rgba(199, 167, 114, 0.18);
-        }
+    .frag-end {
+      grid-column: 1 / -1;
+      margin-top: 60px;
+      padding-top: 28px;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .frag-end .right { font-family: var(--display-font); font-style: italic; font-size: 20px; letter-spacing: 0; text-transform: none; color: var(--gold); }
 
-        .fragmentos-list {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 720px;
-            list-style: none;
-        }
-        .fragmento-item {
-            width: 100%;
-            padding: 3rem 2.5rem;
-            border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
-            text-align: center;
-            position: relative;
-            box-shadow: var(--shadow-soft);
-            transition: transform .45s ease, box-shadow .45s ease, border-color .45s ease;
-        }
-        .fragmento-item + .fragmento-item { margin-top: 1.2rem; }
-        .fragmento-link { text-decoration: none; color: var(--dark); display: block; }
-        .fragmento-item:hover {
-            transform: translateY(-4px);
-            border-color: rgba(199, 167, 114, 0.28);
-            box-shadow: var(--shadow-deep);
-        }
-        .fragmento-numero {
-            font-family: 'Raleway', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            color: var(--dark-soft);
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-        .fragmento-ancla {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: clamp(2rem, 4vw, 3rem);
-            letter-spacing: 0.01em;
-            line-height: 1.1;
-            transition: color .5s ease, letter-spacing .5s ease;
-            text-transform: uppercase;
-        }
-        .fragmento-link:hover .fragmento-ancla {
-            color: var(--gold);
-            letter-spacing: 0.04em;
-            text-shadow: 0 10px 28px rgba(0,0,0,.32);
-        }
-        .empty-state {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            color: var(--dark-soft);
-            font-size: 1.1rem;
-            width: 100%;
-            padding: 4rem 2rem;
-            text-align: center;
-            border: 1px solid var(--hairline);
-            background: var(--panel);
-            box-shadow: var(--shadow-soft);
-        }
-
-        /* ── DETAIL VIEW ── */
-        .detail-view {
-            display: none;
-            min-height: 100vh;
-            padding: 12rem 2rem 6rem;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            position: relative;
-            z-index: 1;
-        }
-        .detail-view.active {
-            display: flex;
-            animation: fadeIn 1s ease forwards;
-        }
-        .detail-container {
-            max-width: 620px;
-            width: 100%;
-            text-align: center;
-            padding: 3.5rem 3rem;
-            border: 1px solid var(--hairline);
-            background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-            box-shadow: var(--shadow-deep);
-            backdrop-filter: blur(14px);
-        }
-        .detail-numero {
-            font-family: 'Raleway', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.4em;
-            color: var(--dark-soft);
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
-        .detail-ancla {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 300;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            line-height: 1;
-            letter-spacing: 0.01em;
-            margin-bottom: 4rem;
-            text-shadow: 0 18px 40px rgba(0,0,0,.34);
-            text-transform: uppercase;
-        }
-        .detail-rule {
-            width: 60px;
-            height: 1px;
-            background-color: var(--gold);
-            margin: 0 auto 4rem;
-        }
-        .detail-texto {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 300;
-            font-size: clamp(1.15rem, 1.6vw, 1.35rem);
-            line-height: 1.9;
-            letter-spacing: 0.015em;
-            text-align: left;
-            color: rgba(244, 237, 227, 0.92);
-        }
-        .detail-texto p { margin-bottom: 1.5rem; }
-        .detail-texto p:last-child { margin-bottom: 0; }
-        .detail-back {
-            display: inline-block;
-            margin-top: 6rem;
-            text-decoration: none;
-            color: var(--dark-soft);
-            font-size: 0.7rem;
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            padding-bottom: 4px;
-            border-bottom: 1px solid transparent;
-            transition: color .4s ease, border-color .4s ease, letter-spacing .4s ease;
-        }
-        .detail-back:hover { color: var(--gold); border-color: var(--gold); letter-spacing: 0.35em; }
-
-        .footer-mark {
-            text-align: center;
-            font-family: 'Raleway', sans-serif;
-            font-size: 14px;
-            font-weight: 200;
-            color: var(--dark-faint);
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            padding: 4rem 0 2rem;
-        }
-    </style>
+    @media (max-width: 920px) {
+      .cuaderno { grid-template-columns: 1fr; gap: 32px; padding: 16px var(--gutter) 60px; }
+      .frag-index { position: static; flex-direction: row; overflow-x: auto; flex-wrap: nowrap; gap: 0; padding-bottom: 6px; }
+      .frag-index .label, .frag-index .toc-meta { display: none; }
+      .frag-index a { flex: 0 0 auto; grid-template-columns: auto auto; gap: 8px; padding: 8px 14px; border-bottom: none; border: 1px solid var(--hair-2); margin-right: 6px; }
+      .frag-index a.active::before { display: none; }
+      .frag-index a.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+      .frag-index a.active .i-num, .frag-index a.active .i-ancla { color: var(--bg); }
+      .fragmento { grid-template-columns: 1fr; gap: 16px; padding: 56px 0; }
+      .frag-num { font-size: 68px; }
+    }
+  </style>
 </head>
 <body>
 
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html" aria-current="page">Fragmentos</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>07</b> · Fragmentos</div>
+  </nav>
 
-    <nav>
-        <a href="index.html" class="logo">Enough</a>
-        <a href="index.html#filosofia">Filosofía</a>
-        <a href="galeria.html">Galería</a>
-        <a href="blog.html">Blog</a>
-        <a href="fragmentos.html" aria-current="page">Fragmentos</a>
-        <a href="sobre.html">Sobre mí</a>
-        <a href="index.html#servicios">Servicios</a>
-        <a href="index.html#contacto">Contacto</a>
-    </nav>
+  <header class="page-head">
+    <div class="head-id"><span class="num">07</span>Fragmentos<br>Cuaderno</div>
+    <h1>Notas sobre <em>atmósfera</em>.</h1>
+    <div class="head-meta">04 fragmentos<br>Cuaderno N.º 04<br>2026 · MMXXVI</div>
+    <p class="head-eyebrow">Un cuaderno. Anotaciones cortas sobre ausencias, sombras, umbrales y todo lo que sucede entre la pared y el cuerpo que la mira. Sin orden, sin frecuencia.</p>
+  </header>
 
-    <main class="index-view" id="indexView">
-        <header class="index-header">
-            <h1 class="index-title">Fragmentos</h1>
-            <p class="index-epigraph">Un cuaderno. Notas sobre atmósferas, ausencias y umbrales.</p>
-        </header>
-        <div class="index-rule"></div>
-        <ul class="fragmentos-list" id="fragmentosList"></ul>
-        <div class="footer-mark">Enough</div>
-    </main>
+  <main class="cuaderno">
 
-    <main class="detail-view" id="detailView">
-        <article class="detail-container">
-            <div class="detail-numero" id="detailNumero"></div>
-            <h1 class="detail-ancla" id="detailAncla"></h1>
-            <div class="detail-rule"></div>
-            <div class="detail-texto" id="detailTexto"></div>
-            <a href="#" class="detail-back" id="detailBack">— Regresar</a>
-        </article>
-    </main>
+    <aside class="frag-index">
+      <span class="label">— Índice</span>
+      <a href="#ausencia" data-id="ausencia" class="active"><span class="i-num">I</span><span class="i-ancla">Ausencia</span></a>
+      <a href="#sombra"   data-id="sombra"><span class="i-num">II</span><span class="i-ancla">Sombra</span></a>
+      <a href="#umbral"   data-id="umbral"><span class="i-num">III</span><span class="i-ancla">Umbral</span></a>
+      <a href="#atmosfera" data-id="atmosfera"><span class="i-num">IV</span><span class="i-ancla">Atmósfera</span></a>
+      <div class="toc-meta">
+        <div><span>Total</span><b>04</b></div>
+        <div><span>Última</span><b>17 may.</b></div>
+        <div><span>Ritmo</span><b>Lento</b></div>
+      </div>
+    </aside>
 
-    <script>
-        const fragmentos = [
-            {
-                numero: "I",
-                ancla: "Ausencia",
-                texto: `Hay espacios que no se habitan con el cuerpo, sino con la falta de él. Un lugar diseñado para alguien que ya no está es, en realidad, un monumento al aire que quedó atrapado entre cuatro paredes.`
-            },
-            {
-                numero: "II",
-                ancla: "Sombra",
-                texto: `La luz nos muestra lo que somos, pero es la sombra la que nos da profundidad. Un cuarto sin rincones oscuros es un espacio sin secretos; una superficie plana donde el alma no tiene dónde esconderse.`
-            },
-            {
-                numero: "III",
-                ancla: "Umbral",
-                texto: `El umbral es un espacio de transición, un lugar que no es ni aquí ni allá. Es el aire que se respira justo antes de entrar a una habitación, la pausa entre el mundo exterior y el interior. Un buen umbral prepara el cuerpo para lo que viene, como un suspiro que anuncia un cambio de escena.`
-            },
-            {
-                numero: "IV",
-                ancla: "Atmósfera",
-                texto: `La atmósfera de un espacio es su esencia intangible. No se puede tocar, pero se siente en cada rincón. Es la suma de la luz, el sonido, el olor y la temperatura; el eco de las personas que lo habitan y las historias que han dejado en sus paredes.`
-            }
-        ];
+    <section class="frag-stream">
 
-        const fragmentosList = document.getElementById('fragmentosList');
-        const indexView      = document.getElementById('indexView');
-        const detailView     = document.getElementById('detailView');
-        const detailNumero   = document.getElementById('detailNumero');
-        const detailAncla    = document.getElementById('detailAncla');
-        const detailTexto    = document.getElementById('detailTexto');
-        const detailBack     = document.getElementById('detailBack');
+      <article class="fragmento glow-warm" id="ausencia">
+        <div class="frag-meta">
+          <span class="frag-num">I</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">28 feb. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla"><em>Ausencia</em></h2>
+          <p class="frag-text">Hay espacios que no se habitan con el cuerpo, sino con la falta de él. Un lugar diseñado para alguien que ya no está es, en realidad, un monumento al aire que quedó atrapado entre cuatro paredes.</p>
+          <div class="frag-foot">
+            <span class="tag">Vacío</span>
+            <span class="tag">Habitar</span>
+            <a href="#ausencia" class="share" onclick="copyLink(event, 'ausencia')">Copiar enlace →</a>
+          </div>
+        </div>
+      </article>
 
-        function slugify(text) {
-            return text.toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
+      <article class="fragmento glow" id="sombra">
+        <div class="frag-meta">
+          <span class="frag-num">II</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">14 mar. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla">Sombra</h2>
+          <p class="frag-text">La luz nos muestra lo que somos, pero es la sombra la que nos da profundidad. Un cuarto sin rincones oscuros es un espacio sin secretos; una superficie plana donde el alma no tiene dónde esconderse.</p>
+          <div class="frag-foot">
+            <span class="tag">Luz</span>
+            <span class="tag">Penumbra</span>
+            <a href="#sombra" class="share" onclick="copyLink(event, 'sombra')">Copiar enlace →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fragmento glow-warm" id="umbral">
+        <div class="frag-meta">
+          <span class="frag-num">III</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">22 abr. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla"><em>Umbral</em></h2>
+          <p class="frag-text">El umbral es un espacio de transición, un lugar que no es ni aquí ni allá. Es el aire que se respira justo antes de entrar a una habitación, la pausa entre el mundo exterior y el interior. Un buen umbral prepara el cuerpo para lo que viene, como un suspiro que anuncia un cambio de escena.</p>
+          <div class="frag-foot">
+            <span class="tag">Umbral</span>
+            <span class="tag">Transición</span>
+            <a href="#umbral" class="share" onclick="copyLink(event, 'umbral')">Copiar enlace →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="fragmento glow" id="atmosfera">
+        <div class="frag-meta">
+          <span class="frag-num">IV</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">17 may. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla">Atmósfera</h2>
+          <p class="frag-text">La atmósfera de un espacio es su esencia intangible. No se puede tocar, pero se siente en cada rincón. Es la suma de la luz, el sonido, el olor y la temperatura; el eco de las personas que lo habitan y las historias que han dejado en sus paredes.</p>
+          <div class="frag-foot">
+            <span class="tag">Atmósfera</span>
+            <span class="tag">Sensible</span>
+            <a href="#atmosfera" class="share" onclick="copyLink(event, 'atmosfera')">Copiar enlace →</a>
+          </div>
+        </div>
+      </article>
+
+      <div class="frag-end">
+        <span>— Fin del cuaderno N.º 04</span>
+        <span class="right">Próximo · junio</span>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+  </footer>
+
+  <script>
+    const links = document.querySelectorAll('.frag-index a');
+    links.forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.dataset.id;
+        const t = document.getElementById(id);
+        if (t) {
+          e.preventDefault();
+          t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', '#' + id);
         }
+      });
+    });
 
-        function renderIndex() {
-            if (fragmentos.length === 0) {
-                fragmentosList.innerHTML = '<li class="empty-state">Aún sin fragmentos.</li>';
-                return;
-            }
-            fragmentosList.innerHTML = fragmentos.map((f, i) => `
-                <li class="fragmento-item">
-                    <a href="#${slugify(f.ancla)}" class="fragmento-link" data-index="${i}">
-                        <span class="fragmento-numero">Fragmento ${f.numero}</span>
-                        <span class="fragmento-ancla">${f.ancla}</span>
-                    </a>
-                </li>
-            `).join('');
-
-            document.querySelectorAll('.fragmento-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const idx = parseInt(link.dataset.index);
-                    showDetail(idx);
-                    history.pushState({ view: 'detail', index: idx }, '', `#${slugify(fragmentos[idx].ancla)}`);
-                });
-            });
+    const fragments = document.querySelectorAll('.fragmento');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          links.forEach(l => l.classList.toggle('active', l.dataset.id === id));
         }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px' });
+    fragments.forEach(f => obs.observe(f));
 
-        function showDetail(index) {
-            const f = fragmentos[index];
-            if (!f) return;
-            detailNumero.textContent = `Fragmento ${f.numero}`;
-            detailAncla.textContent  = f.ancla;
-            detailTexto.innerHTML    = f.texto
-                .split('\n\n')
-                .map(p => `<p>${p.trim().replace(/\n/g, '<br>')}</p>`)
-                .join('');
-            indexView.classList.add('hidden');
-            detailView.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
+    function copyLink(e, id) {
+      e.preventDefault();
+      const url = window.location.origin + window.location.pathname + '#' + id;
+      navigator.clipboard?.writeText(url);
+      const el = e.target;
+      const original = el.textContent;
+      el.textContent = 'Enlace copiado ✓';
+      setTimeout(() => el.textContent = original, 1600);
+    }
 
-        function showIndex() {
-            detailView.classList.remove('active');
-            indexView.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-
-        detailBack.addEventListener('click', (e) => {
-            e.preventDefault();
-            showIndex();
-            history.pushState({ view: 'index' }, '', window.location.pathname);
-        });
-
-        window.addEventListener('popstate', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash) {
-                const idx = fragmentos.findIndex(f => slugify(f.ancla) === hash);
-                if (idx >= 0) { showDetail(idx); return; }
-            }
-            showIndex();
-        });
-
-        function initFromHash() {
-            const hash = window.location.hash.replace('#', '');
-            if (hash) {
-                const idx = fragmentos.findIndex(f => slugify(f.ancla) === hash);
-                if (idx >= 0) showDetail(idx);
-            }
-        }
-
-        renderIndex();
-        initFromHash();
-
-    </script>
-
+    const hash = window.location.hash.replace('#','');
+    if (hash) {
+      const t = document.getElementById(hash);
+      if (t) setTimeout(() => t.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
+    }
+  </script>
 </body>
 </html>
