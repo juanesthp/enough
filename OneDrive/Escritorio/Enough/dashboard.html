@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Archivo · Enough</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Dashboard — archivo privado, denso, editorial back-office ─── */
+
+    /* Welcome banner */
+    .welcome {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+    }
+    .welcome .who {
+      grid-column: 1 / span 6;
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .welcome .who em { font-style: italic; color: var(--text-soft); }
+    .welcome .session {
+      grid-column: 7 / span 6;
+      text-align: right;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 24px;
+    }
+    .welcome .session .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+    }
+    .welcome .session .pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+      box-shadow: 0 0 8px oklch(78% 0.12 145 / .7);
+    }
+    .welcome .session a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
+    }
+    .welcome .session a:hover { color: var(--text); border-color: var(--gold); }
+
+    /* Stats row */
+    .stats {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+    }
+    .stat {
+      background: var(--bg);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat .k {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .stat .v {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .stat .v em { font-style: italic; color: var(--text-soft); font-size: 28px; }
+    .stat .n {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .stat .n.up { color: oklch(78% 0.12 145); }
+
+    /* Main grid */
+    .dash {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 40px var(--gutter) 80px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 36px 24px;
+      position: relative;
+      z-index: 3;
+    }
+    .panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--hair-2);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .panel .p-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .panel h2 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .panel h2 em { font-style: italic; color: var(--text-soft); }
+    .panel .p-num {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Latest fragment (large) */
+    .frag-latest { grid-column: 1 / span 7; padding: 0; min-height: 380px; }
+    .frag-latest::before {
+      content: '';
+      position: absolute;
+      left: 30%; top: 30%;
+      width: 60%; height: 60%;
+      background: radial-gradient(ellipse at center,
+        color-mix(in oklch, var(--turrell-a) 14%, transparent),
+        transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .frag-latest .frag-img {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      position: relative;
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .frag-latest .frag-img::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .frag-latest .frag-body {
+      padding: 28px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .frag-latest .frag-meta {
+      display: flex;
+      gap: 18px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .frag-latest .frag-meta .sep { color: var(--faint); }
+    .frag-latest h3 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .frag-latest h3 em { font-style: italic; color: var(--text-soft); }
+    .frag-latest p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+    .frag-latest .actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Right column panels */
+    .right-col { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: 24px; }
+
+    /* Próximos */
+    .proximo .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid var(--hair-2);
+      align-items: baseline;
+    }
+    .proximo .item:last-child { border-bottom: 1px solid var(--hair-2); }
+    .proximo .item .when {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+      min-width: 64px;
+    }
+    .proximo .item .what {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .proximo .item .where {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* Cuenta */
+    .cuenta .row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .cuenta .row:last-of-type { border-bottom: 1px solid var(--hair-2); margin-bottom: 16px; }
+    .cuenta .row .k { color: var(--faint); }
+    .cuenta .row .v { color: var(--text); font-weight: 500; }
+    .cuenta .row .v.muted { color: var(--muted); font-weight: 400; }
+
+    /* Compras */
+    .compras { grid-column: 1 / span 12; }
+    .compras-list {
+      display: grid;
+      grid-template-columns: 60px 80px 1fr 180px 140px 120px;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .compras-list .h-cell {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair-2);
+      color: var(--faint);
+    }
+    .compras-list .h-cell:last-child { text-align: right; }
+    .compras-list .row {
+      display: contents;
+    }
+    .compras-list .row .c {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .compras-list .row .c.tnum { font-variant-numeric: tabular-nums; }
+    .compras-list .row .c.right { justify-content: flex-end; }
+    .compras-list .num { color: var(--gold); font-variant-numeric: tabular-nums; }
+    .compras-list .thumb {
+      width: 56px;
+      aspect-ratio: 1 / 1;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border: 1px solid var(--hair);
+      position: relative;
+    }
+    .compras-list .thumb.tint-warm::after,
+    .compras-list .thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .compras-list .thumb.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 70%); }
+    .compras-list .thumb.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 70%); }
+    .compras-list .name {
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text);
+    }
+    .compras-list .name em { font-style: italic; color: var(--text-soft); }
+    .compras-list .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font-size: 9px;
+      letter-spacing: .22em;
+    }
+    .compras-list .status.ok::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+    }
+    .compras-list .status.pen::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .compras-list .dl {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
+    }
+    .compras-list .dl:hover { color: var(--text); border-color: var(--gold); }
+
+    /* Notas / recortes */
+    .notas { grid-column: 1 / span 12; }
+    .notas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .nota {
+      background: var(--bg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 200px;
+    }
+    .nota .n-date {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .nota .n-q {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    .nota .n-q .first {
+      font-size: 1.3em;
+      color: var(--gold);
+      font-style: normal;
+      margin-right: .08em;
+      vertical-align: -.04em;
+    }
+    .nota .n-foot {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    @media (max-width: 920px) {
+      .welcome { grid-template-columns: 1fr; gap: 14px; }
+      .welcome .who, .welcome .session { grid-column: 1 / span 1; }
+      .welcome .session { justify-content: flex-start; flex-wrap: wrap; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .dash { grid-template-columns: 1fr; gap: 24px; padding: 24px var(--gutter) 60px; }
+      .frag-latest, .right-col, .compras, .notas { grid-column: 1; }
+      .compras-list { grid-template-columns: 40px 1fr 1fr; }
+      .compras-list .h-cell:nth-child(2),
+      .compras-list .h-cell:nth-child(4),
+      .compras-list .h-cell:nth-child(6),
+      .compras-list .row .c:nth-child(2),
+      .compras-list .row .c:nth-child(4),
+      .compras-list .row .c:nth-child(6) { display: none; }
+      .notas-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="tienda.html">Tienda</a></li>
+      <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
+      <li><a href="acceso.html">Salir</a></li>
+    </ul>
+    <div class="nav-coords"><b>05</b> · Archivo</div>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
+    <h1>Tu <em>archivo</em>.</h1>
+    <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br>Lunes, 19 may.</div>
+    <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
+  </header>
+
+  <section class="welcome">
+    <div class="who">Bienvenida de vuelta,<br><em>Ana</em>.</div>
+    <div class="session">
+      <span class="pill">Sesión activa</span>
+      <span>Último acceso · 17 may.</span>
+      <a href="acceso.html">Cerrar sesión</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <span class="k">Fragmentos leídos</span>
+      <span class="v">12<em>/24</em></span>
+      <span class="n up">+ 3 esta semana</span>
+    </div>
+    <div class="stat">
+      <span class="k">Compras</span>
+      <span class="v">4</span>
+      <span class="n">3 digitales · 1 print</span>
+    </div>
+    <div class="stat">
+      <span class="k">Guardados</span>
+      <span class="v">18</span>
+      <span class="n">8 luz · 6 materia · 4 umbral</span>
+    </div>
+    <div class="stat">
+      <span class="k">Próxima edición</span>
+      <span class="v"><em>01</em><br></span>
+      <span class="n">Junio · sin frecuencia</span>
+    </div>
+  </section>
+
+  <main class="dash">
+
+    <!-- Latest fragment -->
+    <article class="panel frag-latest">
+      <div class="frag-img"></div>
+      <div class="frag-body">
+        <div class="frag-meta">
+          <span>Fragmento</span><span class="sep">·</span>
+          <span>N.º 12</span><span class="sep">·</span>
+          <span>17 may. 2026</span>
+        </div>
+        <h3>La sombra como <em>presencia</em>.</h3>
+        <p>Hay tardes en las que la sombra no es la ausencia de luz sino su forma más concreta. Cae sobre el muro, lo divide en dos temperaturas, y se queda ahí, quieta, midiendo el tiempo en grados. El cuerpo lo siente antes que la mirada lo entienda.</p>
+        <div class="actions">
+          <a href="#" class="btn btn-solid">Leer completo</a>
+          <a href="#" class="btn btn-ghost">Guardar</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <section class="panel proximo">
+        <div class="p-head">
+          <h2>Próximas <em>publicaciones</em></h2>
+          <span class="p-num">04 piezas</span>
+        </div>
+        <div>
+          <div class="item">
+            <span class="when">Jun 02</span>
+            <span class="what">Vol. I — Apertura, prólogo</span>
+            <span class="where">Ensayo</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 14</span>
+            <span class="what">Fragmento N.º 13 — <em>Aire</em></span>
+            <span class="where">Cuaderno</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 28</span>
+            <span class="what">Print — Umbral, edición de 30</span>
+            <span class="where">Tienda</span>
+          </div>
+          <div class="item">
+            <span class="when">Jul —</span>
+            <span class="what">Archivo 2025, segunda parte</span>
+            <span class="where">Tienda</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel cuenta">
+        <div class="p-head">
+          <h2>Cuenta</h2>
+          <span class="p-num">Lectora</span>
+        </div>
+        <div>
+          <div class="row"><span class="k">Nombre</span><span class="v">Ana García</span></div>
+          <div class="row"><span class="k">Correo</span><span class="v muted">ana@ejemplo.com</span></div>
+          <div class="row"><span class="k">Tipo</span><span class="v">Lectora · Vol. I</span></div>
+          <div class="row"><span class="k">Desde</span><span class="v muted">12 feb. 2026</span></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <a href="#" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Editar perfil</a>
+          <a href="acceso.html" class="btn btn-ghost" style="flex:1; justify-content:center; font-size:10px;">Salir</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Compras -->
+    <section class="panel compras">
+      <div class="p-head">
+        <h2>Tus <em>compras</em></h2>
+        <span class="p-num">4 piezas · todas pagadas</span>
+      </div>
+      <div class="compras-list">
+        <span class="h-cell">N.º</span>
+        <span class="h-cell">Img</span>
+        <span class="h-cell">Pieza</span>
+        <span class="h-cell">Fecha</span>
+        <span class="h-cell">Estado</span>
+        <span class="h-cell">Descarga</span>
+
+        <div class="row">
+          <span class="c num">04</span>
+          <span class="c"><span class="thumb tint-warm"></span></span>
+          <span class="c"><span class="name">Vol. I — <em>Apertura</em></span></span>
+          <span class="c tnum">14 may. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">03</span>
+          <span class="c"><span class="thumb tint-violet"></span></span>
+          <span class="c"><span class="name">Wallpapers — <em>Luz</em></span></span>
+          <span class="c tnum">02 may. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar ZIP →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">02</span>
+          <span class="c"><span class="thumb"></span></span>
+          <span class="c"><span class="name">Fragmentos</span></span>
+          <span class="c tnum">18 abr. 2026</span>
+          <span class="c"><span class="status ok">Entregado</span></span>
+          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
+        </div>
+        <div class="row">
+          <span class="c num">01</span>
+          <span class="c"><span class="thumb tint-warm"></span></span>
+          <span class="c"><span class="name">Print — <em>Tarde tendida</em></span></span>
+          <span class="c tnum">06 abr. 2026</span>
+          <span class="c"><span class="status pen">En envío</span></span>
+          <span class="c right"><a href="#" class="dl">Rastrear →</a></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notas guardadas -->
+    <section class="panel notas">
+      <div class="p-head">
+        <h2>Notas <em>guardadas</em></h2>
+        <span class="p-num">18 fragmentos · 6 categorías</span>
+      </div>
+      <div class="notas-grid">
+        <div class="nota">
+          <span class="n-date">N.º 11 · 08 may.</span>
+          <p class="n-q"><span class="first">"</span>La penumbra no es una falta de luz: es la luz volviéndose materia, espesa, casi tocable."</p>
+          <div class="n-foot"><span>Luz</span><span>Guardado</span></div>
+        </div>
+        <div class="nota">
+          <span class="n-date">N.º 09 · 27 abr.</span>
+          <p class="n-q"><span class="first">"</span>El concreto guarda el calor del día como si recordara. Cuando lo tocas a las once, todavía es la tarde anterior."</p>
+          <div class="n-foot"><span>Materia</span><span>Guardado</span></div>
+        </div>
+        <div class="nota">
+          <span class="n-date">N.º 07 · 14 abr.</span>
+          <p class="n-q"><span class="first">"</span>Hay umbrales que detienen al cuerpo antes de detener la mirada. Algo en el aire cambia de densidad."</p>
+          <div class="n-foot"><span>Umbral</span><span>Guardado</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="#">Fragmentos</a><a href="#">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Cuenta</a><a href="acceso.html">Salir</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+  </footer>
+
+</body>
+</html>
