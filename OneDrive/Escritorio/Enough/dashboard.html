@@ -750,11 +750,10 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    /* ─── CONFIG ─── */
     const { createClient } = supabase;
     const sb = createClient(
       'https://xwoqinouwnpzqiyqbpup.supabase.co',
-      'sb_publishable_EyH8h-1-SKbY9Ei1o_pkOg_M8JbmgUd'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY'
     );
 
     /* ─── HELPERS ─── */
@@ -767,29 +766,32 @@
       const el = document.getElementById(id);
       if (el) el.textContent = val;
     }
+    function ocultarLoading() {
+      const loading = document.getElementById('dash-loading');
+      if (loading) {
+        loading.classList.add('fade');
+        setTimeout(() => loading.remove(), 450);
+      }
+    }
 
     /* ─── POBLAR UI CON DATOS DEL USUARIO ─── */
     function poblarUsuario(user) {
-      const meta      = user.user_metadata || {};
-      const nombre    = meta.nombre    || user.email.split('@')[0];
-      const apellido  = meta.apellido  || '';
+      const meta     = user.user_metadata || {};
+      const nombre   = meta.nombre || meta.name || meta.full_name?.split(' ')[0] || user.email.split('@')[0];
+      const apellido = meta.apellido || (meta.full_name?.split(' ').slice(1).join(' ')) || '';
       const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
-      const plan      = meta.plan || 'Lectora';
-      const desde     = fmtFecha(user.created_at);
+      const plan     = meta.plan || 'Lectora';
+      const desde    = fmtFecha(user.created_at);
       const lastSignIn = user.last_sign_in_at ? `Último acceso · ${fmtFecha(user.last_sign_in_at)}` : 'Primera sesión';
 
-      /* Welcome */
-      set('user-nombre', nombre);
+      set('user-nombre',    nombre);
       set('user-last-access', lastSignIn);
-
-      /* Cuenta panel */
       set('cuenta-nombre',  nombreCompleto);
       set('cuenta-email',   user.email);
       set('cuenta-plan',    `${plan} · Vol. I`);
       set('cuenta-tipo',    plan);
       set('cuenta-desde',   desde);
 
-      /* Pre-rellenar modal */
       document.getElementById('p-nombre').value   = nombre;
       document.getElementById('p-apellido').value = apellido;
       document.getElementById('p-email').value    = user.email;
@@ -804,7 +806,6 @@
       setModalMsg('', '');
       document.getElementById('p-pass').value = '';
     }
-
     function setModalMsg(txt, tipo) {
       const el = document.getElementById('modal-msg');
       el.textContent = txt;
@@ -814,11 +815,8 @@
     document.getElementById('btn-editar-perfil').addEventListener('click', abrirModal);
     document.getElementById('modal-close-btn').addEventListener('click', cerrarModal);
     document.getElementById('modal-cancel-btn').addEventListener('click', cerrarModal);
-
-    /* Cerrar al hacer clic en el fondo */
     modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
 
-    /* Guardar cambios de perfil */
     document.getElementById('btn-guardar-perfil').addEventListener('click', async () => {
       const nombre   = document.getElementById('p-nombre').value.trim();
       const apellido = document.getElementById('p-apellido').value.trim();
@@ -828,30 +826,23 @@
       if (!nombre) { setModalMsg('— El nombre no puede estar vacío', 'err'); return; }
       setModalMsg('— Guardando…', '');
 
-      const updates = {};
-      const { data: { user } } = await sb.auth.getUser();
-
-      /* Actualizar metadatos */
-      const { error: metaErr } = await sb.auth.updateUser({
-        data: { nombre, apellido }
-      });
+      const { error: metaErr } = await sb.auth.updateUser({ data: { nombre, apellido } });
       if (metaErr) { setModalMsg('— ' + metaErr.message, 'err'); return; }
 
-      /* Actualizar email si cambió */
+      const { data: { user } } = await sb.auth.getUser();
+
       if (email && email !== user.email) {
         const { error: emailErr } = await sb.auth.updateUser({ email });
         if (emailErr) { setModalMsg('— ' + emailErr.message, 'err'); return; }
         setModalMsg('— Revisa tu nuevo correo para confirmar el cambio', 'ok');
       }
 
-      /* Actualizar contraseña si se escribió una */
       if (pass) {
         if (pass.length < 8) { setModalMsg('— La contraseña debe tener al menos 8 caracteres', 'err'); return; }
         const { error: passErr } = await sb.auth.updateUser({ password: pass });
         if (passErr) { setModalMsg('— ' + passErr.message, 'err'); return; }
       }
 
-      /* Recargar usuario y actualizar UI */
       const { data: { user: userActualizado } } = await sb.auth.getUser();
       poblarUsuario(userActualizado);
       setModalMsg('— Cambios guardados', 'ok');
@@ -867,49 +858,47 @@
     document.getElementById('btn-logout').addEventListener('click', e => { e.preventDefault(); logout(); });
     document.getElementById('btn-logout-cuenta').addEventListener('click', logout);
 
-    /* ─── INIT ─────────────────────────────────────────────────────
-       Usamos onAuthStateChange en lugar de getSession() porque
-       getSession() puede devolver null antes de que Supabase
-       restaure la sesión desde localStorage en la primera carga.
-       INITIAL_SESSION dispara en cuanto el cliente está listo.
-    ─────────────────────────────────────────────────────────────── */
+    /* ─── INIT ─── */
     let iniciado = false;
 
-    /* Timeout de seguridad: si en 4 segundos no llega sesión → acceso */
+    function arrancar(user) {
+      if (iniciado) return;
+      iniciado = true;
+      poblarUsuario(user);
+      ocultarLoading();
+    }
+
+    /* Intento inmediato con getSession() */
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        sb.auth.getUser().then(({ data: { user }, error }) => {
+          if (error || !user) { window.location.href = 'acceso.html'; return; }
+          arrancar(user);
+        });
+      }
+    });
+
+    /* Timeout de seguridad: si en 5 segundos no hay sesión → acceso */
     const timeout = setTimeout(() => {
       if (!iniciado) window.location.href = 'acceso.html';
-    }, 4000);
+    }, 5000);
 
+    /* onAuthStateChange como respaldo y para detectar SIGNED_OUT */
     sb.auth.onAuthStateChange(async (event, session) => {
-      console.log('[Enough] Auth event:', event, session?.user?.email);
-
       if (event === 'SIGNED_OUT') {
         clearTimeout(timeout);
         window.location.href = 'acceso.html';
         return;
       }
 
-      /* INITIAL_SESSION o SIGNED_IN con sesión válida */
-      if (session && session.user) {
+      if (session?.user && !iniciado) {
         clearTimeout(timeout);
-        if (iniciado) return; /* evitar doble llamada */
-        iniciado = true;
-
-        /* getUser() hace una llamada a la API para datos frescos */
         const { data: { user }, error } = await sb.auth.getUser();
         if (error || !user) { window.location.href = 'acceso.html'; return; }
-
-        poblarUsuario(user);
-
-        const loading = document.getElementById('dash-loading');
-        if (loading) {
-          loading.classList.add('fade');
-          setTimeout(() => loading.remove(), 450);
-        }
+        arrancar(user);
         return;
       }
 
-      /* Sin sesión en INITIAL_SESSION → mandar a acceso */
       if (event === 'INITIAL_SESSION' && !session) {
         clearTimeout(timeout);
         window.location.href = 'acceso.html';
