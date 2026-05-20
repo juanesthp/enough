@@ -389,6 +389,9 @@
       else { setMsg('msg-login', '— Revisa tu correo para el enlace de recuperación', 'ok'); }
     }
 
+    /* Cerrar cualquier sesión activa al llegar a esta página */
+    sb.auth.signOut();
+
     sb.auth.onAuthStateChange(async (event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
         const newPassword = prompt('Ingresa tu nueva contraseña:');
@@ -398,10 +401,6 @@
           else alert('Contraseña actualizada. Inicia sesión.');
         }
         return;
-      }
-      /* Si ya hay sesión activa al cargar acceso.html → ir al dashboard */
-      if (event === 'INITIAL_SESSION' && session) {
-        window.location.href = 'dashboard.html';
       }
     });
 
