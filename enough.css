@@ -160,6 +160,30 @@ nav.site-nav .nav-coords {
 }
 nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
 
+/* ── Hamburger toggle ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 2px;
+  z-index: 52;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text);
+  transition: transform .28s ease, opacity .2s ease;
+  transform-origin: center;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
 /* ───── PAGE HEAD ───── */
 .page-head {
   position: relative;
@@ -483,9 +507,35 @@ footer.site-foot .ft-huge .dot {
 /* ───── RESPONSIVE ───── */
 @media (max-width: 920px) {
   :root { --gutter: 18px; }
-  nav.site-nav { padding: 12px var(--gutter); grid-template-columns: auto 1fr; gap: 12px; }
-  nav.site-nav ul { display: none; }
-  nav.site-nav .nav-coords { font-size: 8px; }
+  nav.site-nav { padding: 12px var(--gutter); grid-template-columns: auto 1fr auto; gap: 12px; }
+  nav.site-nav .nav-coords { display: none; }
+  .nav-toggle { display: flex; }
+  nav.site-nav ul {
+    display: flex !important;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    transform: translateX(100%);
+    transition: transform .32s cubic-bezier(.4,0,.2,1);
+    z-index: 49;
+    padding: 80px var(--gutter) 40px;
+  }
+  nav.site-nav ul.nav-open { transform: translateX(0); }
+  nav.site-nav ul li { border-bottom: 1px solid var(--hair); }
+  nav.site-nav ul li:first-child { border-top: 1px solid var(--hair); }
+  nav.site-nav ul a {
+    display: block;
+    padding: 18px 0;
+    font-size: 11px;
+    letter-spacing: .25em;
+    color: var(--muted);
+  }
+  nav.site-nav ul a:hover,
+  nav.site-nav ul a[aria-current="page"] { color: var(--text); }
   .page-head { padding: 80px var(--gutter) 20px; }
   .page-head .head-id { grid-column: 1 / span 12; margin-bottom: 12px; align-self: start; }
   .page-head h1 { grid-column: 1 / span 12; }
