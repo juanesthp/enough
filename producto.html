@@ -493,13 +493,42 @@
         </a>`;
     }).join('');
 
-    document.getElementById('buy').addEventListener('click', e => {
-      const btn = e.target;
-      const original = btn.textContent;
-      btn.textContent = 'Procesando…';
+    // ── Wompi checkout ──────────────────────────────────────────
+    const WOMPI_PUB  = 'pub_test_36nqL4rWr9CMKCt6xBpAU9rb2IbuizuP';
+    const WOMPI_INT  = 'test_integrity_qvpyL9yVenl7is7Rgd6vUXmuhD1xlU64';
+
+    async function sha256hex(str) {
+      const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    document.getElementById('buy').addEventListener('click', async () => {
+      const btn = document.getElementById('buy');
+      btn.textContent = 'Preparando pago…';
       btn.disabled = true;
-      setTimeout(() => { btn.textContent = 'Redirigiendo a pago seguro →'; }, 700);
-      setTimeout(() => { btn.textContent = original; btn.disabled = false; }, 2400);
+
+      try {
+        const reference    = `enough-${p.id}-${Date.now()}`;
+        const amountCents  = p.price * 100;        // COP → centavos
+        const currency     = 'COP';
+        const integrity    = await sha256hex(`${reference}${amountCents}${currency}${WOMPI_INT}`);
+        const redirectUrl  = `${location.origin}/gracias.html`;
+
+        const url = new URL('https://checkout.wompi.co/p/');
+        url.searchParams.set('public-key',          WOMPI_PUB);
+        url.searchParams.set('currency',             currency);
+        url.searchParams.set('amount-in-cents',      amountCents);
+        url.searchParams.set('reference',            reference);
+        url.searchParams.set('signature:integrity',  integrity);
+        url.searchParams.set('redirect-url',         redirectUrl);
+
+        window.location.href = url.toString();
+      } catch (err) {
+        console.error('Wompi error:', err);
+        btn.textContent = 'Error — intenta de nuevo';
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = 'Comprar ahora'; }, 2500);
+      }
     });
   </script>
 </body>
