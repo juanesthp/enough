@@ -1021,35 +1021,26 @@
     /* ───── RESPONSIVE ───── */
     @media (max-width: 920px) {
       :root { --gutter: 20px; }
-      nav.site-nav { padding: 14px var(--gutter); grid-template-columns: auto 1fr auto; gap: 12px; }
+      nav.site-nav { padding: 10px var(--gutter); grid-template-columns: auto 1fr; gap: 14px; }
       nav.site-nav .nav-coords { display: none; }
-      .nav-toggle { display: flex; }
+      .nav-toggle { display: none; }
       nav.site-nav ul {
-        display: flex !important;
-        position: fixed;
-        inset: 0;
-        background: var(--paper);
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: center;
-        gap: 0;
-        transform: translateX(100%);
-        transition: transform .32s cubic-bezier(.4,0,.2,1);
-        z-index: 49;
-        padding: 80px var(--gutter) 40px;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        gap: 18px;
+        white-space: nowrap;
+        padding-bottom: 2px;
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
       }
-      nav.site-nav ul.nav-open { transform: translateX(0); }
-      nav.site-nav ul li { border-bottom: 1px solid var(--hair); }
-      nav.site-nav ul li:first-child { border-top: 1px solid var(--hair); }
-      nav.site-nav ul a {
-        display: block;
-        padding: 18px 0;
-        font-size: 11px;
-        letter-spacing: .25em;
-        color: var(--muted);
-      }
-      nav.site-nav ul a:hover,
-      nav.site-nav ul a.active { color: var(--ink); }
+      nav.site-nav ul::-webkit-scrollbar { display: none; }
+      nav.site-nav ul li { flex-shrink: 0; }
+      nav.site-nav ul a { font-size: 10px; letter-spacing: .2em; }
       .issue-strip { padding: 96px var(--gutter) 0; }
       .issue-strip > div { grid-column: 1 / span 12 !important; }
       .hero { padding: 40px 0 56px; min-height: auto; }
