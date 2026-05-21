@@ -328,6 +328,17 @@
       inset: 0;
       background: var(--plate-grad);
       filter: blur(.3px) saturate(1.05);
+      z-index: 0;
+    }
+    /* Foto real — cubre el gradiente cuando existe el archivo */
+    .plate-frame img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      display: block;
     }
     .plate-frame::after {
       content:'';
@@ -336,6 +347,7 @@
       mix-blend-mode: overlay;
       opacity: .55;
       pointer-events: none;
+      z-index: 2;
     }
     .plate:nth-child(1) .plate-frame { --plate-grad: radial-gradient(ellipse 65% 55% at 50% 45%, #ffd366 0%, #e8632a 18%, #b53124 38%, #3a4e52 75%, #11252a 100%); }
     .plate:nth-child(2) .plate-frame { --plate-grad: radial-gradient(ellipse 60% 55% at 50% 50%, #f4d2c0 0%, #c97a8a 22%, #6d3460 50%, #2b2842 80%, #0e1422 100%); }
@@ -1124,29 +1136,42 @@
       </div>
 
       <!-- Six light plates as art-book strip -->
+      <!-- Para cambiar una foto: pon el archivo en ./fotos/laminas/ y actualiza el src -->
       <div class="plates-strip" aria-hidden="true">
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">I</span><span class="name">Cálida</span><span class="time">06 : 14</span></div>
         </div>
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-2.jpg" alt="Tendida" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">II</span><span class="name">Tendida</span><span class="time">11 : 03</span></div>
         </div>
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-3.jpg" alt="Coral" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">III</span><span class="name">Coral</span><span class="time">17 : 28</span></div>
         </div>
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-4.jpg" alt="Mediodía" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">IV</span><span class="name">Mediodía</span><span class="time">12 : 00</span></div>
         </div>
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-5.jpg" alt="Sage" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">V</span><span class="name">Sage</span><span class="time">15 : 47</span></div>
         </div>
         <div class="plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-6.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
+          </div>
           <div class="plate-cap"><span class="num">VI</span><span class="name">Crepúsculo</span><span class="time">18 : 47</span></div>
         </div>
       </div>
@@ -1187,8 +1212,11 @@
 
       <div class="spaces-grid">
 
+        <!-- Para cambiar una foto: pon el archivo en ./fotos/espacios/ y actualiza el src -->
         <article class="project project-small project-offset">
-          <div class="project-img placeholder tint-rose"></div>
+          <div class="project-img placeholder tint-rose">
+            <img src="./fotos/espacios/tarde-tendida.jpg" alt="Tarde tendida" onerror="this.style.display='none'">
+          </div>
           <div class="project-meta"><span>II — Luz</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Tarde</em> tendida</h3>
           <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse</p>
@@ -1196,7 +1224,9 @@
         </article>
 
         <article class="project project-small project-offset">
-          <div class="project-img placeholder tint-rose"></div>
+          <div class="project-img placeholder tint-rose">
+            <img src="./fotos/espacios/aire-suspendido.jpg" alt="Aire suspendido" onerror="this.style.display='none'">
+          </div>
           <div class="project-meta"><span>II — Patio</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Aire</em> suspendido</h3>
           <p class="project-brief">Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.</p>
@@ -1204,7 +1234,9 @@
         </article>
 
         <article class="project project-wide">
-          <div class="project-img placeholder"></div>
+          <div class="project-img placeholder">
+            <img src="./fotos/espacios/borde-azul.jpg" alt="Borde de azul" onerror="this.style.display='none'">
+          </div>
           <div class="project-meta"><span>III — Umbral</span><span class="year">2026</span></div>
           <h3 class="project-title">Borde de <em>azul</em></h3>
           <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.</p>
@@ -1226,9 +1258,12 @@
         <div class="right">Láminas I — VI<br>Cuaderno N.º 04</div>
       </div>
 
+      <!-- Para cambiar una foto: pon el archivo en ./fotos/laminas/ y actualiza el src -->
       <div class="field">
         <article class="field-plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
+          </div>
           <div class="pf-info">
             <span class="pf-num">I</span>
             <span class="pf-name">Cálida</span>
@@ -1237,7 +1272,9 @@
           </div>
         </article>
         <article class="field-plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-2.jpg" alt="Lavanda" onerror="this.style.display='none'">
+          </div>
           <div class="pf-info">
             <span class="pf-num">II</span>
             <span class="pf-name">Lavanda</span>
@@ -1246,7 +1283,9 @@
           </div>
         </article>
         <article class="field-plate">
-          <div class="plate-frame"></div>
+          <div class="plate-frame">
+            <img src="./fotos/laminas/lamina-3.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
+          </div>
           <div class="pf-info">
             <span class="pf-num">III</span>
             <span class="pf-name">Crepúsculo</span>
