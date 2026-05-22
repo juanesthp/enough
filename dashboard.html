@@ -429,11 +429,16 @@
       text-transform: uppercase;
       color: var(--gold);
       text-decoration: none;
+      border: none;
       border-bottom: 1px solid var(--hair-2);
       padding-bottom: 2px;
+      padding-left: 0; padding-right: 0;
+      background: none;
+      cursor: pointer;
       transition: color .2s, border-color .2s;
     }
     .compras-list .dl:hover { color: var(--text); border-color: var(--gold); }
+    .compras-list .dl:disabled { opacity: .5; cursor: default; }
 
     /* Notas / recortes */
     .notas { grid-column: 1 / span 12; }
@@ -814,7 +819,7 @@
         const cls      = orden.estado === 'APROBADA' ? 'ok' : 'pen';
         const label    = ESTADO_LABEL[orden.estado] || orden.estado;
         const descarga = orden.estado === 'APROBADA' && prod.archivo_url
-          ? `<a href="${prod.archivo_url}" class="dl" target="_blank" rel="noopener">Descargar →</a>`
+          ? `<button class="dl" onclick="descargar(${JSON.stringify(prod.archivo_url)}, this)">Descargar →</button>`
           : `<span style="color:var(--faint)">—</span>`;
 
         const row = document.createElement('div');
@@ -828,6 +833,21 @@
           <span class="c right">${descarga}</span>`;
         tabla.appendChild(row);
       });
+    }
+
+    /* ─── DESCARGAS (Signed URL de 60 s — bucket privado) ─── */
+    async function descargar(path, btn) {
+      btn.textContent = '…';
+      btn.disabled = true;
+      const { data, error } = await sb.storage.from('descargas').createSignedUrl(path, 60);
+      if (error || !data?.signedUrl) {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Descargar →'; btn.disabled = false; }, 2000);
+        return;
+      }
+      window.open(data.signedUrl, '_blank', 'noopener');
+      btn.textContent = 'Descargar →';
+      btn.disabled = false;
     }
 
     /* ─── MODAL PERFIL ─── */
