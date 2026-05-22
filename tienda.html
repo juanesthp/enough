@@ -367,11 +367,25 @@
     const { createClient } = supabase;
     const sb = createClient(
       'https://xwoqinouwnpzqiyqbpup.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY',
+      { auth: { storage: window.sessionStorage } }
     );
-    sb.auth.getSession().then(({ data: { session } }) => {
-      if (!session) window.location.href = 'acceso.html';
+    sb.auth.getUser().then(({ data: { user }, error }) => {
+      if (error || !user) window.location.href = 'acceso.html';
     });
+
+    /* ─── INACTIVIDAD: logout a los 30 min ─── */
+    (function() {
+      const LIMITE = 30 * 60 * 1000;
+      async function cerrarPorInactividad() {
+        await sb.auth.signOut();
+        window.location.href = 'acceso.html';
+      }
+      let t = setTimeout(cerrarPorInactividad, LIMITE);
+      ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev =>
+        document.addEventListener(ev, () => { clearTimeout(t); t = setTimeout(cerrarPorInactividad, LIMITE); }, { passive: true })
+      );
+    })();
 
     const products = [
       { id: 'vol-1', num: '01', name: 'Vol. I — Apertura', em: '', cat: 'ensayo', fmt: 'PDF · 84 p.', price: 2000, tint: 'tint-warm',
