@@ -367,5 +367,13 @@
       if (t) setTimeout(() => t.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
     }
   </script>
+  <script>
+    (function() {
+      if (sessionStorage.getItem('sb-xwoqinouwnpzqiyqbpup-auth-token')) {
+        const l = document.querySelector('.site-nav a[href="acceso.html"]');
+        if (l) { l.href = 'dashboard.html'; l.textContent = 'Archivo'; }
+      }
+    })();
+  </script>
 </body>
 </html>
