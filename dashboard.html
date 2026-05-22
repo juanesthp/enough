@@ -132,6 +132,21 @@
       transition: color .2s, border-color .2s;
     }
     .welcome .session a:hover { color: var(--text); border-color: var(--gold); }
+    .btn-tienda {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-tienda:hover { background: var(--gold); color: var(--bg); }
 
     /* Stats row */
     .stats {
@@ -552,7 +567,6 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="galeria.html">Galería</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="tienda.html">Tienda</a></li>
       <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
       <li><a href="#" onclick="event.preventDefault(); logout()">Salir</a></li>
@@ -575,6 +589,7 @@
     <div class="session">
       <span class="pill">Sesión activa</span>
       <span id="user-last-access">—</span>
+      <a href="tienda.html" class="btn-tienda">Tienda →</a>
       <a href="#" id="btn-logout">Cerrar sesión</a>
     </div>
   </section>
