@@ -143,7 +143,7 @@
       margin: 4px 0 8px;
     }
     .oauth::before, .oauth::after { content: ''; flex: 1; height: 1px; background: var(--hair-2); }
-    .oauth-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .oauth-btns { display: grid; grid-template-columns: 1fr; gap: 10px; }
     .btn-oauth {
       padding: 14px 16px;
       background: transparent;
@@ -230,7 +230,6 @@
           <div class="oauth">o continúa con</div>
           <div class="oauth-btns">
             <button type="button" class="btn-oauth" onclick="oauthGoogle()">Google</button>
-            <button type="button" class="btn-oauth" onclick="oauthMsg()">GitHub</button>
           </div>
           <div class="acceso-foot-link">
             <a href="#" onclick="event.preventDefault(); showTab('registro')">Crear cuenta nueva</a>
@@ -296,7 +295,6 @@
           <div class="oauth">o continúa con</div>
           <div class="oauth-btns">
             <button type="button" class="btn-oauth" onclick="oauthGoogle()">Google</button>
-            <button type="button" class="btn-oauth" onclick="oauthMsg()">GitHub</button>
           </div>
           <div class="acceso-foot-link">
             <a href="#" onclick="event.preventDefault(); showTab('login')">Ya tengo cuenta</a>
@@ -413,13 +411,10 @@
     }
 
     async function oauthGoogle() {
-      await sb.auth.signInWithOAuth({ provider: 'google' });
-    }
-
-    function oauthMsg() {
-      const target = document.getElementById('form-login').classList.contains('on')
-        ? 'msg-login' : 'msg-registro';
-      setMsg(target, '— GitHub no está habilitado aún', 'error');
+      await sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: 'https://juanesthp.github.io/enough/dashboard.html' }
+      });
     }
 
     async function recuperar() {
