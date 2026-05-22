@@ -228,6 +228,22 @@
           </div>
         </form>
 
+        <div id="form-recovery" style="display:none; flex-direction:column; gap:18px;">
+          <p style="font-family:var(--label-font);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);">— Nueva contraseña</p>
+          <div class="field">
+            <label for="rec-pass">Nueva contraseña</label>
+            <input type="password" id="rec-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="rec-pass2">Confirmar contraseña</label>
+            <input type="password" id="rec-pass2" placeholder="Repite tu contraseña" autocomplete="new-password">
+          </div>
+          <div class="form-msg" id="msg-recovery"></div>
+          <div class="acceso-actions">
+            <button type="button" class="btn btn-solid" onclick="confirmarRecovery()">Confirmar contraseña</button>
+          </div>
+        </div>
+
         <form id="form-registro" onsubmit="handleRegistro(event)">
           <div class="field-row">
             <div class="field">
@@ -375,7 +391,9 @@
     }
 
     function oauthMsg() {
-      setMsg('msg-login', '— GitHub no está habilitado aún', 'error');
+      const target = document.getElementById('form-login').classList.contains('on')
+        ? 'msg-login' : 'msg-registro';
+      setMsg(target, '— GitHub no está habilitado aún', 'error');
     }
 
     async function recuperar() {
@@ -389,17 +407,43 @@
       else { setMsg('msg-login', '— Revisa tu correo para el enlace de recuperación', 'ok'); }
     }
 
-    /* Limpiar sesión al llegar a esta página */
-    Object.keys(localStorage).forEach(k => { if (k.startsWith('sb-')) localStorage.removeItem(k); });
+    function mostrarRecovery() {
+      document.querySelector('.tabs').style.display = 'none';
+      document.getElementById('form-login').style.display = 'none';
+      document.getElementById('form-registro').style.display = 'none';
+      const rec = document.getElementById('form-recovery');
+      rec.style.display = 'flex';
+      document.getElementById('rec-pass').focus();
+    }
+
+    async function confirmarRecovery() {
+      const pass  = document.getElementById('rec-pass').value;
+      const pass2 = document.getElementById('rec-pass2').value;
+      if (pass.length < 8) { setMsg('msg-recovery', '— Mínimo 8 caracteres', 'error'); return; }
+      if (pass !== pass2)  { setMsg('msg-recovery', '— Las contraseñas no coinciden', 'error'); return; }
+      setMsg('msg-recovery', '— Actualizando…', '');
+      const { error } = await sb.auth.updateUser({ password: pass });
+      if (error) { setMsg('msg-recovery', '— ' + error.message, 'error'); return; }
+      setMsg('msg-recovery', '— Contraseña actualizada. Inicia sesión.', 'ok');
+      setTimeout(() => {
+        document.getElementById('form-recovery').style.display = 'none';
+        document.querySelector('.tabs').style.removeProperty('display');
+        showTab('login');
+      }, 2000);
+    }
+
+    /* Limpiar sesión al llegar a esta página (saltar si viene de enlace de recuperación) */
+    (async () => {
+      if (!window.location.hash.includes('type=recovery')) {
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) await sb.auth.signOut();
+      }
+      Object.keys(localStorage).forEach(k => { if (k.startsWith('sb-')) localStorage.removeItem(k); });
+    })();
 
     sb.auth.onAuthStateChange(async (event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
-        const newPassword = prompt('Ingresa tu nueva contraseña:');
-        if (newPassword) {
-          const { error } = await sb.auth.updateUser({ password: newPassword });
-          if (error) alert(error.message);
-          else alert('Contraseña actualizada. Inicia sesión.');
-        }
+        mostrarRecovery();
         return;
       }
     });

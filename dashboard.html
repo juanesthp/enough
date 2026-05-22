@@ -550,7 +550,7 @@
       <li><a href="tienda.html">Tienda</a></li>
       <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
-      <li><a href="acceso.html">Salir</a></li>
+      <li><a href="#" onclick="event.preventDefault(); logout()">Salir</a></li>
     </ul>
     <div class="nav-coords"><b>06</b> · Archivo</div>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
@@ -582,8 +582,8 @@
     </div>
     <div class="stat">
       <span class="k">Compras</span>
-      <span class="v">4</span>
-      <span class="n">3 digitales · 1 print</span>
+      <span class="v" id="stat-compras">—</span>
+      <span class="n" id="stat-compras-detalle">—</span>
     </div>
     <div class="stat">
       <span class="k">Guardados</span>
@@ -671,48 +671,15 @@
     <section class="panel compras">
       <div class="p-head">
         <h2>Tus <em>compras</em></h2>
-        <span class="p-num">4 piezas · todas pagadas</span>
+        <span class="p-num" id="compras-resumen">—</span>
       </div>
-      <div class="compras-list">
+      <div class="compras-list" id="compras-tabla">
         <span class="h-cell">N.º</span>
         <span class="h-cell">Img</span>
         <span class="h-cell">Pieza</span>
         <span class="h-cell">Fecha</span>
         <span class="h-cell">Estado</span>
         <span class="h-cell">Descarga</span>
-
-        <div class="row">
-          <span class="c num">04</span>
-          <span class="c"><span class="thumb tint-warm"></span></span>
-          <span class="c"><span class="name">Vol. I — <em>Apertura</em></span></span>
-          <span class="c tnum">14 may. 2026</span>
-          <span class="c"><span class="status ok">Entregado</span></span>
-          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
-        </div>
-        <div class="row">
-          <span class="c num">03</span>
-          <span class="c"><span class="thumb tint-violet"></span></span>
-          <span class="c"><span class="name">Wallpapers — <em>Luz</em></span></span>
-          <span class="c tnum">02 may. 2026</span>
-          <span class="c"><span class="status ok">Entregado</span></span>
-          <span class="c right"><a href="#" class="dl">Descargar ZIP →</a></span>
-        </div>
-        <div class="row">
-          <span class="c num">02</span>
-          <span class="c"><span class="thumb"></span></span>
-          <span class="c"><span class="name">Fragmentos</span></span>
-          <span class="c tnum">18 abr. 2026</span>
-          <span class="c"><span class="status ok">Entregado</span></span>
-          <span class="c right"><a href="#" class="dl">Descargar PDF →</a></span>
-        </div>
-        <div class="row">
-          <span class="c num">01</span>
-          <span class="c"><span class="thumb tint-warm"></span></span>
-          <span class="c"><span class="name">Print — <em>Tarde tendida</em></span></span>
-          <span class="c tnum">06 abr. 2026</span>
-          <span class="c"><span class="status pen">En envío</span></span>
-          <span class="c right"><a href="#" class="dl">Rastrear →</a></span>
-        </div>
       </div>
     </section>
 
@@ -745,8 +712,8 @@
 
   <footer class="site-foot">
     <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
-    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="#">Fragmentos</a><a href="#">Blog</a></div>
-    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="#">Sobre mí</a><a href="tienda.html">Tienda</a></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a><a href="tienda.html">Tienda</a></div>
     <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Cuenta</a><a href="acceso.html">Salir</a></div>
     <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
     <div class="ft-seal">
@@ -809,6 +776,58 @@
       document.getElementById('p-nombre').value   = nombre;
       document.getElementById('p-apellido').value = apellido;
       document.getElementById('p-email').value    = user.email;
+    }
+
+    /* ─── COMPRAS (Supabase) ─── */
+    async function cargarCompras() {
+      const { data: ordenes, error } = await sb
+        .from('ordenes')
+        .select('id, total, referencia, estado, created_at, productos(nombre, archivo_url)')
+        .order('created_at', { ascending: false });
+
+      if (error || !ordenes) return;
+
+      const total     = ordenes.length;
+      const aprobadas = ordenes.filter(o => o.estado === 'APROBADA').length;
+
+      set('stat-compras', total > 0 ? String(total) : '0');
+      set('stat-compras-detalle', total === 0 ? 'Sin compras aún' : `${aprobadas} aprobada${aprobadas !== 1 ? 's' : ''}`);
+      set('compras-resumen', total === 0 ? 'Sin compras' : `${total} pieza${total !== 1 ? 's' : ''}`);
+
+      const tabla = document.getElementById('compras-tabla');
+      tabla.querySelectorAll('.row').forEach(r => r.remove());
+
+      if (total === 0) {
+        const empty = document.createElement('div');
+        empty.style.cssText = 'grid-column:1/-1;padding:24px 0;color:var(--faint);font-family:var(--label-font);font-size:10px;letter-spacing:.2em;text-transform:uppercase;';
+        empty.textContent = '— Sin compras registradas';
+        tabla.appendChild(empty);
+        return;
+      }
+
+      const ESTADO_LABEL = { APROBADA: 'Entregado', PENDIENTE: 'Pendiente', RECHAZADA: 'Rechazada', VOIDED: 'Anulado', ERROR: 'Error' };
+
+      ordenes.forEach((orden, i) => {
+        const prod     = orden.productos || {};
+        const num      = String(total - i).padStart(2, '0');
+        const fecha    = fmtFecha(orden.created_at);
+        const cls      = orden.estado === 'APROBADA' ? 'ok' : 'pen';
+        const label    = ESTADO_LABEL[orden.estado] || orden.estado;
+        const descarga = orden.estado === 'APROBADA' && prod.archivo_url
+          ? `<a href="${prod.archivo_url}" class="dl" target="_blank" rel="noopener">Descargar →</a>`
+          : `<span style="color:var(--faint)">—</span>`;
+
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <span class="c num">${num}</span>
+          <span class="c"><span class="thumb"></span></span>
+          <span class="c"><span class="name">${prod.nombre || '—'}</span></span>
+          <span class="c tnum">${fecha}</span>
+          <span class="c"><span class="status ${cls}">${label}</span></span>
+          <span class="c right">${descarga}</span>`;
+        tabla.appendChild(row);
+      });
     }
 
     /* ─── MODAL PERFIL ─── */
@@ -888,31 +907,13 @@
             return;
           }
           poblarUsuario(user);
+          cargarCompras();
           ocultarLoading();
         } else {
           window.location.href = 'acceso.html';
         }
       }
     });
-  </script>
-  <script>
-    (function(){
-      var btn = document.querySelector('.nav-toggle');
-      var ul  = document.querySelector('.site-nav ul');
-      if (!btn || !ul) return;
-      btn.addEventListener('click', function(){
-        var open = ul.classList.toggle('nav-open');
-        btn.setAttribute('aria-expanded', open);
-        document.body.style.overflow = open ? 'hidden' : '';
-      });
-      ul.querySelectorAll('a').forEach(function(a){
-        a.addEventListener('click', function(){
-          ul.classList.remove('nav-open');
-          btn.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        });
-      });
-    })();
   </script>
 </body>
 </html>
