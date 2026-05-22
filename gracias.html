@@ -284,7 +284,8 @@
       if (authError || !user) { window.location.href = 'acceso.html'; return; }
 
       const params = new URLSearchParams(window.location.search);
-      const ref = params.get('ref');
+      // Wompi añade ?reference= (y ?id=, ?currency=, etc.) al redirigir
+      const ref = params.get('reference') || params.get('ref');
 
       if (!ref) { renderSinRef(); return; }
 
