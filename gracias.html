@@ -280,13 +280,11 @@
     }
 
     async function verificar() {
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) { window.location.href = 'acceso.html'; return; }
+      const { data: { user }, error: authError } = await sb.auth.getUser();
+      if (authError || !user) { window.location.href = 'acceso.html'; return; }
 
-      // Nuestra edge function pone ?ref=REFERENCIA en el redirect-url.
-      // Wompi añade adicionalmente ?id=WOMPI_TX_ID al final.
       const params = new URLSearchParams(window.location.search);
-      const ref = params.get('ref');   // nuestra referencia, siempre presente
+      const ref = params.get('ref');
 
       if (!ref) { renderSinRef(); return; }
 
@@ -296,11 +294,10 @@
 
       async function consultar() {
         intentos++;
-        // Consultamos por referencia (se guarda al crear la orden, no depende del webhook)
         const { data } = await sb
           .from('ordenes')
           .select('*')
-          .eq('user_id', session.user.id)
+          .eq('user_id', user.id)
           .eq('referencia', ref)
           .maybeSingle();
 
