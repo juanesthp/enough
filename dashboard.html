@@ -783,7 +783,7 @@
       const nombre   = meta.nombre || meta.name || meta.full_name?.split(' ')[0] || user.email.split('@')[0];
       const apellido = meta.apellido || (meta.full_name?.split(' ').slice(1).join(' ')) || '';
       const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
-      const plan     = meta.plan || 'Lectora';
+      const plan     = meta.plan || meta.titulo || 'Lector';
       const desde    = fmtFecha(user.created_at);
       const lastSignIn = user.last_sign_in_at ? `Último acceso · ${fmtFecha(user.last_sign_in_at)}` : 'Primera sesión';
 
