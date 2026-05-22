@@ -401,7 +401,6 @@
     const sb = createClient(
       'https://xwoqinouwnpzqiyqbpup.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3b3Fpbm91d25wenFpeXFicHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MDgwMjcsImV4cCI6MjA5NDM4NDAyN30.vmsHf5Qu6ppFbyy-V4a_PMJDQIInwvLpuRskUaDvpUY',
-      { auth: { storage: window.sessionStorage } }
     );
     sb.auth.getUser().then(({ data: { user }, error }) => {
       if (error || !user) window.location.href = 'acceso.html';
