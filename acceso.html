@@ -431,11 +431,17 @@
       }, 2000);
     }
 
-    /* Si hay sesión activa → redirigir al dashboard (salvo enlace de recuperación) */
+    /* Si hay sesión activa → mostrar aviso (salvo enlace de recuperación) */
     (async () => {
       if (window.location.hash.includes('type=recovery')) return;
       const { data: { user } } = await sb.auth.getUser();
-      if (user) window.location.href = 'dashboard.html';
+      if (user) {
+        const nombre = user.user_metadata?.nombre || user.user_metadata?.name || user.email.split('@')[0];
+        setMsg('msg-login',
+          `Sesión activa como ${nombre}. <a href="dashboard.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)">Ir al archivo →</a>`,
+          'ok');
+        document.getElementById('msg-login').innerHTML = document.getElementById('msg-login').innerHTML;
+      }
     })();
 
     sb.auth.onAuthStateChange(async (event, session) => {
