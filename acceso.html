@@ -438,11 +438,11 @@
       if (window.location.hash.includes('type=recovery')) return;
       const { data: { user } } = await sb.auth.getUser();
       if (user) {
-        const nombre = user.user_metadata?.nombre || user.user_metadata?.name || user.email.split('@')[0];
-        setMsg('msg-login',
-          `Sesión activa como ${nombre}. <a href="dashboard.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)">Ir al archivo →</a>`,
-          'ok');
-        document.getElementById('msg-login').innerHTML = document.getElementById('msg-login').innerHTML;
+        const nombre = (user.user_metadata?.nombre || user.user_metadata?.name || user.email.split('@')[0])
+          .replace(/[<>]/g, '');
+        const el = document.getElementById('msg-login');
+        el.className = 'form-msg ok';
+        el.innerHTML = `Sesión activa como ${nombre}. <a href="dashboard.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)">Ir al archivo →</a>`;
       }
     })();
 
