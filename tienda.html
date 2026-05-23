@@ -302,6 +302,8 @@
   </style>
 </head>
 <body>
+  <!-- Tienda desactivada temporalmente — redirige a inicio -->
+  <script>window.location.replace('index.html');</script>
 
   <nav class="site-nav">
     <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
@@ -323,14 +325,14 @@
   <header class="page-head">
     <div class="head-id"><span class="num">03</span>Tienda</div>
     <h1>Objetos con <em>intención</em>.</h1>
-    <div class="head-meta">8 piezas activas<br>Digital / Edición limitada<br>2024 — 2026</div>
+    <div class="head-meta">5 piezas activas<br>Digital / Edición limitada<br>2024 — 2026</div>
     <p class="head-eyebrow">Publicaciones, archivos y piezas digitales del proyecto. Todo se hace lento, en serie pequeña y con propósito.</p>
   </header>
 
   <div class="tienda-controls">
     <div class="label">Filtrar</div>
     <div class="filters" id="filters">
-      <button class="chip on" data-filter="all">Todo · 8</button>
+      <button class="chip on" data-filter="all">Todo · 5</button>
       <button class="chip" data-filter="ensayo">Ensayos</button>
       <button class="chip" data-filter="archivo">Archivos</button>
       <button class="chip" data-filter="wallpaper">Wallpapers</button>
@@ -397,12 +399,6 @@
         desc: 'Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.' },
       { id: 'print-tarde', num: '05', name: 'Print — Tarde tendida', em: 'Tarde tendida', cat: 'impresion', fmt: 'A3 · 280 g/m²', price: 95000, tint: 'tint-warm',
         desc: 'Impresión giclée numerada. Edición de 30 piezas con certificado.' },
-      { id: 'sobre-luz', num: '06', name: 'Sobre la luz', em: 'luz', cat: 'ensayo', fmt: 'PDF · 48 p.', price: 25000, tint: 'tint-violet',
-        desc: 'Ensayo monográfico sobre cómo la luz construye atmósfera en el espacio doméstico.' },
-      { id: 'archivo-2025', num: '07', name: 'Archivo 2025', em: '', cat: 'archivo', fmt: 'ZIP · 310 imgs', price: 78000, tint: '',
-        desc: 'Selección 2025 con campo, notas de proceso y referencias visuales.' },
-      { id: 'wallpapers-vacio', num: '08', name: 'Wallpapers — Vacío', em: 'Vacío', cat: 'wallpaper', fmt: '4 archivos', price: 14000, tint: 'tint-warm',
-        desc: 'Cuatro fondos digitales sobre el vacío conceptual y la composición silenciosa.' },
     ];
 
     function formatCOP(n) {
