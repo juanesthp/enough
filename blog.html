@@ -181,7 +181,7 @@
       position: relative;
     }
     .essay-row:hover {
-      background: rgba(28,24,20,.02);
+      background: rgba(28,24,20,.05);
       padding-left: 10px;
     }
     .essay-row:hover .e-arrow { transform: translateX(4px); color: var(--gold); }
@@ -339,6 +339,24 @@
     }
     .reader-counter b { color: var(--text); font-weight: 500; }
 
+    /* ─── Banda de papel — listado sobre fondo claro ─── */
+    .paper-band {
+      background: #e6e0d1;
+      --text:      #1c1814;
+      --text-soft: rgba(28,24,20,.76);
+      --muted:     rgba(28,24,20,.60);
+      --faint:     rgba(28,24,20,.36);
+      --hair:      rgba(28,24,20,.10);
+      --hair-2:    rgba(28,24,20,.16);
+      --gold:      #8a6e3c;
+      color: var(--text);
+    }
+    /* Sello de transición oscuro → claro */
+    .paper-band-cap {
+      height: 1px;
+      background: rgba(28,24,20,.14);
+    }
+
     @media (max-width: 920px) {
       .blog-controls { grid-template-columns: 1fr; gap: 10px; }
       .blog-controls .label, .blog-controls .filters, .blog-controls .right { grid-column: 1; text-align: left; }
@@ -407,14 +425,14 @@
       </div>
     </article>
 
-    <!-- Index head -->
-    <div class="index-head">
-      <h3>Todos los <em>ensayos</em>.</h3>
-      <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
+    <!-- Banda clara: índice + listado -->
+    <div class="paper-band">
+      <div class="index-head">
+        <h3>Todos los <em>ensayos</em>.</h3>
+        <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
+      </div>
+      <section class="essay-list" id="list"></section>
     </div>
-
-    <!-- List -->
-    <section class="essay-list" id="list"></section>
   </main>
 
   <!-- Reader Modal -->
