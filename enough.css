@@ -7,28 +7,53 @@
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  /* WARM CREAM — editorial paper */
-  --bg:        #f1ece2;
-  --bg-soft:   #e8e2d4;
-  --panel:     #dcd4c2;
+  /* VOID — cinematic dark as default */
+  --bg:        #0b0907;
+  --bg-soft:   #131009;
+  --panel:     #1d1812;
 
-  /* TYPE */
-  --text:      #1c1814;
-  --text-soft: #2a2521;
-  --muted:     rgba(28,24,20,.62);
-  --faint:     rgba(28,24,20,.40);
-  --hair:      rgba(28,24,20,.10);
-  --hair-2:    rgba(28,24,20,.18);
+  /* TYPE — bone on void */
+  --text:      #d8d1bf;
+  --text-soft: #b8b1a0;
+  --muted:     rgba(216,209,191,.62);
+  --faint:     rgba(216,209,191,.34);
+  --hair:      rgba(216,209,191,.10);
+  --hair-2:    rgba(216,209,191,.18);
 
-  /* ACCENT — bronze gold (darker for light bg) */
-  --gold:        #8a6e3c;
-  --gold-soft:   #6a5328;
-  --gold-bright: #a4884e;
+  /* ACCENT — ember on void */
+  --gold:        #c08043;
+  --gold-soft:   #8c6a30;
+  --gold-bright: #d4965a;
 
-  /* TURRELL */
+  /* VOID — cinematic dark ground */
+  --void:      #0b0907;
+  --void-2:    #131009;
+  --void-3:    #1d1812;
+  --void-soft: #2a2218;
+
+  /* BONE — foreground on void */
+  --bone:        #d8d1bf;
+  --bone-soft:   #b8b1a0;
+  --bone-muted:  rgba(216,209,191,.62);
+  --bone-faint:  rgba(216,209,191,.34);
+  --bone-hair:   rgba(216,209,191,.10);
+  --bone-hair-2: rgba(216,209,191,.18);
+
+  /* EMBER — hot bronze on void */
+  --ember:      #c08043;
+  --ember-glow: rgba(192,128,67,.18);
+
+  /* TURRELL plates */
   --turrell-a: oklch(70% 0.13 320);
   --turrell-b: oklch(82% 0.12 35);
   --turrell-c: oklch(78% 0.10 280);
+
+  --plate-a: oklch(82% 0.10 320);
+  --plate-b: oklch(88% 0.10 60);
+  --plate-c: oklch(84% 0.10 30);
+  --plate-d: oklch(85% 0.08 200);
+  --plate-e: oklch(86% 0.07 145);
+  --plate-f: oklch(80% 0.08 280);
 
   --moire-opacity: .04;
 
@@ -57,15 +82,15 @@ body {
   min-height: 100vh;
 }
 
-/* paper grain — light, warm */
+/* void grain — cinematic screen blend */
 body::before {
   content: '';
   position: fixed; inset: -2px;
   pointer-events: none;
   z-index: 1;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18  0 0 0 0 .14  0 0 0 0 .08  0 0 0 .07 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .9  0 0 0 0 .75  0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   opacity: .9;
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
 }
 body::after {
   content: '';
@@ -73,8 +98,9 @@ body::after {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(1200px 800px at 15% 0%, rgba(138,110,60,.05), transparent 60%),
-    radial-gradient(1100px 700px at 90% 12%, rgba(138,110,60,.035), transparent 65%);
+    radial-gradient(1400px 900px at 18% -6%, rgba(140,96,44,.14), transparent 55%),
+    radial-gradient(1100px 800px at 92% 10%, rgba(60,70,92,.10), transparent 60%),
+    radial-gradient(900px 600px at 50% 110%, rgba(140,96,44,.08), transparent 65%);
 }
 
 main {
@@ -97,7 +123,7 @@ nav.site-nav {
   max-width: 1480px;
   margin: 0 auto;
   padding: 18px var(--gutter);
-  background: linear-gradient(180deg, rgba(241,236,226,.88), rgba(241,236,226,0));
+  background: linear-gradient(180deg, rgba(11,9,7,.86), rgba(11,9,7,0));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -120,6 +146,7 @@ nav.site-nav .mark::before {
   height: 1.5px;
   background: var(--gold);
   display: inline-block;
+  transition: background .4s ease;
 }
 nav.site-nav .mark .dot { color: var(--gold); }
 nav.site-nav ul {
