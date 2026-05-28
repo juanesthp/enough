@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Página no encontrada · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    .not-found {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 80px var(--gutter) 120px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      min-height: calc(100vh - 280px);
+      position: relative;
+      z-index: 3;
+    }
+    .nf-num {
+      grid-column: 1 / span 12;
+      font-family: var(--display-font);
+      font-weight: 300;
+      font-size: clamp(100px, 18vw, 240px);
+      line-height: .9;
+      letter-spacing: -.02em;
+      color: var(--hair-2);
+      user-select: none;
+    }
+    .nf-body {
+      grid-column: 1 / span 6;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .nf-eyebrow {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .nf-title {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(32px, 4vw, 56px);
+      line-height: 1;
+      letter-spacing: .005em;
+      color: var(--text);
+    }
+    .nf-title em { font-style: italic; color: var(--text-soft); }
+    .nf-desc {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 42ch;
+    }
+    .nf-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    @media (max-width: 920px) {
+      .nf-num { font-size: clamp(80px, 22vw, 160px); }
+      .nf-body { grid-column: 1 / span 12; }
+      .nf-actions { flex-direction: column; }
+      .nf-actions .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="sobre.html">Sobre mí</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+    </ul>
+    <div class="nav-coords"><b>—</b> · 404</div>
+  </nav>
+
+  <main class="not-found">
+    <div class="nf-num" aria-hidden="true">404</div>
+    <div class="nf-body">
+      <span class="nf-eyebrow">— Página no encontrada</span>
+      <h1 class="nf-title">Esta página<br>no <em>existe</em>.</h1>
+      <p class="nf-desc">La dirección que buscas no forma parte del archivo. Puede que haya sido movida o que nunca haya estado aquí.</p>
+      <div class="nf-actions">
+        <a href="index.html" class="btn btn-solid">Volver al inicio</a>
+        <a href="galeria.html" class="btn btn-ghost">Ver galería</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
+    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
+    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a></div>
+    <div class="ft-col ft-c3"><b>Acceso</b><a href="acceso.html">Ingresar</a><a href="acceso.html">Crear cuenta</a></div>
+    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
+    <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
+  </footer>
+
+  <script>
+    (function() {
+      if (localStorage.getItem('sb-xwoqinouwnpzqiyqbpup-auth-token')) {
+        const l = document.querySelector('.site-nav a[href="acceso.html"]');
+        if (l) { l.textContent = 'Archivo'; l.href = 'dashboard.html'; }
+      }
+    })();
+  </script>
+</body>
+</html>

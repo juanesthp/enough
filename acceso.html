@@ -315,7 +315,7 @@
     <div class="ft-huge" data-text="ENOUGH." aria-hidden="true">ENOUGH<span class="dot">.</span></div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js" integrity="sha384-m/8UHFJHeU6nrCKP2hBnAseuvAKUmLF+8e5bWos5CJL023vuxX7kiVL5t8yjsJhV" crossorigin="anonymous"></script>
   <script>
     const { createClient } = supabase;
     const SUPA_URL = 'https://xwoqinouwnpzqiyqbpup.supabase.co';
@@ -420,7 +420,7 @@
       if (!email) { setMsg('msg-login', '— Escribe tu correo primero', 'error'); return; }
       setMsg('msg-login', '— Enviando enlace de recuperación…', '');
       const { error } = await sb.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/acceso.html'
+        redirectTo: 'https://juanesthp.github.io/enough/acceso.html'
       });
       if (error) { setMsg('msg-login', '— ' + error.message, 'error'); }
       else { setMsg('msg-login', '— Revisa tu correo para el enlace de recuperación', 'ok'); }
@@ -460,7 +460,12 @@
           .replace(/[<>]/g, '');
         const el = document.getElementById('msg-login');
         el.className = 'form-msg ok';
-        el.innerHTML = `Sesión activa como ${nombre}. <a href="dashboard.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)">Ir al archivo →</a>`;
+        el.textContent = `Sesión activa como ${nombre}. `;
+        const ir = document.createElement('a');
+        ir.href = 'dashboard.html';
+        ir.style.cssText = 'color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)';
+        ir.textContent = 'Ir al archivo →';
+        el.appendChild(ir);
       }
     })();
 

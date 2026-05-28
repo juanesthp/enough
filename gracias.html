@@ -180,7 +180,7 @@
     <span>© 2026 Enough. Bucaramanga, Colombia.</span>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js" integrity="sha384-m/8UHFJHeU6nrCKP2hBnAseuvAKUmLF+8e5bWos5CJL023vuxX7kiVL5t8yjsJhV" crossorigin="anonymous"></script>
   <script>
     const { createClient } = supabase;
     const sb = createClient(
@@ -190,6 +190,8 @@
 
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = String(s ?? ''); return d.innerHTML; }
 
     function formatCOP(n) {
       return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
@@ -201,13 +203,13 @@
         <span class="estado-label ok">Pago confirmado</span>
         <h1 class="estado-titulo">Tu compra<br>fue exitosa</h1>
         <p class="estado-desc">
-          Gracias por tu compra. Recibirás un correo en <strong>${orden.email}</strong>
+          Gracias por tu compra. Recibirás un correo en <strong>${esc(orden.email)}</strong>
           con el enlace de descarga en los próximos minutos.
         </p>
         <div class="orden-detalle">
           <div class="orden-row">
             <span>Referencia</span>
-            <span>${orden.referencia}</span>
+            <span>${esc(orden.referencia)}</span>
           </div>
           <div class="orden-row total">
             <span>Total pagado</span>
@@ -235,11 +237,11 @@
         <div class="orden-detalle">
           <div class="orden-row">
             <span>Referencia</span>
-            <span>${orden.referencia}</span>
+            <span>${esc(orden.referencia)}</span>
           </div>
           <div class="orden-row">
             <span>Estado</span>
-            <span style="color:var(--red)">${orden.estado}</span>
+            <span style="color:var(--red)">${esc(orden.estado)}</span>
           </div>
         </div>
         <div class="acciones">
@@ -256,7 +258,7 @@
           Tu transacción está siendo procesada. Puede tardar unos minutos en confirmarse.
           Recibirás un correo cuando esté lista.
         </p>
-        ${ref ? `<div class="orden-detalle"><div class="orden-row"><span>Referencia</span><span>${ref}</span></div></div>` : ''}
+        ${ref ? `<div class="orden-detalle"><div class="orden-row"><span>Referencia</span><span>${esc(ref)}</span></div></div>` : ''}
         <div class="acciones">
           <a href="dashboard.html" class="btn btn-primary">Ir al archivo</a>
         </div>`;
