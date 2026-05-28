@@ -181,7 +181,7 @@
       position: relative;
     }
     .essay-row:hover {
-      background: rgba(28,24,20,.05);
+      background: rgba(28,24,20,.02);
       padding-left: 10px;
     }
     .essay-row:hover .e-arrow { transform: translateX(4px); color: var(--gold); }
@@ -233,18 +233,19 @@
       transition: transform .2s, color .2s;
     }
 
-    /* READER MODAL — always dark, override light palette variables inside */
+    /* READER MODAL — fondo claro, paleta papel */
     .reader {
-      --text:      #efe6d4;
-      --text-soft: rgba(239,230,212,.78);
-      --muted:     rgba(239,230,212,.55);
-      --faint:     rgba(239,230,212,.30);
-      --hair-2:    rgba(239,230,212,.18);
+      --text:      #1c1814;
+      --text-soft: rgba(28,24,20,.76);
+      --muted:     rgba(28,24,20,.58);
+      --faint:     rgba(28,24,20,.34);
+      --hair-2:    rgba(28,24,20,.14);
+      --gold:      #8a6e3c;
       color: var(--text);
       position: fixed;
       inset: 0;
       z-index: 9000;
-      background: rgba(7,8,10,.96);
+      background: #e8e2d4;
       opacity: 0;
       pointer-events: none;
       transition: opacity .35s ease;
@@ -318,7 +319,7 @@
       position: fixed;
       top: 22px; right: 22px;
       width: 44px; height: 44px;
-      background: rgba(15,13,10,.8);
+      background: rgba(28,24,20,.07);
       border: 1px solid var(--hair-2);
       color: var(--text);
       font: 300 22px var(--body-font);
@@ -326,7 +327,7 @@
       z-index: 9100;
       transition: background .2s, color .2s;
     }
-    .reader-close:hover { background: var(--gold); color: #0f0d0a; }
+    .reader-close:hover { background: var(--gold); color: #e8e2d4; }
     .reader-counter {
       position: fixed;
       top: 28px; left: 28px;
@@ -338,24 +339,6 @@
       z-index: 9100;
     }
     .reader-counter b { color: var(--text); font-weight: 500; }
-
-    /* ─── Banda de papel — listado sobre fondo claro ─── */
-    .paper-band {
-      background: #e6e0d1;
-      --text:      #1c1814;
-      --text-soft: rgba(28,24,20,.76);
-      --muted:     rgba(28,24,20,.60);
-      --faint:     rgba(28,24,20,.36);
-      --hair:      rgba(28,24,20,.10);
-      --hair-2:    rgba(28,24,20,.16);
-      --gold:      #8a6e3c;
-      color: var(--text);
-    }
-    /* Sello de transición oscuro → claro */
-    .paper-band-cap {
-      height: 1px;
-      background: rgba(28,24,20,.14);
-    }
 
     @media (max-width: 920px) {
       .blog-controls { grid-template-columns: 1fr; gap: 10px; }
@@ -425,14 +408,14 @@
       </div>
     </article>
 
-    <!-- Banda clara: índice + listado -->
-    <div class="paper-band">
-      <div class="index-head">
-        <h3>Todos los <em>ensayos</em>.</h3>
-        <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
-      </div>
-      <section class="essay-list" id="list"></section>
+    <!-- Index head -->
+    <div class="index-head">
+      <h3>Todos los <em>ensayos</em>.</h3>
+      <span class="count"><b>3 piezas</b> · ordenado por fecha</span>
     </div>
+
+    <!-- List -->
+    <section class="essay-list" id="list"></section>
   </main>
 
   <!-- Reader Modal -->
