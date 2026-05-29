@@ -172,6 +172,16 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity .35s ease;
+      /* forzar paleta oscura dentro del lightbox independientemente del tema */
+      --text:      #d8d1bf;
+      --text-soft: #b8b1a0;
+      --muted:     rgba(216,209,191,.65);
+      --faint:     rgba(216,209,191,.40);
+      --hair:      rgba(216,209,191,.10);
+      --hair-2:    rgba(216,209,191,.18);
+      --gold:      #c08043;
+      --bg-soft:   #1f1f22;
+      --panel:     #1f1f22;
     }
     .lb.open { opacity: 1; pointer-events: all; }
     .lb-stage {
