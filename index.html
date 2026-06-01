@@ -1190,37 +1190,77 @@
       nav.site-nav ul::-webkit-scrollbar { display: none; }
       nav.site-nav ul li { flex-shrink: 0; }
       nav.site-nav ul a { font-size: 10px; letter-spacing: .2em; }
-      .issue-strip { padding: 96px var(--gutter) 0; }
+      .issue-strip { padding: 0; }
       .issue-strip > div { grid-column: 1 / span 12 !important; }
-      .hero { padding: 40px 0 56px; min-height: auto; }
+      .hero { padding: 32px 0 48px; min-height: auto; }
       .hero-title { grid-column: 1 / span 12; }
-      .hero-lede { grid-column: 1 / span 12; }
-      .hero-cta-row { grid-column: 1 / span 12; }
-      .plates-strip { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-      section.spread { padding: 72px 0; }
-      .sec-id { grid-column: 1 / span 12; position: static; margin-bottom: 18px; }
-      .sec-id .num { font-size: 42px; }
+      .hero-lede { grid-column: 1 / span 12; margin-top: 40px; }
+      .hero-cta-row { grid-column: 1 / span 12; margin-top: 32px; }
+      .plates-strip { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 48px; }
+      section.spread { padding: 64px 0; }
+      .sec-id { grid-column: 1 / span 12; position: static; margin-bottom: 12px; }
+      .sec-id .num { font-size: 38px; margin-bottom: 8px; }
       .sec-eyebrow, .manifiesto-h, .manifiesto-body, .manifiesto-pull,
       .spaces-head, .spaces-grid, .field-head, .field,
       .fragmento-eyebrow, .fragmento-q, .fragmento-cap,
       .acceso-body, .colophon { grid-column: 1 / span 12; }
-      .manifiesto-pull { margin-top: 28px; padding: 28px 22px; }
-      .spaces-head, .field-head { flex-direction: column; align-items: start; gap: 18px; }
-      .spaces-grid { grid-template-columns: 1fr; gap: 56px; }
+      .manifiesto-h { font-size: clamp(30px, 7.5vw, 64px); margin-bottom: 40px; }
+      .spaces-head h2 { font-size: clamp(28px, 7vw, 56px); }
+      .field-head h2 { font-size: clamp(28px, 7vw, 56px); }
+      .fragmento-q { font-size: clamp(24px, 5.8vw, 50px); }
+      .manifiesto-pull { margin-top: 28px; padding: 24px 20px; font-size: 18px; }
+      .spaces-head, .field-head { flex-direction: column; align-items: start; gap: 14px; margin-bottom: 40px; }
+      .spaces-grid { grid-template-columns: 1fr; gap: 48px; }
       .project-large, .project-small, .project-wide { grid-column: span 1; }
       .project-offset { padding-top: 0; }
-      .field { grid-template-columns: 1fr; }
+      .field { grid-template-columns: 1fr; gap: 40px 24px; }
       .acceso-body { grid-template-columns: 1fr; }
-      .acceso-copy { border-right: none; border-bottom: 1px solid var(--hair-2); padding: 36px; min-height: auto; }
+      .acceso-copy { border-right: none; border-bottom: 1px solid var(--hair-2); padding: 32px; min-height: auto; }
       .acceso-copy .corner { position: static; margin-top: 22px; }
-      .acceso-cta { padding: 36px; }
+      .acceso-cta { padding: 32px; }
       .colophon { grid-template-columns: 1fr; gap: 32px; }
-      footer.site-foot { padding: 56px var(--gutter) 32px; }
+      footer.site-foot { padding: 48px var(--gutter) 32px; }
       .ed-mark, .ed-seal { grid-column: 1 / span 12; justify-self: start; }
       .ed-seal { margin-top: 24px; }
       .ed-colophon { grid-template-columns: repeat(2, 1fr); }
       .ed-end { flex-direction: column; gap: 12px; text-align: left; }
       .ed-end .center { text-align: left; }
+    }
+
+    @media (max-width: 480px) {
+      :root { --gutter: 16px; }
+      .dark-band {
+        margin-left: -16px;
+        margin-right: -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .hero-band { padding-top: 70px; padding-bottom: 64px; }
+      .hero-title { font-size: clamp(54px, 14vw, 80px); line-height: .94; }
+      .hero-lede { font-size: clamp(19px, 4.8vw, 26px); line-height: 1.5; margin-top: 32px; }
+      .hero-eyebrow { font-size: 9.5px; letter-spacing: .18em; }
+      .hero-cta-row { flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 28px; }
+      .issue-strip { grid-template-columns: 1fr 1fr; }
+      .issue-strip > .s1, .issue-strip > .s2 { grid-column: auto !important; }
+      .issue-strip > .s3, .issue-strip > .s4 { display: none; }
+      .plates-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 40px; }
+      section.spread { padding: 52px 0; }
+      .sec-id .num { font-size: 34px; }
+      .manifiesto-h { font-size: clamp(26px, 8vw, 44px); margin-bottom: 32px; }
+      .manifiesto-body p { font-size: 14.5px; line-height: 1.85; }
+      .manifiesto-pull { font-size: 17px; line-height: 1.5; padding: 20px 16px; }
+      .spaces-head h2 { font-size: clamp(24px, 7.5vw, 40px); }
+      .spaces-head .right { display: none; }
+      .spaces-grid { gap: 40px; }
+      .field-head h2 { font-size: clamp(24px, 7.5vw, 40px); }
+      .field-head .right { display: none; }
+      .field { gap: 36px; }
+      .fragmento-q { font-size: clamp(22px, 6.2vw, 38px); line-height: 1.2; }
+      .fragmento-cap { gap: 20px; flex-wrap: wrap; }
+      .acceso-copy { padding: 28px 24px; }
+      .acceso-cta { padding: 28px 24px; }
+      footer.site-foot { padding: 40px var(--gutter) 28px; }
+      .ed-colophon { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
