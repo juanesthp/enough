@@ -608,7 +608,6 @@
     <div class="who">Bienvenido de vuelta,<br><em id="user-nombre">—</em>.</div>
     <div class="session">
       <span class="pill">Sesión activa</span>
-      <span id="user-last-access">—</span>
       <a href="#" id="btn-logout">Cerrar sesión</a>
     </div>
   </section>
@@ -616,43 +615,34 @@
   <section class="stats">
     <div class="stat">
       <span class="k">Fragmentos leídos</span>
-      <span class="v">12<em>/24</em></span>
-      <span class="n up">+ 3 esta semana</span>
+      <span class="v">0</span>
+      <span class="n">Sin lecturas aún</span>
     </div>
     <div class="stat">
       <span class="k">Compras</span>
-      <span class="v" id="stat-compras">—</span>
-      <span class="n" id="stat-compras-detalle">—</span>
+      <span class="v" id="stat-compras">0</span>
+      <span class="n" id="stat-compras-detalle">Sin compras aún</span>
     </div>
     <div class="stat">
       <span class="k">Guardados</span>
-      <span class="v">18</span>
-      <span class="n">8 luz · 6 materia · 4 umbral</span>
+      <span class="v">0</span>
+      <span class="n">Sin guardados aún</span>
     </div>
     <div class="stat">
       <span class="k">Próxima edición</span>
-      <span class="v"><em>01</em><br></span>
-      <span class="n">Junio · sin frecuencia</span>
+      <span class="v"><em>01</em></span>
+      <span class="n">Junio · Vol. I</span>
     </div>
   </section>
 
   <main class="dash">
 
     <!-- Latest fragment -->
-    <article class="panel frag-latest">
-      <div class="frag-img"></div>
-      <div class="frag-body">
-        <div class="frag-meta">
-          <span>Fragmento</span><span class="sep">·</span>
-          <span>N.º 12</span><span class="sep">·</span>
-          <span>17 may. 2026</span>
-        </div>
-        <h3>La sombra como <em>presencia</em>.</h3>
-        <p>Hay tardes en las que la sombra no es la ausencia de luz sino su forma más concreta. Cae sobre el muro, lo divide en dos temperaturas, y se queda ahí, quieta, midiendo el tiempo en grados. El cuerpo lo siente antes que la mirada lo entienda.</p>
-        <div class="actions">
-          <a href="#" class="btn btn-solid">Leer completo</a>
-          <a href="#" class="btn btn-ghost">Guardar</a>
-        </div>
+    <article class="panel frag-latest" style="display:flex; align-items:center; justify-content:center; min-height:280px;">
+      <div style="text-align:center; display:flex; flex-direction:column; gap:16px; align-items:center;">
+        <span style="font-family:var(--label-font); font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:var(--faint);">Fragmento destacado</span>
+        <p style="font-family:var(--display-font); font-style:italic; font-size:20px; color:var(--text-soft); max-width:36ch; line-height:1.4;">Aún no has explorado ningún fragmento.</p>
+        <a href="fragmentos.html" class="btn btn-ghost" style="margin-top:8px;">Ir a fragmentos</a>
       </div>
     </article>
 
@@ -726,24 +716,10 @@
     <section class="panel notas">
       <div class="p-head">
         <h2>Notas <em>guardadas</em></h2>
-        <span class="p-num">18 fragmentos · 6 categorías</span>
+        <span class="p-num">0 fragmentos</span>
       </div>
-      <div class="notas-grid">
-        <div class="nota">
-          <span class="n-date">N.º 11 · 08 may.</span>
-          <p class="n-q"><span class="first">"</span>La penumbra no es una falta de luz: es la luz volviéndose materia, espesa, casi tocable."</p>
-          <div class="n-foot"><span>Luz</span><span>Guardado</span></div>
-        </div>
-        <div class="nota">
-          <span class="n-date">N.º 09 · 27 abr.</span>
-          <p class="n-q"><span class="first">"</span>El concreto guarda el calor del día como si recordara. Cuando lo tocas a las once, todavía es la tarde anterior."</p>
-          <div class="n-foot"><span>Materia</span><span>Guardado</span></div>
-        </div>
-        <div class="nota">
-          <span class="n-date">N.º 07 · 14 abr.</span>
-          <p class="n-q"><span class="first">"</span>Hay umbrales que detienen al cuerpo antes de detener la mirada. Algo en el aire cambia de densidad."</p>
-          <div class="n-foot"><span>Umbral</span><span>Guardado</span></div>
-        </div>
+      <div style="padding:32px 0; text-align:center;">
+        <p style="font-family:var(--display-font); font-style:italic; font-size:18px; color:var(--text-soft);">Los fragmentos que guardes aparecerán aquí.</p>
       </div>
     </section>
 
@@ -837,10 +813,8 @@
       const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
       const plan     = meta.plan || meta.titulo || 'Lector';
       const desde    = fmtFecha(user.created_at);
-      const lastSignIn = user.last_sign_in_at ? `Último acceso · ${fmtFecha(user.last_sign_in_at)}` : 'Primera sesión';
 
       set('user-nombre',    nombre);
-      set('user-last-access', lastSignIn);
       set('cuenta-nombre',  nombreCompleto);
       set('cuenta-email',   user.email);
       set('cuenta-plan',    `${plan} · Vol. I`);
