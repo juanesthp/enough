@@ -29,6 +29,18 @@
     }
     @keyframes pulso { 0%,100%{opacity:.18} 50%{opacity:.55} }
 
+    /* ─── Titulo toggle (modal) ─── */
+    .titulo-toggle { display: flex; gap: 0; }
+    .titulo-btn {
+      flex: 1; padding: 10px 0;
+      background: transparent; border: 1px solid var(--hair-2);
+      color: var(--faint); font-family: var(--label-font); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .titulo-btn + .titulo-btn { margin-left: -1px; }
+    .titulo-btn.on { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
     /* ─── Profile modal ─── */
     #modal-perfil {
       position: fixed; inset: 0; z-index: 100;
@@ -549,6 +561,14 @@
           <input type="email" id="p-email" placeholder="tu@correo.com" autocomplete="email">
         </div>
         <div class="field">
+          <label>¿Cómo quieres que te llamemos?</label>
+          <div class="titulo-toggle">
+            <button type="button" class="titulo-btn on" data-val="Lector">Lector</button>
+            <button type="button" class="titulo-btn" data-val="Lectora">Lectora</button>
+          </div>
+          <input type="hidden" id="p-titulo" value="Lector">
+        </div>
+        <div class="field">
           <label for="p-pass">Nueva contraseña <span style="color:var(--faint);font-size:9px;letter-spacing:.15em;">(dejar vacío para no cambiar)</span></label>
           <input type="password" id="p-pass" placeholder="••••••••" autocomplete="new-password">
         </div>
@@ -578,7 +598,7 @@
   </nav>
 
   <header class="page-head">
-    <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
+    <div class="head-id"><span class="num">06</span>Archivo<br>Privado</div>
     <h1>Tu <em>archivo</em>.</h1>
     <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br><span id="head-fecha">—</span></div>
     <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
@@ -730,15 +750,49 @@
   </main>
 
   <footer class="site-foot">
-    <div class="ft-mark">ENOUGH<span class="dot">.</span></div>
-    <div class="ft-col ft-c1"><b>Archivo</b><a href="galeria.html">Galería</a><a href="fragmentos.html">Fragmentos</a><a href="blog.html">Blog</a></div>
-    <div class="ft-col ft-c2"><b>Editorial</b><a href="index.html#manifiesto">Manifiesto</a><a href="sobre.html">Sobre mí</a></div>
-    <div class="ft-col ft-c3"><b>Acceso</b><a href="dashboard.html">Cuenta</a><a href="#" onclick="event.preventDefault(); logout()">Salir</a></div>
-    <div class="ft-col ft-c4"><b>Vol. I · MMXXVI</b><span>Bucaramanga, CO</span><span>© Enough Editorial</span></div>
-    <div class="ft-seal">
-      <div class="seal" aria-hidden="true"><div class="si">Vol.<b>I</b>MMXXVI</div></div>
-      <div class="end">Hecho con cuidado, sin frecuencia</div>
-      <div class="meta">© MMXXVI · Enough Editorial<br>Bucaramanga, CO</div>
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Cuenta</h5>
+        <a href="dashboard.html">Mi archivo</a>
+        <a href="sobre.html">Sobre mí</a>
+        <a href="#" onclick="event.preventDefault(); logout()">Salir</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
     </div>
   </footer>
 
@@ -796,6 +850,10 @@
       document.getElementById('p-nombre').value   = nombre;
       document.getElementById('p-apellido').value = apellido;
       document.getElementById('p-email').value    = user.email;
+      document.getElementById('p-titulo').value   = plan;
+      document.querySelectorAll('.titulo-btn').forEach(b => {
+        b.classList.toggle('on', b.dataset.val === plan);
+      });
     }
 
     /* ─── COMPRAS (Supabase) ─── */
@@ -880,6 +938,14 @@
       el.className = 'modal-msg' + (tipo ? ' ' + tipo : '');
     }
 
+    document.querySelectorAll('.titulo-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.titulo-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        document.getElementById('p-titulo').value = btn.dataset.val;
+      });
+    });
+
     document.getElementById('btn-editar-perfil').addEventListener('click', abrirModal);
     document.getElementById('modal-close-btn').addEventListener('click', cerrarModal);
     document.getElementById('modal-cancel-btn').addEventListener('click', cerrarModal);
@@ -889,12 +955,13 @@
       const nombre   = document.getElementById('p-nombre').value.trim();
       const apellido = document.getElementById('p-apellido').value.trim();
       const email    = document.getElementById('p-email').value.trim();
+      const titulo   = document.getElementById('p-titulo').value;
       const pass     = document.getElementById('p-pass').value;
 
       if (!nombre) { setModalMsg('— El nombre no puede estar vacío', 'err'); return; }
       setModalMsg('— Guardando…', '');
 
-      const { error: metaErr } = await sb.auth.updateUser({ data: { nombre, apellido } });
+      const { error: metaErr } = await sb.auth.updateUser({ data: { nombre, apellido, titulo } });
       if (metaErr) { setModalMsg('— ' + metaErr.message, 'err'); return; }
 
       const { data: { user } } = await sb.auth.getUser();
