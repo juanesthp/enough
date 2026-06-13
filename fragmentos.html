@@ -142,15 +142,6 @@
       color: var(--faint);
     }
     .frag-foot .tag { color: var(--muted); border: 1px solid var(--hair-2); padding: 5px 10px; }
-    .frag-foot .share {
-      margin-left: auto;
-      color: var(--gold);
-      text-decoration: none;
-      border-bottom: 1px solid var(--hair-2);
-      padding-bottom: 2px;
-      transition: border-color .2s, color .2s;
-    }
-    .frag-foot .share:hover { color: var(--text); border-color: var(--gold); }
 
     .fragmento.glow::before {
       content: '';
@@ -211,14 +202,14 @@
       <li><a href="galeria.html">Galería</a></li>
       <li><a href="blog.html">Blog</a></li>
       <li><a href="sobre.html">Sobre mí</a></li>
-      <li><a href="acceso.html">Acceso</a></li>
       <li><a href="fragmentos.html" aria-current="page">Fragmentos</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
     </ul>
-    <div class="nav-coords"><b>05</b> · Fragmentos</div>
+    <div class="nav-coords"><b>04</b> · Fragmentos</div>
   </nav>
 
   <header class="page-head">
-    <div class="head-id"><span class="num">05</span>Fragmentos<br>Cuaderno</div>
+    <div class="head-id"><span class="num">04</span>Fragmentos<br>Cuaderno</div>
     <h1>Notas sobre <em>atmósfera</em>.</h1>
     <div class="head-meta">04 fragmentos<br>Cuaderno N.º 04<br>2026 · MMXXVI</div>
     <p class="head-eyebrow">Un cuaderno de notas sobre ausencias, sombras y umbrales. Sobre todo aquello que ocurre entre el espacio y quien lo habita.</p>
@@ -253,7 +244,6 @@
           <div class="frag-foot">
             <span class="tag">Vacío</span>
             <span class="tag">Habitar</span>
-            <a href="#ausencia" class="share" onclick="copyLink(event, 'ausencia')">Copiar enlace →</a>
           </div>
         </div>
       </article>
@@ -270,7 +260,6 @@
           <div class="frag-foot">
             <span class="tag">Luz</span>
             <span class="tag">Penumbra</span>
-            <a href="#sombra" class="share" onclick="copyLink(event, 'sombra')">Copiar enlace →</a>
           </div>
         </div>
       </article>
@@ -287,7 +276,6 @@
           <div class="frag-foot">
             <span class="tag">Umbral</span>
             <span class="tag">Transición</span>
-            <a href="#umbral" class="share" onclick="copyLink(event, 'umbral')">Copiar enlace →</a>
           </div>
         </div>
       </article>
@@ -304,7 +292,6 @@
           <div class="frag-foot">
             <span class="tag">Atmósfera</span>
             <span class="tag">Sensible</span>
-            <a href="#atmosfera" class="share" onclick="copyLink(event, 'atmosfera')">Copiar enlace →</a>
           </div>
         </div>
       </article>
@@ -389,15 +376,6 @@
     }, { rootMargin: '-30% 0px -55% 0px' });
     fragments.forEach(f => obs.observe(f));
 
-    function copyLink(e, id) {
-      e.preventDefault();
-      const url = window.location.origin + window.location.pathname + '#' + id;
-      navigator.clipboard?.writeText(url);
-      const el = e.target;
-      const original = el.textContent;
-      el.textContent = 'Enlace copiado ✓';
-      setTimeout(() => el.textContent = original, 1600);
-    }
 
     const hash = window.location.hash.replace('#','');
     if (hash) {
