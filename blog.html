@@ -5,6 +5,17 @@
   <title>Blog · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Ensayos. Escritura sobre atmósferas, materia y la forma de habitar el mundo.">
+  <link rel="canonical" href="https://juanesthp.github.io/enough/blog.html">
+  <meta property="og:title" content="Blog · Enough — Editorial">
+  <meta property="og:description" content="Ensayos sobre atmósferas, materia y la forma de habitar el mundo.">
+  <meta property="og:image" content="https://juanesthp.github.io/enough/espacio.jpg">
+  <meta property="og:url" content="https://juanesthp.github.io/enough/blog.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog · Enough — Editorial">
+  <meta name="twitter:description" content="Ensayos sobre atmósferas, materia y la forma de habitar el mundo.">
+  <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -35,20 +46,7 @@
     .blog-controls .right { grid-column: 10 / span 3; text-align: right; color: var(--faint); }
     .blog-controls .right b { color: var(--text); font-weight: 500; }
 
-    .chip {
-      background: transparent;
-      border: 1px solid var(--hair-2);
-      padding: 6px 12px;
-      color: var(--muted);
-      font-family: inherit;
-      font-size: inherit;
-      letter-spacing: inherit;
-      text-transform: inherit;
-      cursor: pointer;
-      transition: border-color .2s, color .2s, background .2s;
-    }
-    .chip:hover { color: var(--text); border-color: var(--text); }
-    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+    /* .chip — defined in enough.css */
 
     /* FEATURED */
     .featured {
@@ -233,19 +231,19 @@
       transition: transform .2s, color .2s;
     }
 
-    /* READER MODAL — fondo claro, paleta papel */
+    /* READER MODAL — fondo oscuro, paleta void */
     .reader {
-      --text:      #1c1814;
-      --text-soft: rgba(28,24,20,.76);
-      --muted:     rgba(28,24,20,.58);
-      --faint:     rgba(28,24,20,.34);
-      --hair-2:    rgba(28,24,20,.14);
-      --gold:      #8a6e3c;
+      --text:      #efe6d4;
+      --text-soft: rgba(239,230,212,.80);
+      --muted:     rgba(239,230,212,.58);
+      --faint:     rgba(239,230,212,.30);
+      --hair-2:    rgba(239,230,212,.12);
+      --gold:      #b69a6a;
       color: var(--text);
       position: fixed;
       inset: 0;
       z-index: 9000;
-      background: #e8e2d4;
+      background: #0f0d0a;
       opacity: 0;
       pointer-events: none;
       transition: opacity .35s ease;
@@ -361,7 +359,6 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="galeria.html">Galería</a></li>
       <li><a href="blog.html" aria-current="page">Blog</a></li>
-      <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="fragmentos.html">Fragmentos</a></li>
       <li><a href="acceso.html">Acceso</a></li>
     </ul>
@@ -458,7 +455,6 @@
       </div>
       <div class="col">
         <h5>Casa</h5>
-        <a href="sobre.html">Sobre mí</a>
         <a href="index.html#contacto">Contacto</a>
         <a href="acceso.html">Acceso</a>
       </div>

@@ -5,6 +5,17 @@
   <title>Galería · Enough</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Galería. Archivo fotográfico sobre luz, espacio y presencia. Desde Bucaramanga.">
+  <link rel="canonical" href="https://juanesthp.github.io/enough/galeria.html">
+  <meta property="og:title" content="Galería · Enough — Editorial">
+  <meta property="og:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
+  <meta property="og:image" content="https://juanesthp.github.io/enough/espacio.jpg">
+  <meta property="og:url" content="https://juanesthp.github.io/enough/galeria.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Galería · Enough — Editorial">
+  <meta name="twitter:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
+  <meta name="twitter:image" content="https://juanesthp.github.io/enough/espacio.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -45,18 +56,7 @@
       color: var(--faint);
     }
     .filter-strip .right b { color: var(--text); font-weight: 500; }
-    .chip {
-      background: transparent;
-      border: 1px solid var(--hair-2);
-      padding: 6px 12px;
-      color: var(--muted);
-      font-family: inherit;
-      font-size: inherit;
-      letter-spacing: inherit;
-      text-transform: inherit;
-      cursor: pointer;
-      transition: border-color .2s, color .2s, background .2s;
-    }
+    /* .chip — defined in enough.css */
     .chip:hover { color: var(--text); border-color: var(--text); }
     .chip.on {
       background: var(--gold);
@@ -315,7 +315,6 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="galeria.html" aria-current="page">Galería</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="fragmentos.html">Fragmentos</a></li>
       <li><a href="acceso.html">Acceso</a></li>
     </ul>
@@ -399,7 +398,6 @@
       </div>
       <div class="col">
         <h5>Casa</h5>
-        <a href="sobre.html">Sobre mí</a>
         <a href="index.html#contacto">Contacto</a>
         <a href="acceso.html">Acceso</a>
       </div>
@@ -420,17 +418,17 @@
 
   <script>
     const items = [
-      { src: 'tarde-tendida.jpg',           tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
+      { src: null,                           tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
         desc: 'La luz baja en oblicuo y endurece la sombra contra el muro.' },
       { src: null,          tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
         desc: 'Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.' },
       { src: null,           tint: 'tint-dusk',   num: '03', title: 'Borde de azul',  loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
         desc: 'La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.' },
-      { src: 'proyecto11.jpg',           tint: '',            num: '04', title: 'Profundidad',          loc: 'Panamá',        year: 2026, time: '14:22', cat: 'Proporción',
+      { src: null,                        tint: '',            num: '04', title: 'Profundidad',          loc: 'Panamá',        year: 2026, time: '14:22', cat: 'Proporción',
         desc: 'Texturas, sombras y superficies.' },
       { src: null,           tint: 'tint-warm',   num: '05', title: 'Reposo',         loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
         desc: 'La calma como cualidad espacial y no solo como estilo.' },
-      { src: 'proyecto26.jpg',           tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
+      { src: null,                        tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
         desc: 'Observación de acabados, tactilidad y peso visual.' },
       { src: null,           tint: 'tint-violet', num: '07', title: 'Umbral',         loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
         desc: 'El borde entre entrar y permanecer también diseña experiencia.' },

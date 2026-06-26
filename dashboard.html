@@ -24,7 +24,7 @@
       font-family: var(--display-font);
       font-size: 2.2rem; font-weight: 300;
       letter-spacing: .3em; text-transform: uppercase;
-      color: rgba(239,230,212,.18);
+      color: var(--bone-faint);
       animation: pulso 1.8s ease-in-out infinite;
     }
     @keyframes pulso { 0%,100%{opacity:.18} 50%{opacity:.55} }
@@ -587,18 +587,17 @@
       <li><a href="index.html">Inicio</a></li>
       <li><a href="galeria.html">Galería</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
       <li><a href="#" onclick="event.preventDefault(); logout()">Salir</a></li>
     </ul>
-    <div class="nav-coords"><b>06</b> · Archivo</div>
+    <div class="nav-coords"><b>05</b> · Archivo</div>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
   <header class="page-head">
-    <div class="head-id"><span class="num">06</span>Archivo<br>Privado</div>
+    <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
     <h1>Tu <em>archivo</em>.</h1>
     <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br><span id="head-fecha">—</span></div>
     <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
@@ -637,14 +636,6 @@
 
   <main class="dash">
 
-    <!-- Latest fragment -->
-    <article class="panel frag-latest" style="display:flex; align-items:center; justify-content:center; min-height:280px;">
-      <div style="text-align:center; display:flex; flex-direction:column; gap:16px; align-items:center;">
-        <span style="font-family:var(--label-font); font-size:9px; letter-spacing:.25em; text-transform:uppercase; color:var(--faint);">Fragmento destacado</span>
-        <p style="font-family:var(--display-font); font-style:italic; font-size:20px; color:var(--text-soft); max-width:36ch; line-height:1.4;">Aún no has explorado ningún fragmento.</p>
-        <a href="fragmentos.html" class="btn btn-ghost" style="margin-top:8px;">Ir a fragmentos</a>
-      </div>
-    </article>
 
     <!-- Right column -->
     <div class="right-col">
@@ -712,16 +703,6 @@
       </div>
     </section>
 
-    <!-- Notas guardadas -->
-    <section class="panel notas">
-      <div class="p-head">
-        <h2>Notas <em>guardadas</em></h2>
-        <span class="p-num">0 fragmentos</span>
-      </div>
-      <div style="padding:32px 0; text-align:center;">
-        <p style="font-family:var(--display-font); font-style:italic; font-size:18px; color:var(--text-soft);">Los fragmentos que guardes aparecerán aquí.</p>
-      </div>
-    </section>
 
   </main>
 
@@ -754,7 +735,6 @@
       <div class="col">
         <h5>Cuenta</h5>
         <a href="dashboard.html">Mi archivo</a>
-        <a href="sobre.html">Sobre mí</a>
         <a href="#" onclick="event.preventDefault(); logout()">Salir</a>
       </div>
       <div class="col">
@@ -866,7 +846,7 @@
         const cls      = orden.estado === 'APROBADA' ? 'ok' : 'pen';
         const label    = ESTADO_LABEL[orden.estado] || orden.estado;
         const descarga = orden.estado === 'APROBADA' && prod.archivo_url
-          ? `<button class="dl" onclick="descargar(${JSON.stringify(prod.archivo_url)}, this)">Descargar →</button>`
+          ? `<button class="dl" data-path="${esc(prod.archivo_url)}">Descargar →</button>`
           : `<span style="color:var(--faint)">—</span>`;
 
         const row = document.createElement('div');
@@ -883,6 +863,11 @@
     }
 
     /* ─── DESCARGAS (Signed URL de 60 s — bucket privado) ─── */
+    document.getElementById('compras-tabla').addEventListener('click', e => {
+      const btn = e.target.closest('button.dl[data-path]');
+      if (btn) descargar(btn.dataset.path, btn);
+    });
+
     async function descargar(path, btn) {
       btn.textContent = '…';
       btn.disabled = true;

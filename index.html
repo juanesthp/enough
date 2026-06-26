@@ -76,6 +76,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     a { color: inherit; text-decoration: none; }
     a:visited { color: inherit; }
+    a.btn-solid:visited { color: var(--paper); }
+    .dark-band a.btn-solid:visited { color: var(--void); }
     html, body { background: var(--paper); }
     html { scroll-behavior: smooth; }
 
@@ -1277,7 +1279,6 @@
       <li><a href="index.html" class="active">Inicio</a></li>
       <li><a href="galeria.html">Galería</a></li>
       <li><a href="blog.html">Blog</a></li>
-      <li><a href="sobre.html">Sobre mí</a></li>
       <li><a href="fragmentos.html">Fragmentos</a></li>
       <li><a href="acceso.html">Acceso</a></li>
     </ul>
@@ -1396,7 +1397,7 @@
         <!-- Para cambiar una foto: pon el archivo en ./fotos/espacios/ y actualiza el src -->
         <article class="project project-large project-offset">
           <div class="project-img placeholder tint-rose">
-            <img src="tarde-tendida.jpg" alt="Tarde tendida" onerror="this.style.display='none'">
+            <img src="./fotos/espacios/tarde-tendida.jpg" alt="Tarde tendida" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>II — Luz</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Tarde</em> tendida</h3>
@@ -1561,7 +1562,6 @@
       </div>
       <div class="col">
         <h5>Casa</h5>
-        <a href="sobre.html">Sobre mí</a>
         <a href="#contacto">Contacto</a>
         <a href="acceso.html">Acceso</a>
       </div>
