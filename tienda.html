@@ -44,7 +44,22 @@
     .tienda-controls .label { grid-column: 1 / span 2; color: var(--faint); }
     .tienda-controls .filters { grid-column: 3 / span 6; display: flex; gap: 6px; flex-wrap: wrap; }
     .tienda-controls .view { grid-column: 9 / span 4; display: flex; justify-content: flex-end; gap: 6px; }
-    /* .chip — defined in enough.css */
+    .chip {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
     /* ── GRID VIEW ── */
     .grid-view {

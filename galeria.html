@@ -56,7 +56,22 @@
       color: var(--faint);
     }
     .filter-strip .right b { color: var(--text); font-weight: 500; }
-    /* .chip — defined in enough.css */
+    .chip {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
 
     /* contact-sheet grid */
     .sheet {
