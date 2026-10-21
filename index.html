@@ -730,7 +730,7 @@
       gap: 32px 24px;
     }
     .field-head {
-      grid-column: 3 / span 9;
+      grid-column: 3 / span 10;
       display: flex;
       justify-content: space-between;
       align-items: end;
@@ -1122,7 +1122,12 @@
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ───── DARK-BAND CHILD OVERRIDES (estudios + fragmento) ───── */
-    .dark-band.spread { border-top: 1px solid var(--bone-hair); border-bottom: 1px solid var(--bone-hair); }
+    .dark-band.spread {
+      padding-left: calc(50vw - 50% + var(--gutter));
+      padding-right: calc(50vw - 50% + var(--gutter));
+      border-top: 1px solid var(--bone-hair);
+      border-bottom: 1px solid var(--bone-hair);
+    }
     .dark-band .sec-id { color: var(--bone-faint); }
     .dark-band .sec-id .num { color: var(--bone); }
     .dark-band .sec-eyebrow { color: var(--ember); }
@@ -1407,7 +1412,7 @@
 
         <article class="project project-small project-offset">
           <div class="project-img placeholder tint-rose">
-            <img src="./fotos/espacios/aire-suspendido.jpg" alt="Aire suspendido" onerror="this.style.display='none'">
+            <img src="./fotos/galeria/proyecto25.jpg" alt="Aire suspendido" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>II — Patio</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Aire</em> suspendido</h3>
@@ -1417,7 +1422,7 @@
 
         <article class="project project-wide">
           <div class="project-img placeholder">
-            <img src="./fotos/espacios/borde-azul.jpg" alt="Borde de azul" onerror="this.style.display='none'">
+            <img src="./fotos/galeria/proyecto5.jpg" alt="Borde de azul" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>III — Umbral</span><span class="year">2026</span></div>
           <h3 class="project-title">Borde de <em>azul</em></h3>
